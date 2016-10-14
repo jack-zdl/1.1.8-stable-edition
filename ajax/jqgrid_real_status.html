@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+   <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />	
+   <link rel="stylesheet" href="css/jquery-ui.css" media="screen" type="text/css" />
+   <link rel="stylesheet" href="css/ui.host.jqgrid.css" media="screen" type="text/css"/>
+  <style type="text/css">
+    body {
+     background-color: #2A212A;
+    }
+    .main-menu {
+      width: 0px;
+      height: 0px;
+    }
+
+.dropdown-menu > li > a {
+      padding: 3px 5px;
+}
+
+
+  </style>
+  <script type="text/javascript"  src="js/jquery.js"></script>
+  <script type="text/javascript" src="js/grid.locale-zh_CN.js"></script>
+   <script type="text/javascript"  src="js/jquery.jqGrid.min.js"></script>
+    <script type="text/javascript"  src="js/jquery-ui-1.10.3.min.js"></script>
+ 
+</head>
+<body>
+
+<ul  class="nav nav-pills">
+<li><a id="showServiceName" ></a></li>
+<li><a id="showHostName" ></a></li>
+ <li><a href="#" id="startHost" onclick="chengeDataStart()">Start</a></li>
+ <li><a href="#" id="stopHost" onclick="chengeDataStop()">Pause </a></li>
+</ul>
+
+
+
+  <div  style="position:relative;width:1335px;left:5px;right:5px;">   
+  <table id="jqgrid_system"></table>
+  <div id="pjqgrid_system"></div>
+  </div>
+
+  <div  style="position:relative;width:1335px;left:5px;right:5px;">   
+  <table id="jqgrid_host_db"></table>
+  <div id="pjqgrid_host_db"></div>
+  </div>
+
+
+<script type="text/javascript" src="js/real_status.js"></script>
+
+
+<script>
+
+
+</script>
+</body>
+</html>
