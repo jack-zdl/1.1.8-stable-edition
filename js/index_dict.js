@@ -9,12 +9,13 @@ var load = function() {
 /*登录界面定义的函数（未使用）
  */
 var indexfunction = function() {
-    if( kaiguan == 0 ){
-        kaiguan ++;
-}else{
-    stopclearInterval();
-}
-      $("#content").load("ajax/jqgrid.html");
+    if( kaiguan != 0 ){
+        stopclearInterval();
+    }else{}
+    IntData=0;
+   
+window.location.href = "http://" + IP + "/ui";
+//      $("#content").load("ajax/jqgrid.html");
  //   window.location.href = "http://" + IP + "/ui";
 };
 /*BACK标签的函数（未使用）

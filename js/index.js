@@ -2,7 +2,7 @@
  *根据consul下的所有service服务名，以及服务下的所有主机节点。
  *动态产生左边菜单栏。
  */
-var changeMemu = function() {
+var changeCsMemu = function() {
     var dataServices = {},
     after_dataMemu = [],
     dataMenuItem = {},
@@ -334,11 +334,39 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
         changeServiceName();
         getAllDataService();
         changeDataAllSrvice();
-        addCSElementLi("parentUl");
+
+        if(IntData == 0){
+
+           
+             addCSElementLi("parentUl");
+        }else{
+           
+            var parent=document.getElementById("parentUlAll");
+            var child=document.getElementById("parentUl");
+            parent.removeChild(child);
+            IntData_cs=1;
+           // return false;
+             addHostRSElementLi("parentUlGraph","GHS");
+        }
+
  //cs
  //      addCSElementLi("parentUl","RS");  这是CS页面带有cs次级菜单的菜单栏
     };
+
     startFunction();
 };
 
-changeMemu();
+$("#GH").click(function(){
+  
+   /*这段代码是用来停住图表的*/
+  if( kaiguan != 0 ){
+        stopclearInterval();
+    }else{}
+
+    IntData = 1;
+    changeCsMemu();
+     $("#content").load("ajax/graph.html");
+});
+
+
+changeCsMemu();

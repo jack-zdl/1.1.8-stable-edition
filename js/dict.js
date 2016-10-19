@@ -22,6 +22,9 @@ var HostType = "";               /*全局变量*/
 var Hostrole_id = "";            /*全局变量*/
 
 var stopclearInterval;
+
+var IntData =0;  /*Graph全局变量  来判断执行那个左边菜单*/
+var IntData_cs=0;/*Graph全局变量  来执行移除那个菜单DOM元素*/
 /*real_status.js的全局变量*/
 
 var  cstimeSetTimeout =0;

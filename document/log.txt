@@ -1,0 +1,118 @@
+﻿var getDataMemu =  function () {
+
+/*获得consul下的所有服务名。
+ */ 
+  var allData ={};
+    var getService_db = function() {
+        $.ajax({
+            url:"http://" + IP + "/v1/catalog/services",
+            method:"get",
+            async:false,
+            dataType:"json",
+            success:function(result, status, xhr) {
+               var  dataServices = result;
+                allData["dataServices"]= dataServices;
+            },
+            error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
+                console.error("失败状态文本 " + status);
+            }
+        });
+    };
+
+/*获得CS下的所有服务名称
+ *尝试nginx仿真实的URL
+ */
+    var getConsulName = function () {
+          $.ajax({
+            url:"http://" + IP + "/v1/catalog/service/consul",
+
+            method:"get",
+            async:false,
+            dataType:"json",
+            success:function(result, status, xhr) {
+             var   dataConsul  = result;
+               allData["dataConsul"]= dataConsul;
+            },
+            error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
+                console.error("失败状态文本 " + status);
+            }
+        });
+    };
+
+/*根据服务名，来获得服务名下的所有主机节点信息。
+ */
+    var getAllDataService = function() {
+        for (var i = 0; i < after_dataMemu.length; i++) {
+            $.ajax({
+                method:"get",
+                url:"http://" + IP + "/v1/health/service/" + after_dataMemu[i],
+                async:false,
+                dataType:"json",
+                success:function(result, status, xhr) {
+                    var cmha_data_service_old = [];
+                    cmha_data_service_old = result;
+                    dataAllService[after_dataMemu[i]] = cmha_data_service_old;
+                },
+                error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
+                    console.error("失败状态文本 " + status);
+                }
+            });
+        }
+    };
+
+
+
+};
+
+
+
+//网卡
+{"net_dev": "lo eth0 eth1"}
+//2016/10/17
+ $.plot($("#demo_network_host"), 
+  [{ label: "", data: after_data_net_output },
+    { label: "", data: after_data_net_input }
+  ],
+  {
+    xaxis: {
+      ticks: [],
+ //     min: 1476657700,
+ //     max: 1476658000
+    },
+    yaxis: {
+        ticks: []
+    }
+  }
+  );
+///////////////
+20161018
+$.fn.UseTooltip = function () {
+         var previousPoint = null, previousLabel = null;
+
+
+
+        $(this).bind("plothover", function (event, pos, item) {
+            if (item) {
+                if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                    previousPoint = item.dataIndex;
+                    previousLabel = item.series.label;
+                    $("#tooltip").remove();
+                    
+                    var x = item.datapoint[0];
+                    var y = item.datapoint[1];
+                    var date = new Date(x);
+                    var color = item.series.color;
+
+                    showTooltip(item.pageX, item.pageY, color,
+                                "<strong>" + item.series.label + "</strong><br>"  +
+                                (date.getHours() + 1) + "/" + date.getMinutes() +"/"+date.getSeconds()+
+                                " : <strong>" + y + "</strong> (USD/oz)");
+                }
+            } else {
+                $("#tooltip").remove();
+                previousPoint = null;
+            }
+        });
+
+
+    };

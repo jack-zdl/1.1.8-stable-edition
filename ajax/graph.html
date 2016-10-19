@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<script type="text/javascript" src="js/jquery.flot.min.js"></script>
+<script type="text/javascript" src="js/jquery.flot.time.min.js"></script>
+<script type="text/javascript" src="js/jquery.flot.selection.min.js"></script>
+<link href="css/jquery-accordion-menu.css" rel="stylesheet" type="text/css" />
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+*{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+body{background:#FFF;} /*#2A212A*/
+.content{width:60px;margin:20px auto;}
+.filterinput{ 
+	background-color:rgba(249, 244, 244, 0);
+	border-radius:15px;
+	width:90%;
+	height:30px;
+	border:thin solid #FFF;
+	text-indent:0.5em;
+	font-weight:bold;
+	color:#FFF;
+}
+#demo-list a{
+	overflow:hidden;
+	text-overflow:ellipsis;
+	-o-text-overflow:ellipsis;
+	white-space:nowrap;
+	width:100%;
+}
+</style>
+
+
+<script src="js/jquery-accordion-menu.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+$(function(){	
+	//顶部导航切换
+	$("#demo-list li").click(function(){
+		$("#demo-list li.active").removeClass("active");
+		$(this).addClass("active");
+	});	
+})	
+</script>
+</head>
+<body>
+<div style="text-align:center;clear:both">
+<!-- 
+<script src="/gg_bd_ad_720x90.js" type="text/javascript"></script>
+<script src="/follow.js" type="text/javascript"></script>
+-->
+
+</div>
+<div style="position:absolute;width:1000px;height:100px;left:-10px;right:120px">
+	<p style="position:relative;right:290px;">Network </p>
+<div id="network_host" style="position:relative;width:900px;height:100px;left:160px;right:120px;"></div>
+
+	<div id="demo_network_host" style="position:relative;width:900px;height:30px;left:160px;right:120px;"></div>
+
+</div>
+
+<div class="content" style="position:absolute;width:150px;float: left;
+	left: 580px;">
+
+	
+
+	<div id="jquery-accordion-menu" class="jquery-accordion-menu red">
+		<div class="jquery-accordion-menu-header" id="form"></div>
+		<ul id="demo-list">
+			<li><a href="#">Cpu </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Memory </a></li>
+			<li><a href="#">Disk </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Network Traffic </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Swap </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Replication </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Connections </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Row Operations </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Buffer Pool </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Opend Tables </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Database Transactions </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			
+			<li><a href="#">InnoDB Row Locks </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Temporary Tables </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Processlist State </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Index Usage Ratios </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">Binlog </a>
+				<ul class="submenu">
+					<li><a href="#">1 </a></li>
+					<li><a href="#">2 </a></li>
+				</ul>
+			</li>
+			<li><a href="#">About </a></li>
+			<li><a href="#">Contact </a></li>
+		   
+		</ul>
+		<div class="jquery-accordion-menu-footer">
+			Footer
+		</div>
+	</div>
+
+</div>
+
+<script type="text/javascript">
+(function($) {
+$.expr[":"].Contains = function(a, i, m) {
+	return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+};
+function filterList(header, list) {
+	//@header 头部元素
+	//@list 无需列表
+	//创建一个搜素表单
+	var form = $("<form>").attr({
+		"class":"filterform",
+		action:"#"
+	}), input = $("<input>").attr({
+		"class":"filterinput",
+		type:"text"
+	});
+	$(form).append(input).appendTo(header);
+	$(input).change(function() {
+		var filter = $(this).val();
+		if (filter) {
+			$matches = $(list).find("a:Contains(" + filter + ")").parent();
+			$("li", list).not($matches).slideUp();
+			$matches.slideDown();
+		} else {
+			$(list).find("li").slideDown();
+		}
+		return false;
+	}).keyup(function() {
+		$(this).change();
+	});
+}
+$(function() {
+	filterList($("#form"), $("#demo-list"));
+});
+})(jQuery);	
+</script>
+
+<script type="text/javascript">
+
+	jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
+	
+</script>
+
+<script type="text/javascript" src="js/flot_network.js"></script>
+</body>
+</html>
