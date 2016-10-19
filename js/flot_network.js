@@ -28,7 +28,7 @@ function runFlotFunction () {
                     async:false,
                     dataType:"json",
                     success:function(result, status, xhr) {
-                        debugger;
+                       
                         dataGraphHost = result;
                     },
                     error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
@@ -75,41 +75,60 @@ function runFlotFunction () {
                     }
                     return obj_data_his;
                  }else{
-                    debugger;
+                  
                     obj_data_his.push(obj_data_inc[0]);
                     return obj_data_his;
                  }
 
     　　　　},
+
             m3 : function (obj_array) {
                 //js 的冒泡排序
-                var length = obj_array.length;
-                for (var i = length - 1; i >= 0; i--) {
-                   for (var j = length - 1; j >= 0; j--) {
-                       if(obj_array[j]> obj_array[j+1]){
-                           var aux = obj_array[j];
-                           obj_array[j] = obj_array[j+1];
-                           obj_array[j+1] = aux;
-                       }
+               console.time('t');
+                var len =  obj_array.length,tmp,j;
+                for (var i = 1; i < len; i++) {
+                
+                    var data_array = obj_array[i];
+                   tmp = obj_array[i].data[0];
+                   j = i-1;
+                   while(j>=0 && tmp < obj_array[j].data[0]){
+                        obj_array[j+1] = obj_array[j];
+                        j--;
                    }
+                   obj_array[j+1] = data_array;
                 }
+                console.timeEnd('t');
+              
                 return obj_array;
             },
             m4 : function (obj_array) {
                 //断点设置  js 的比较大小，添加null值进去
                  var length = obj_array.length;
-                for (var i = length - 1; i >= 0; i--) {
-                    var j=(obj_array[i].data[0]-obj_array[i+1].data[0])/6000;
-                    if(j > 1){
+                for (var i = length - 1; i >0; i--) {
+
+                    var quotient =Math.floor((obj_array[i].data[0]-obj_array[i-1].data[0])/60000);
+                    var dataStart = obj_array[i-1].data[0];
+                    if(quotient  > 1){
                         
+                        for (var j = quotient  - 1; j > 0; j--) {
+                           
+                            var Intdatatimestamp =parseInt(dataStart,10);
+                            var stringData = ""+(Intdatatimestamp+j*60000);
+                           
+                            var incObject = {"data":[stringData,null]};
+                            obj_array.splice(i,0,incObject);
+                        }
 
                     }  
                 }
+                 debugger;
+                return obj_array;
             }
     　　});
 
     var options = new Object({
-    　　　　m1 : {//network的option
+    　　　　m1 : {
+                        //network的option
                  series: {
                       lines: { show: true, fill: true ,fillColor: "rgba(154,255,154,1)"},
                       points: { show: false, fill: false }
@@ -237,18 +256,24 @@ function runFlotFunction () {
             var data_inc_net_input = dataIncNetwork.net_input_Bytes;
             var data_com_net_output = changeData.m2(data_net_output,data_inc_net_output);
             var data_com_net_input = changeData.m2(data_net_input,data_inc_net_input);
+            var data_sort_net_output = changeData.m3(data_com_net_output); //sort data
+            var data_sort_net_input = changeData.m3(data_com_net_input); //sort data
           
-             after_data_net_output = changeData.m1(data_com_net_output);
+            var data_null_net_output = changeData.m4(data_sort_net_output);//add null into data
+            var data_null_net_input = changeData.m4(data_sort_net_input); //add null into data
+            debugger;
+             after_data_net_output = changeData.m1(data_null_net_output);
             
-             after_data_net_input = changeData.m1(data_com_net_input);
+             after_data_net_input = changeData.m1(data_null_net_input);
             
         };
         runDataIncFunction();
         var int=setInterval(runDataIncFunction,60000); 
 
         var dataFlotNetwork  =  [
-          { label: "input", data: after_data_net_input },
-          { label: "output", data: after_data_net_output } 
+         
+          { label: "output", data: after_data_net_output } ,
+           { label: "input", data: after_data_net_input }
          ];
          var dataDemoFlotNetwork  =  [
           { label: "", data: after_data_net_input },
