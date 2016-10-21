@@ -10,7 +10,7 @@ function runFlotFunction () {
                     async:false,
                     dataType:"json",
                     success:function(result, status, xhr) {
-debugger;
+
                         dataAllGraphHost = result;
                     },
                     error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
@@ -39,7 +39,19 @@ debugger;
                 });
                 
                 return dataGraphHost;
-    　　　　}
+    　　　　},
+            m3 :  function(){
+                var dataset =[
+            //模拟圆饼图数据
+                {label: "Asia", data: 4119630000, color: "#005CDE" },
+                { label: "Latin America", data: 590950000, color: "#00A36A" },
+                { label: "Africa", data: 1012960000, color: "#7D0096" },
+                { label: "Oceania", data: 35100000, color: "#992B00" },
+                { label: "Europe", data: 727080000, color: "#DE000F" },
+                { label: "North America", data: 344120000, color: "#ED7B00" }    
+            ];
+            return dataset;
+            }
     　　});
     var changeData = new Object({
     　　　　m1 : function (obj_data){
@@ -145,7 +157,7 @@ debugger;
     　　　　m1 : {
                         //network的option
                  series: {
-                      lines: { show: true, fill: false }, //,fillColor: "rgba(154,255,154,1)"
+                      lines: { show: true, fill: true }, //,fillColor: "rgba(154,255,154,1)"
                       points: { show: false, fill: false }
                 },
                  xaxes: [{
@@ -187,9 +199,21 @@ debugger;
                 }
     　　　　　
     　　　　},
-    　　　　m2 : function(){
-                //...
-    　　　　},
+    　　　　m2 : {
+                    series: {
+                        pie: {
+                            show: true
+                           
+                    
+                        }
+                    },
+                    legend: {
+                        show: false
+                    },
+                    grid: {
+                        hoverable: true
+                    }
+            },
             m3 :  {
                 //demo network
                 series :{
@@ -274,7 +298,7 @@ debugger;
          *get increment data
          */
         var  runDataIncFunction = function () {
-              console.time('t');
+             
             var inc_url_network = "http://"+IP+"/v1/kv/cmha/service/"+"BOCOP"+"/Graph/Networktraffic/"+"cmha-chap2"+"/"+"lo"+"?raw"; 
             var dataIncNetwork = getData.m2(inc_url_network);
             var data_inc_net_output = dataIncNetwork.net_output_Bytes;
@@ -290,15 +314,15 @@ debugger;
              after_data_net_output = changeData.m1(data_null_net_output);
             
              after_data_net_input = changeData.m1(data_null_net_input);
-             console.timeEnd('t');
+            
         };
         runDataIncFunction();
         
         var int=setInterval(runDataIncFunction,60000); 
 
         var dataFlotNetwork  = {
-         "output" : { label: "output=0.00", data: after_data_net_output } ,
-          "input":{ label: "input=0.00", data: after_data_net_input }
+         "output" : { label: "output", data: after_data_net_output } ,
+          "input":{ label: "input", data: after_data_net_input }
          } ;
          //设置颜色
          var i = 4;
@@ -310,15 +334,16 @@ debugger;
 
 
          var dataDemoFlotNetwork  =  [
-          { label: "", data: after_data_net_input },
-          { label: "", data: after_data_net_output } 
+          { label: "", data: after_data_net_input , color: "#0077FF"},
+          { label: "", data: after_data_net_output ,color: "#7D0096"  } 
          ];
          //设置颜色
-          var i = 2;
+     /*     var i = 2;
         $.each(dataDemoFlotNetwork, function(key, val) {
             val.color = i;
             ++i;
         });
+     */   
         //  show flot data
         $.fn.UseTooltip = function () {
              var previousPoint = null, previousLabel = null;
@@ -383,7 +408,7 @@ choiceContainer.find("input").click(plotAccordingToChoices);
                     data.push(dataFlotNetwork[key]);
                 }
             });
-debugger;
+
             if (data.length > 0) {
                  flotNetworkHost =  $.plot($("#network_host"), 
                 data,
@@ -394,65 +419,6 @@ debugger;
         }
 plotAccordingToChoices();
 /******end checkbox***************************************************/
-
-///start tracking
-var legends = $("#label_network_host .legendLabel");
-
-        legends.each(function () {
-            // fix the widths so they don't jump around
-            $(this).css('width', $(this).width());
-        });
-
-        var updateLegendTimeout = null;
-        var latestPosition = null;
-
-        function updateLegend() {
-
-            updateLegendTimeout = null;
-
-            var pos = latestPosition;
-
-            var axes = flotNetworkHost.getAxes();
-            
-
-            var i, j, dataset = flotNetworkHost.getData();
-            for (i = 0; i < dataset.length; ++i) {
-
-                var series = dataset[i];
-
-                // Find the nearest points, x-wise
-
-                for (j = 0; j < series.data.length; ++j) {
-                    if (series.data[j][0] > pos.x) {
-                        break;
-                    }
-                }
-
-            // Now Interpolate
-
-                var y,
-                    p1 = series.data[j - 1],
-                    p2 = series.data[j];
-
-                if (p1 == null) {
-                    y = p2[1];
-                } else if (p2 == null) {
-                    y = p1[1];
-                } else {
-                    y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
-                }
-
-                legends.eq(i).text(series.label.replace(/=.*/, "= " + y));
-            }
-        }
-
-        $("#network_host").bind("plothover",  function (event, pos, item) {
-            latestPosition = pos;
-            if (!updateLegendTimeout) {
-                updateLegendTimeout = setTimeout(updateLegend, 50);
-            }
-        });
-//end tracking
 
 
       
@@ -480,6 +446,35 @@ var legends = $("#label_network_host .legendLabel");
 
     };
     flot_network();
+    var flot_pies = function(){
+        $.fn.showMemo = function () {
+        $(this).bind("plothover", function (event, pos, item) {
+        if (!item) { return; }
+ 
+        var html = [];
+        var percent = parseFloat(item.series.percent).toFixed(2);        
+ 
+        html.push("<div style=\"border:1px solid grey;background-color:",
+             item.series.color,
+             "\">",
+             "<span style=\"color:red\">",
+             item.series.label,
+             " : ",
+             $.formatNumber(item.series.data[0][1], { format: "#,###", locale: "us" }),
+             " (", percent, "%)",
+             "</span>", 
+             "</div>");
+        $("#flot-memo").html(html.join(''));
+    });
+    }    
+    var data_flot_pies = getData.m3();
+  
+     $.plot($("#flot-placeholder"), data_flot_pies, options.m2);
+     $("#flot-placeholder").showMemo();   
+    };
+    flot_pies();
 }
+ console.time('t');
 runFlotFunction();
+ console.timeEnd('t');
   

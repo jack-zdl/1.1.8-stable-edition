@@ -7,6 +7,8 @@
 <script type="text/javascript" src="js/jquery.flot.min.js"></script>
 <script type="text/javascript" src="js/jquery.flot.time.min.js"></script>
 <script type="text/javascript" src="js/jquery.flot.selection.min.js"></script>
+<script type="text/javascript" src="js/jquery.flot.pie.min.js"></script><!-- -->
+<script type="text/javascript" src="js/jquery.flot.axislabels.js"></script>
 <link href="css/jquery-accordion-menu.css" rel="stylesheet" type="text/css" />
 <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 
@@ -76,9 +78,10 @@ $(function(){
 	<p id="choices" style="float:right; width:135px;"></p>
 	<div id="network_host" style="position:inline-block;width:900px;height:100px;left:160px;right:120px;"></div>
 	<div id="label_network_host" style="position:relative;width:900px;height:30px;left:160px;right:120px;"></div><br>
-	
 	<div id="demo_network_host" style="position:relative;width:900px;height:30px;left:160px;right:120px;"></div>
-
+<!--pies graph -->
+	<div id="flot-placeholder" style="position:inline-block;width:400px;height:300px;left:200px;"></div>
+	<div id="flot-memo" style="display:inline-block;text-align:center;height:30px;width:250px;right:100px;">fffff</div>
 </div>
 
 <div class="content" style="position:absolute;width:150px;float: left;
@@ -103,9 +106,8 @@ $(function(){
 				</ul>
 			</li>
 			<li><a href="#">Network Traffic </a>
-				<ul class="submenu">
-					<li><a href="#">1 </a></li>
-					<li><a href="#">2 </a></li>
+				<ul id="Network" class="submenu">
+					
 				</ul>
 			</li>
 			<li><a href="#">Swap </a>
@@ -235,6 +237,7 @@ $(function() {
 	
 </script>
 
-<script type="text/javascript" src="js/flot_network.js"></script>
+<script type="text/javascript" src="js/flot_graph.js"></script>
+<script type="text/javascript" src="js/graph_list.js"></script>
 </body>
 </html>
