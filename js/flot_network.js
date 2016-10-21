@@ -10,9 +10,11 @@ function runFlotFunction () {
                     async:false,
                     dataType:"json",
                     success:function(result, status, xhr) {
+debugger;
                         dataAllGraphHost = result;
                     },
                     error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
+
                         console.error("getData 状态 " + status);
                     }
                 });
@@ -84,7 +86,7 @@ function runFlotFunction () {
 
             m3 : function (obj_array) {
                 //js 的冒泡排序
-               console.time('t');
+              
                 var len =  obj_array.length,tmp,j;
                 for (var i = 1; i < len; i++) {
                 
@@ -97,18 +99,19 @@ function runFlotFunction () {
                    }
                    obj_array[j+1] = data_array;
                 }
-                console.timeEnd('t');
+               
               
                 return obj_array;
             },
             m4 : function (obj_array) {
                 //断点设置  js 的比较大小，添加null值进去
-                 var length = obj_array.length;
-                for (var i = length - 1; i >0; i--) {
+                 var len = obj_array.length;
+                for (var i = len - 1; i >0; i--) {
 
                     var quotient =Math.floor((obj_array[i].data[0]-obj_array[i-1].data[0])/60000);
                     var dataStart = obj_array[i-1].data[0];
                     if(quotient  > 1){
+                        
                         
                         for (var j = quotient  - 1; j > 0; j--) {
                            
@@ -121,7 +124,19 @@ function runFlotFunction () {
 
                     }  
                 }
-                 debugger;
+               
+                return obj_array;
+            },
+            m5 : function (obj_array) {
+                //delete id=0 from all history data
+                // all history data sort by desc
+                var len = obj_array.length;
+                for (var i = len- 1; i >= 0; i--) {
+                    if(obj_array[i].id == 0){                      
+                        obj_array.splice(i,1);
+                        break;
+                    }
+                }
                 return obj_array;
             }
     　　});
@@ -130,19 +145,23 @@ function runFlotFunction () {
     　　　　m1 : {
                         //network的option
                  series: {
-                      lines: { show: true, fill: true ,fillColor: "rgba(154,255,154,1)"},
+                      lines: { show: true, fill: false }, //,fillColor: "rgba(154,255,154,1)"
                       points: { show: false, fill: false }
                 },
                  xaxes: [{
                             mode: "time",
-                            timeformat: "%H/%M/%S"
-                           
+                  //          timeformat: "%H/%M/%S",
+                            tickFormatter: function (val, axis) {
+                                var d = new Date(val);
+                                return (d.getHours() ) + "/" + d.getMinutes() + "/" + d.getSeconds();
+                            } 
                         }],
                 legend: {
+                    container:$("#label_network_host"),
                     show : true,
                     noColumns: 0,
                     labelFormatter: function (label, series) {
-                        return "<font color=\"white\">" + label + "</font>";
+                        return "<font color=\"red\">" + label + "</font>";
                     },
                     backgroundColor: "#000",
                     backgroundOpacity: 0.9,
@@ -150,6 +169,8 @@ function runFlotFunction () {
                     position: "nw"
                 },
                 grid: {
+                    autoHighlight:false,
+
                     hoverable: true,
                     borderWidth: 3,
                     mouseActiveRadius: 50,
@@ -159,9 +180,11 @@ function runFlotFunction () {
                 yaxis: {        
                     color: "black"
                 },
-                selection: {
-                            mode: "x"
-                        }
+
+
+                crosshair: {
+                    mode: "x"
+                }
     　　　　　
     　　　　},
     　　　　m2 : function(){
@@ -240,16 +263,18 @@ function runFlotFunction () {
 
     //执行network的flot图
     var flot_network = function (){
+       
         var url_network = "http://"+IP+"/v1/kv/cmha/service/"+"BOCOP"+"/Graph/Networktraffic/history/"+"cmha-chap2"+"/"+"lo"+"?raw";
         var dataNetwork = getData.m1(url_network);
-        var data_net_output = dataNetwork.net_output_Bytes;
-        var data_net_input  = dataNetwork.net_input_Bytes;
+        var data_net_output = changeData.m5(dataNetwork.net_output_Bytes)  ;
+        var data_net_input  = changeData.m5(dataNetwork.net_input_Bytes);
         var after_data_net_output;
         var after_data_net_input ;
         /*get old data 
          *get increment data
          */
         var  runDataIncFunction = function () {
+              console.time('t');
             var inc_url_network = "http://"+IP+"/v1/kv/cmha/service/"+"BOCOP"+"/Graph/Networktraffic/"+"cmha-chap2"+"/"+"lo"+"?raw"; 
             var dataIncNetwork = getData.m2(inc_url_network);
             var data_inc_net_output = dataIncNetwork.net_output_Bytes;
@@ -261,24 +286,39 @@ function runFlotFunction () {
           
             var data_null_net_output = changeData.m4(data_sort_net_output);//add null into data
             var data_null_net_input = changeData.m4(data_sort_net_input); //add null into data
-            debugger;
+          
              after_data_net_output = changeData.m1(data_null_net_output);
             
              after_data_net_input = changeData.m1(data_null_net_input);
-            
+             console.timeEnd('t');
         };
         runDataIncFunction();
+        
         var int=setInterval(runDataIncFunction,60000); 
 
-        var dataFlotNetwork  =  [
-         
-          { label: "output", data: after_data_net_output } ,
-           { label: "input", data: after_data_net_input }
-         ];
+        var dataFlotNetwork  = {
+         "output" : { label: "output=0.00", data: after_data_net_output } ,
+          "input":{ label: "input=0.00", data: after_data_net_input }
+         } ;
+         //设置颜色
+         var i = 4;
+        $.each(dataFlotNetwork, function(key, val) {
+            val.color = i;
+            ++i;
+        });
+
+
+
          var dataDemoFlotNetwork  =  [
           { label: "", data: after_data_net_input },
           { label: "", data: after_data_net_output } 
          ];
+         //设置颜色
+          var i = 2;
+        $.each(dataDemoFlotNetwork, function(key, val) {
+            val.color = i;
+            ++i;
+        });
         //  show flot data
         $.fn.UseTooltip = function () {
              var previousPoint = null, previousLabel = null;
@@ -295,8 +335,9 @@ function runFlotFunction () {
 
                         showTooltip(item.pageX, item.pageY, color,
                                     "<strong>" + item.series.label + "</strong><br>"  +
-                                    (date.getHours() + 1) + "/" + date.getMinutes() +"/"+date.getSeconds()+
-                                    " : <strong>" + y + "</strong> (USD/oz)");
+                      //              (date.getHours() + 1) + "/" + date.getMinutes() +"/"+date.getSeconds()
+                                (date.getHours() ) + "/" + date.getMinutes() +"/"+date.getMinutes()
+                                + " : <strong>" + y + "</strong> (Kb/s)");
                     }
                 } else {
                     $("#tooltip").remove();
@@ -321,11 +362,100 @@ function runFlotFunction () {
             }).appendTo("body").fadeIn(200);
         }
 
-        var flotNetworkHost =  $.plot($("#network_host"), 
-            dataFlotNetwork,
-            options.m1
-        );
-        $("#network_host").UseTooltip();
+/*satrt checkbox*/
+        // insert checkboxes 
+        var choiceContainer = $("#choices");
+        $.each(dataFlotNetwork, function(key, val) {
+            choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                "' checked='checked' id='id" + key + "'></input>" +
+                "<label for='id" + key + "'>"
+                + val.label + "</label>");
+        });
+choiceContainer.find("input").click(plotAccordingToChoices);
+   var flotNetworkHost;
+    function plotAccordingToChoices() {
+
+            var data = [];
+
+            choiceContainer.find("input:checked").each(function () {
+                var key = $(this).attr("name");
+                if (key && dataFlotNetwork[key]) {
+                    data.push(dataFlotNetwork[key]);
+                }
+            });
+debugger;
+            if (data.length > 0) {
+                 flotNetworkHost =  $.plot($("#network_host"), 
+                data,
+                options.m1
+            );
+            $("#network_host").UseTooltip();
+            }
+        }
+plotAccordingToChoices();
+/******end checkbox***************************************************/
+
+///start tracking
+var legends = $("#label_network_host .legendLabel");
+
+        legends.each(function () {
+            // fix the widths so they don't jump around
+            $(this).css('width', $(this).width());
+        });
+
+        var updateLegendTimeout = null;
+        var latestPosition = null;
+
+        function updateLegend() {
+
+            updateLegendTimeout = null;
+
+            var pos = latestPosition;
+
+            var axes = flotNetworkHost.getAxes();
+            
+
+            var i, j, dataset = flotNetworkHost.getData();
+            for (i = 0; i < dataset.length; ++i) {
+
+                var series = dataset[i];
+
+                // Find the nearest points, x-wise
+
+                for (j = 0; j < series.data.length; ++j) {
+                    if (series.data[j][0] > pos.x) {
+                        break;
+                    }
+                }
+
+            // Now Interpolate
+
+                var y,
+                    p1 = series.data[j - 1],
+                    p2 = series.data[j];
+
+                if (p1 == null) {
+                    y = p2[1];
+                } else if (p2 == null) {
+                    y = p1[1];
+                } else {
+                    y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
+                }
+
+                legends.eq(i).text(series.label.replace(/=.*/, "= " + y));
+            }
+        }
+
+        $("#network_host").bind("plothover",  function (event, pos, item) {
+            latestPosition = pos;
+            if (!updateLegendTimeout) {
+                updateLegendTimeout = setTimeout(updateLegend, 50);
+            }
+        });
+//end tracking
+
+
+      
     /*satrt伸缩轴模型*/
         var overview =   $.plot($("#demo_network_host"), dataDemoFlotNetwork,options.m3);
             //对原图表建立可点击伸缩轴

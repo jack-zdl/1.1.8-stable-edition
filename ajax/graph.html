@@ -31,6 +31,23 @@ body{background:#FFF;} /*#2A212A*/
 	white-space:nowrap;
 	width:100%;
 }
+#label_network_host {
+    background-color: #fff;
+    padding: 2px;
+    margin-bottom: 8px;
+    border-radius: 3px 3px 3px 3px;
+    border: 1px solid #E6E6E6;
+    display: inline-block;
+    margin: 0 auto;
+    left: 200px;
+   float: left;
+     font-size: 14px;
+    line-height: 1.2em;
+}
+#label_network_host font{
+	color: red;
+	display:block;
+}
 </style>
 
 
@@ -54,10 +71,12 @@ $(function(){
 -->
 
 </div>
-<div style="position:absolute;width:1000px;height:100px;left:-10px;right:120px">
+<div style="position:absolute;width:1150px;height:100px;left:-10px;right:120px">
 	<p style="position:relative;right:290px;">Network </p>
-<div id="network_host" style="position:relative;width:900px;height:100px;left:160px;right:120px;"></div>
-
+	<p id="choices" style="float:right; width:135px;"></p>
+	<div id="network_host" style="position:inline-block;width:900px;height:100px;left:160px;right:120px;"></div>
+	<div id="label_network_host" style="position:relative;width:900px;height:30px;left:160px;right:120px;"></div><br>
+	
 	<div id="demo_network_host" style="position:relative;width:900px;height:30px;left:160px;right:120px;"></div>
 
 </div>
