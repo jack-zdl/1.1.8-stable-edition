@@ -1,210 +1,62 @@
-﻿var getDataMemu =  function () {
+﻿//对原图表建立可点击伸缩轴
+            $("#demo_network_host").bind("plotselected", function (event, ranges) {
+                // do the zooming
+                $.each(flotNetworkHost.getXAxes(), function(_, axis) {
+                    var opts = axis.options;
+                    opts.min = ranges.xaxis.from;
+                    opts.max = ranges.xaxis.to;
+                });
+                flotNetworkHost.setupGrid();
+                flotNetworkHost.draw();
+                flotNetworkHost.clearSelection();
+                // don't fire event on the overview to prevent eternal loop
+                overview.setSelection(ranges, true);
+            });
+            //对样表建立伸缩轴
+            $("#demo_network_host").bind("plotselected", function (event, ranges) {
+                flotNetworkHost.setSelection(ranges);
+            });     
+    /*end伸缩轴模型*/
 
-/*获得consul下的所有服务名。
- */ 
-  var allData ={};
-    var getService_db = function() {
-        $.ajax({
-            url:"http://" + IP + "/v1/catalog/services",
-            method:"get",
-            async:false,
-            dataType:"json",
-            success:function(result, status, xhr) {
-               var  dataServices = result;
-                allData["dataServices"]= dataServices;
-            },
-            error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
-                console.error("失败状态文本 " + status);
-            }
-        });
-    };
 
-/*获得CS下的所有服务名称
- *尝试nginx仿真实的URL
- */
-    var getConsulName = function () {
-          $.ajax({
-            url:"http://" + IP + "/v1/catalog/service/consul",
+     $.fn.UseTooltip = function() {
+            var previousPoint = null,
+                previousLabel = null;
+            $(this).bind("plothover", function(event, pos, item) {
+                if (item) {
+                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
+                        previousPoint = item.dataIndex;
+                        previousLabel = item.series.label;
+                        $("#tooltip").remove();
+                        var x = item.datapoint[0];
+                        var y = item.datapoint[1];
+                        var date = new Date(x);
+                        var color = item.series.color;
 
-            method:"get",
-            async:false,
-            dataType:"json",
-            success:function(result, status, xhr) {
-             var   dataConsul  = result;
-               allData["dataConsul"]= dataConsul;
-            },
-            error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
-                console.error("失败状态文本 " + status);
-            }
-        });
-    };
-
-/*根据服务名，来获得服务名下的所有主机节点信息。
- */
-    var getAllDataService = function() {
-        for (var i = 0; i < after_dataMemu.length; i++) {
-            $.ajax({
-                method:"get",
-                url:"http://" + IP + "/v1/health/service/" + after_dataMemu[i],
-                async:false,
-                dataType:"json",
-                success:function(result, status, xhr) {
-                    var cmha_data_service_old = [];
-                    cmha_data_service_old = result;
-                    dataAllService[after_dataMemu[i]] = cmha_data_service_old;
-                },
-                error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
-                    console.error("失败状态文本 " + status);
+                        showTooltip(item.pageX, item.pageY, color,
+                            "<strong>" + item.series.label + "</strong><br>" +
+                            //              (date.getHours() + 1) + "/" + date.getMinutes() +"/"+date.getSeconds()
+                            (date.getHours()) + "/" + date.getMinutes() + "/" + date.getMinutes() + " : <strong>" + y + "</strong> (Kb/s)");
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;
                 }
             });
+        };
+        //assocoate with UseTooltip function
+        function showTooltip(x, y, color, contents) {
+            $('<div id="tooltip">' + contents + '</div>').css({
+                position: 'absolute',
+                display: 'none',
+                top: y - 40,
+                left: x - 120,
+                border: '2px solid ' + color,
+                padding: '3px',
+                'font-size': '9px',
+                'border-radius': '5px',
+                'background-color': '#fff',
+                'font-family': 'Verdana, Arial, Helvetica, Tahoma, sans-serif',
+                opacity: 0.9
+            }).appendTo("body").fadeIn(200);
         }
-    };
-
-
-
-};
-
-
-
-//网卡
-{"net_dev": "lo eth0 eth1"}
-//2016/10/17
- $.plot($("#demo_network_host"), 
-  [{ label: "", data: after_data_net_output },
-    { label: "", data: after_data_net_input }
-  ],
-  {
-    xaxis: {
-      ticks: [],
- //     min: 1476657700,
- //     max: 1476658000
-    },
-    yaxis: {
-        ticks: []
-    }
-  }
-  );
-///////////////
-20161018
-$.fn.UseTooltip = function () {
-         var previousPoint = null, previousLabel = null;
-
-
-
-        $(this).bind("plothover", function (event, pos, item) {
-            if (item) {
-                if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
-                    previousPoint = item.dataIndex;
-                    previousLabel = item.series.label;
-                    $("#tooltip").remove();
-                    
-                    var x = item.datapoint[0];
-                    var y = item.datapoint[1];
-                    var date = new Date(x);
-                    var color = item.series.color;
-
-                    showTooltip(item.pageX, item.pageY, color,
-                                "<strong>" + item.series.label + "</strong><br>"  +
-                                (date.getHours() + 1) + "/" + date.getMinutes() +"/"+date.getSeconds()+
-                                " : <strong>" + y + "</strong> (USD/oz)");
-                }
-            } else {
-                $("#tooltip").remove();
-                previousPoint = null;
-            }
-        });
-
-
-    };
-    //20161019
-    冒泡排序
-    console.time('t');
-                var exchange =0;
-                var length = obj_array.length;
-                for (var i = length - 1; i >= 0; i--) {
-                    exchange =0;
-                   for (var j = length - 1; j > 0; j--) {
-                     var a = obj_array[j].data[0];
-                     var b = obj_array[j-1].data[0];
-                       if(a < b ){
-                           var aux = obj_array[j];
-                           obj_array[j] = obj_array[j-1];
-                           obj_array[j-1] = aux;
-                           exchange=1;
-                       }
-                   }
-                   if(!exchange){
-                      console.timeEnd('t');
-                   return obj_array;
-                   }
-                }
-                console.timeEnd('t');
-    //插入排序
-     console.time('t');
-                var len =  obj_array.length,tmp,j;
-                for (var i = 1; i < len; i++) {
-                   tmp = obj_array[i];
-                   j = i-1;
-                   while(j>=0 && tmp < this[j]){
-                        obj_array[j+1] = obj_array[j];
-                        j--;
-                   }
-                   obj_array[j+1] =tmp;
-                }
-                console.timeEnd('t');
-    //快速排序
-     console.time('t');
-               function swap (arr, i, j) {
-  var tmp = arr[i];
-  arr[i] = arr[j];
-  arr[j] = tmp;
-}
-
-function median3 (arr, left, right) {
-  var center = Math.floor((left + right) / 2);
-
-  if (arr[left] > arr[center]) {
-    swap(arr, left, center);
-  }
-  if (arr[left] > arr[right]) {
-    swap(arr, left, right);
-  }
-  if (arr[center] > arr[right]) {
-    swap(arr, center, right);
-  }
-
-  swap(arr, center, right - 1);
-  return arr[right - 1];
-}
-
-function qSort (arr, left, right) {
-  // 枢纽元
-  var pivot = median3(arr, left, right);
-  var i = left;
-  var j = right - 1;
-
-  while (i < j) {
-    while (arr[++i] < pivot) {}
-    while (arr[--j] > pivot) {}
-    if (i < j) {
-      swap(arr, i, j);
-    } else {
-      break;
-    }
-  }
-  swap(arr, i, right - 1);
-  if (left < i - 1) {
-    qSort(arr, left, i - 1);
-  }
-  if (i + 1 < right) {
-    qSort(arr, i + 1, right);
-  }
-
-  return arr;
-}
-
-function quickSort (arr) {
-  return qSort(arr, 0, arr.length - 1);
-}
-quickSort(obj_array);
-console.timeEnd('t');

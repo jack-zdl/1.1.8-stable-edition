@@ -227,6 +227,7 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
         a_cs.setAttribute("id","Home");
         var i_cs =document.createElement("i");
         i_cs.setAttribute("class","fa fa-archive fa-lg");
+        
         var span_cs = document.createElement("span");
         span_cs.setAttribute("class","nav-text aaahaha");
         span_cs.innerHTML="CS";
@@ -237,11 +238,12 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
        
     }
 /*执行主机节点的真实状态的左边菜单
+ *Graph点击后的左边菜单
  * RS = real_status
  */
     var addHostRSElementLi = function (obj_Element,obj_rs) {
         //添加CS的各个主机节点信息
-         var li_host = document.createElement("li");
+        var li_host = document.createElement("li");
         var a_host  = document.createElement("a");
         a_host.setAttribute("href","#");
         a_host.setAttribute("id","Home");
@@ -266,14 +268,14 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
                 ul_host.appendChild(li_host1); 
         }
         var span_host = document.createElement("span");
-        span_host.setAttribute("class","nav-text aaahaha");
+        span_host.setAttribute("class","nav-text");
         span_host.innerHTML="CS";
         a_host.appendChild(i_host);
         a_host.appendChild(span_host);
         li_host.appendChild(a_host);
         li_host.appendChild(ul_host);
        addElementLiHost(obj_Element,li_host,obj_rs);
-    }
+    };
 /*获得服务名和主机节点的信息，动态产生菜单栏。
 
     function addElementLi(obj) {
@@ -336,11 +338,10 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
         changeDataAllSrvice();
 
         if(IntData == 0){
-
-           
+            
              addCSElementLi("parentUl");
         }else{
-           
+            
             var parent=document.getElementById("parentUlAll");
             var child=document.getElementById("parentUl");
             parent.removeChild(child);
@@ -350,7 +351,7 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
         }
 
  //cs
- //      addCSElementLi("parentUl","RS");  这是CS页面带有cs次级菜单的菜单栏
+ //      addCSElementLi("parentUl","RS"); // 这是CS页面带有cs次级菜单的菜单栏
     };
 
     startFunction();
@@ -358,13 +359,25 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
 
 $("#GH").click(function(){
   
+  
    /*这段代码是用来停住图表的*/
-  if( kaiguan != 0 ){
+if(kaiguan_cs != 0){
+    
+    clearInterval(cstimeSetTimeout);
+    
+}else{
+    
+    if( kaiguan != 0 ){
         stopclearInterval();
     }else{}
-
+}
+ 
     IntData = 1;
-    changeCsMemu();
+  changeCsMemu();
+  serviceName="";
+  hostName="";
+  document.cookie = "hostName=" + hostName;
+    document.cookie = "serviceName=" + serviceName;
      $("#content").load("ajax/graph.html");
 });
 

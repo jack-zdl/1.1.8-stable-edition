@@ -1,11 +1,6 @@
 /*将变量赋给全局变量whole_commons
  */
 
-
-
-
-
-
 var IP = "192.168.200.135:8500"; /*配置consul的IP*/
 
 var FreshenTime = 5e3;           /*设置刷新时间*/
@@ -16,6 +11,8 @@ var IP_old = 0;                 /*全局变量*/
 var serviceName = "";           /*全局变量*/
 
 var hostName = "";               /*全局变量*/
+
+var net_card ="";
 
 var HostType = "";               /*全局变量*/
 
@@ -30,7 +27,7 @@ var IntData_cs=0;/*Graph全局变量  来执行移除那个菜单DOM元素*/
 var  cstimeSetTimeout =0;
 var  cstimeSetTimeout_b =0;
    var kaiguan_cs=0;
-
+var changeGraphMemu;
 
 
 var kaiguan=0;                  

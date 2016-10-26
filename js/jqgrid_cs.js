@@ -559,6 +559,8 @@ var pagefunction = function() {
         };
      
         var dbJqGrid = function() {
+            var jqGridDate = new Date();
+            console.info("jqgrid执行="+jqGridDate);
             if (IP_old == 0) {
                 jQuery("#jqgrid_db").jqGrid({
                     data:after_cmha_db_bocop,

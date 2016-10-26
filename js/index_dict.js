@@ -47,3 +47,21 @@ $(".serviceHost").click(function() {
 });
 /*2016/9/20 add Host_real_status
  */
+/*2016/10/24 点击菜单传达 service and host net_card
+ */
+ $(".GHS").click(function(){
+    
+    hostName = $(this).attr("id");
+    serviceName =$($($(this).parents("ul")[0]).prev()).children("span").html();
+    document.cookie = "hostName=" + hostName;
+    document.cookie = "serviceName=" + serviceName;
+     $("#content").load("ajax/graph.html");
+ });
+ //点击右边菜单
+/*
+ $(".GL").click(function(){
+    net_card = $(this).html();
+     document.net_card = "net_card=" + net_card;
+ debugger;
+ });
+ */

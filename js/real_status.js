@@ -80,6 +80,11 @@ function real_status_grid_system() {
 			var after_real_status_values = [];
 			after_real_status_values = changeData(real_status_values);
 			after_sys_real_status_values = after_sys_real_status_values.concat(after_real_status_values.sys);
+		
+
+			var   real_status_system_data = new Date();
+			console.info("host_status执行="+real_status_system_data);
+
 			if (after_sys_real_status_values.length > 100) {
 				after_sys_real_status_values.shift();
 			}
@@ -465,6 +470,10 @@ var	HostInterval = function() {
 			var after_real_status_values = [];
 			after_real_status_values = changeData(real_status_values);
 			after_sys_real_status_values = after_sys_real_status_values.concat(after_real_status_values.sys);
+			
+			var   real_status_data = new Date();
+			console.info("host_status执行="+real_status_data);
+			
 			if (after_sys_real_status_values.length > 100) {
 				after_sys_real_status_values.shift();
 			}

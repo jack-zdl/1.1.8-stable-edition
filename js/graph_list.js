@@ -40,6 +40,7 @@ var run_graph_list = function () {
 		        var a  = document.createElement("a");
 		        a.setAttribute("href","#");
 		        a.setAttribute("class","GL");
+		         a.setAttribute("id",obj_array_list[i]);
 		        a.innerHTML=obj_array_list[i];
 		        li.appendChild(a);
 		        ul.appendChild(li);

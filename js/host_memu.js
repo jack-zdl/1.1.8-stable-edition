@@ -221,6 +221,7 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
 
  
     var startFunction = function() {
+        
         getService_db();
         getConsulName();
         getCSName();
@@ -230,6 +231,7 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
 
  	    addHostRSElementLi("host_second_memu","RS"); 
     };
+    
     startFunction();
 };
 
