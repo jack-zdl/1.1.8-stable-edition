@@ -60,3 +60,53 @@
                 opacity: 0.9
             }).appendTo("body").fadeIn(200);
         }
+index.js
+$("#GH").click(function(){
+  
+  
+   /*这段代码是用来停住图表的*/
+if(kaiguan_cs != 0){
+    
+    clearInterval(cstimeSetTimeout);
+    
+}else{
+    
+    if( kaiguan != 0 ){
+        stopclearInterval();
+    }else{}
+}
+ 
+    IntData = 1;
+  changeCsMemu();
+  serviceName="";
+  hostName="";
+  document.cookie = "hostName=" + hostName;
+    document.cookie = "serviceName=" + serviceName;
+     $("#content").load("ajax/graph.html");
+});   
+//flot_graph.js
+  var choiceContainer = $("#choices");
+        $.each(dataFlotNetwork, function(key, val) {
+            choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                "' checked='checked' id='id" + key + "'></input>" +
+                "<label for='id" + key + "'>" + val.label + "</label>");
+        });
+        choiceContainer.find("input").click(plotAccordingToChoices);
+        var flotNetworkHost;
+        function plotAccordingToChoices() {
+            var data = [];
+            choiceContainer.find("input:checked").each(function() {
+                var key = $(this).attr("name");
+                if (key && dataFlotNetwork[key]) {
+                    data.push(dataFlotNetwork[key]);
+                }
+            });
+            if (data.length > 0) {
+                flotNetworkHost = $.plot($("#network_host"),
+                    data,
+                    options.m1
+                );
+                $("#network_host").UseTooltip();
+            }
+        }
+        plotAccordingToChoices();

@@ -51,7 +51,6 @@ var ncpu = 0;
 					obj_array_values[i].sys.time = after_time;
 					obj_array_values[i].db.time = after_time;
 					sys_values = $.extend({}, obj_array_values[i].sys, obj_array_values[i].db);
-					debugger;
 					ncpu = obj_array_values[i].sys.ncpu;
 					
 					db_values.push(obj_array_values[i].db);
@@ -92,7 +91,7 @@ var ncpu = 0;
 					return '<span style="color:yellow;" >' + cellvalue + "</span>";
 				};
 			var formatter_system_one_color = function(cellvalue, options, rowObject) {
-					debugger;
+					
 					if (rowObject.one_m > ncpu) {
 						return '<span style="color:red;" >' + cellvalue + "</span>";
 					} else {

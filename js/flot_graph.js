@@ -1,9 +1,8 @@
 function runFlotFunction() {
      var net1_card="";
-     var net2_card ="";
+     var net2_card="";
      var net3_card="";
    function getAllCard () {
-   
          net1_card = $($($("#Network").children("li")[0]).children("a")).html();
          net2_card = $($($("#Network").children("li")[1]).children("a")).html();
          net3_card = $($($("#Network").children("li")[2]).children("a")).html();
@@ -204,7 +203,7 @@ function runFlotFunction() {
                 }
             }],
             legend: {
-                container: $("#label_network_host"),
+                container: $(".label_network_host"),
                 show: true,
                 noColumns: 0,
                 labelFormatter: function(label, series) {
@@ -369,6 +368,8 @@ function runFlotFunction() {
             /////////////////////
             //BOCOP cmha-chap2 //
             /////////////////////
+            var data = new Date();
+            console.info("进入runDataFunction"+data);
             var inc_url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/" + hostName + "/" + net1_card + "?raw";
             var dataIncNetwork = getData.m2(inc_url_network);
             var data_inc_net_output = dataIncNetwork.net_output_Bytes;
@@ -389,7 +390,7 @@ function runFlotFunction() {
             }];
         };
         runDataIncFunction();
-        var int = setInterval(runDataIncFunction, 60000);
+         setInterval(runDataIncFunction, 6000);
         ///////////
         //设置颜色//
         ///////////      
@@ -441,8 +442,181 @@ function runFlotFunction() {
     flot_network();
 
     /**start第二个flot图*/
-
+ var flot_network2 = function() {
+        console.info(hostName+serviceName+net2_card);
+        var url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/history/" +hostName  + "/" + net2_card + "?raw";
+       console.info(url_network);
+        var dataNetwork = getData.m1(url_network);
+        var data_net_output = changeData.m5(dataNetwork.net_output_Bytes);
+        var data_net_input = changeData.m5(dataNetwork.net_input_Bytes);
+        var after_data_net_output;
+        var after_data_net_input;
+        var dataFlotNetwork = {};
+        var dataDemoFlotNetwork = [];
+        /*get old data ||get increment data*/
+        var runDataIncFunction = function() {
+            /////////////////////
+            //BOCOP cmha-chap2 //
+            /////////////////////
+            var inc_url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/" + hostName + "/" + net2_card + "?raw";
+            var dataIncNetwork = getData.m2(inc_url_network);
+            var data_inc_net_output = dataIncNetwork.net_output_Bytes;
+            var data_inc_net_input = dataIncNetwork.net_input_Bytes;
+            var data_com_net_output = changeData.m2(data_net_output, data_inc_net_output);
+            var data_com_net_input = changeData.m2(data_net_input, data_inc_net_input);
+            var data_sort_net_output = changeData.m3(data_com_net_output); //sort data
+            var data_sort_net_input = changeData.m3(data_com_net_input); //sort data         
+            var data_null_net_output = changeData.m4(data_sort_net_output); //add null into data
+            var data_null_net_input = changeData.m4(data_sort_net_input); //add null into data          
+            after_data_net_output = changeData.m1(data_null_net_output);
+            after_data_net_input = changeData.m1(data_null_net_input);
+            dataFlotNetwork = { "output": { label: "output", data: after_data_net_output },
+                                "input": { label: "input",data: after_data_net_input }
+            };
+            dataDemoFlotNetwork = [{label: "",data: after_data_net_input,color: "#0077FF"},
+                                   {label: "",data: after_data_net_output,color: "#7D0096"
+            }];
+        };
+        runDataIncFunction();
+        var int = setInterval(runDataIncFunction, 60000);
+        ///////////
+        //设置颜色//
+        ///////////      
+        var i = 4;
+        $.each(dataFlotNetwork, function(key, val) {
+            val.color = i;
+            ++i;
+        });
+        /////////////////////
+        //  FLOT VISITORS show flot data //
+        /////////////////////
+        var networkShowTooltip = new ShowTooltip();
+         $.fn.UseTooltip =function(){
+            networkShowTooltip.m1();
+         };
+        /*satrt checkbox*/
+        // insert checkboxes 
+        var choiceContainer = $("#choices1");
+        $.each(dataFlotNetwork, function(key, val) {
+            choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                "' checked='checked' id='id" + key + "'></input>" +
+                "<label for='id" + key + "'>" + val.label + "</label>");
+        });
+        choiceContainer.find("input").click(plotAccordingToChoices);
+        var flotNetworkHost;
+        function plotAccordingToChoices() {
+            var data = [];
+            choiceContainer.find("input:checked").each(function() {
+                var key = $(this).attr("name");
+                if (key && dataFlotNetwork[key]) {
+                    data.push(dataFlotNetwork[key]);
+                }
+            });
+            if (data.length > 0) {
+                flotNetworkHost = $.plot($("#network1_host"),
+                    data,
+                    options.m1
+                );
+                $("#network1_host").UseTooltip();
+            }
+        }
+        plotAccordingToChoices();
+        /******end checkbox***************************************************/
+        /*satrt伸缩轴模型*/
+        var overview = $.plot($("#demo_network1_host"), dataDemoFlotNetwork, options.m3);
+        var network_visitors = new Visitors();
+        network_visitors.m1(demo_network_host, flotNetworkHost, overview);
+    };
+    flot_network2();
     /*end第二个flot图*/
+    /*start第三个flot图*/
+    //执行network的flot图
+    var flot_network3 = function() {
+        console.info(hostName+serviceName+net1_card);
+        var url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/history/" +hostName  + "/" + net3_card + "?raw";
+        var dataNetwork = getData.m1(url_network);
+        var data_net_output = changeData.m5(dataNetwork.net_output_Bytes);
+        var data_net_input = changeData.m5(dataNetwork.net_input_Bytes);
+        var after_data_net_output;
+        var after_data_net_input;
+        var dataFlotNetwork = {};
+        var dataDemoFlotNetwork = [];
+        /*get old data ||get increment data*/
+        var runDataIncFunction = function() {
+            /////////////////////
+            //BOCOP cmha-chap2 //
+            /////////////////////
+            var inc_url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/" + hostName + "/" + net3_card + "?raw";
+            var dataIncNetwork = getData.m2(inc_url_network);
+            var data_inc_net_output = dataIncNetwork.net_output_Bytes;
+            var data_inc_net_input = dataIncNetwork.net_input_Bytes;
+            var data_com_net_output = changeData.m2(data_net_output, data_inc_net_output);
+            var data_com_net_input = changeData.m2(data_net_input, data_inc_net_input);
+            var data_sort_net_output = changeData.m3(data_com_net_output); //sort data
+            var data_sort_net_input = changeData.m3(data_com_net_input); //sort data         
+            var data_null_net_output = changeData.m4(data_sort_net_output); //add null into data
+            var data_null_net_input = changeData.m4(data_sort_net_input); //add null into data          
+            after_data_net_output = changeData.m1(data_null_net_output);
+            after_data_net_input = changeData.m1(data_null_net_input);
+            dataFlotNetwork = { "output": { label: "output", data: after_data_net_output },
+                                "input": { label: "input",data: after_data_net_input }
+            };
+            dataDemoFlotNetwork = [{label: "",data: after_data_net_input,color: "#0077FF"},
+                                   {label: "",data: after_data_net_output,color: "#7D0096"
+            }];
+        };
+        runDataIncFunction();
+        var int = setInterval(runDataIncFunction, 60000);
+        ///////////
+        //设置颜色//
+        ///////////      
+        var i = 4;
+        $.each(dataFlotNetwork, function(key, val) {
+            val.color = i;
+            ++i;
+        });
+        /////////////////////
+        //  FLOT VISITORS show flot data //
+        /////////////////////
+        var networkShowTooltip = new ShowTooltip();
+         $.fn.UseTooltip =function(){
+            networkShowTooltip.m1();
+         };
+        /*satrt checkbox*/
+        // insert checkboxes 
+        var choiceContainer = $("#choices2");
+        $.each(dataFlotNetwork, function(key, val) {
+            choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                "' checked='checked' id='id" + key + "'></input>" +
+                "<label for='id" + key + "'>" + val.label + "</label>");
+        });
+        choiceContainer.find("input").click(plotAccordingToChoices);
+        var flotNetworkHost;
+        function plotAccordingToChoices() {
+            var data = [];
+            choiceContainer.find("input:checked").each(function() {
+                var key = $(this).attr("name");
+                if (key && dataFlotNetwork[key]) {
+                    data.push(dataFlotNetwork[key]);
+                }
+            });
+            if (data.length > 0) {
+                flotNetworkHost = $.plot($("#network2_host"),
+                    data,
+                    options.m1
+                );
+                $("#network2_host").UseTooltip();
+            }
+        }
+        plotAccordingToChoices();
+        /******end checkbox***************************************************/
+        /*satrt伸缩轴模型*/
+        var overview = $.plot($("#demo_network2_host"), dataDemoFlotNetwork, options.m3);
+        var network_visitors = new Visitors();
+        network_visitors.m1(demo_network_host, flotNetworkHost, overview);
+    };
+    flot_network3();
+    /*end第三个flot图*/
     //////////////
     //pies flot //
     //////////////
@@ -501,11 +675,12 @@ console.time('t');
     };
   
     getHostName();
+
 if(serviceName!="" && hostName!=""){
-  
+ 
     runFlotFunction();
 }else{
-   
+ 
     alert("please click host");
 }
 

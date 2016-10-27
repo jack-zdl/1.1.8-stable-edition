@@ -25,7 +25,7 @@ var run_graph_list = function () {
 						    ]
 				}
 			  */
-			 dataAllGraphHost= {"net_dev": ["lo "," eth0","eth1"]}
+			 dataAllGraphHost= {"net_dev": ["lo","eth0","eth1"]};
                 return dataAllGraphHost;
 		};
 
@@ -40,7 +40,7 @@ var run_graph_list = function () {
 		        var a  = document.createElement("a");
 		        a.setAttribute("href","#");
 		        a.setAttribute("class","GL");
-		         a.setAttribute("id",obj_array_list[i]);
+		        a.setAttribute("id",obj_array_list[i]);
 		        a.innerHTML=obj_array_list[i];
 		        li.appendChild(a);
 		        ul.appendChild(li);
@@ -53,7 +53,7 @@ var run_graph_list = function () {
 		var getDataNetwork =  new getData();
 		var dataNetwork = getDataNetwork.m1(url_network);
 		var changeDataNetwork = new changeData();
-		changeDataNetwork.m1("Network",dataNetwork['net_dev' ]);
+		changeDataNetwork.m1("Network",dataNetwork['net_dev']);
 
 	};
     run_network_list();

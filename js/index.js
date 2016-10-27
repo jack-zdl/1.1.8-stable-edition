@@ -353,33 +353,10 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
  //cs
  //      addCSElementLi("parentUl","RS"); // 这是CS页面带有cs次级菜单的菜单栏
     };
-
     startFunction();
 };
 
-$("#GH").click(function(){
-  
-  
-   /*这段代码是用来停住图表的*/
-if(kaiguan_cs != 0){
-    
-    clearInterval(cstimeSetTimeout);
-    
-}else{
-    
-    if( kaiguan != 0 ){
-        stopclearInterval();
-    }else{}
-}
- 
-    IntData = 1;
-  changeCsMemu();
-  serviceName="";
-  hostName="";
-  document.cookie = "hostName=" + hostName;
-    document.cookie = "serviceName=" + serviceName;
-     $("#content").load("ajax/graph.html");
-});
+
 
 
 changeCsMemu();

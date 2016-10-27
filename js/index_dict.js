@@ -65,3 +65,13 @@ $(".serviceHost").click(function() {
  debugger;
  });
  */
+//点击菜单host graph
+//
+$(".RGS").click(function(){
+    hostName = $(this).attr("id");
+    
+    serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
+    document.cookie = "hostName=" + hostName;
+    document.cookie = "serviceName=" + serviceName;
+    $("#content").load("ajax/graph.html");
+});   
