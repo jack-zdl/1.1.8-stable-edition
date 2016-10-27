@@ -1,8 +1,8 @@
-var ncpu = 0;
+
 var JQGridData = 0;             /*全局变量*/
 
 function real_status_grid_system() {
-
+var ncpu = 0;
 	var int_datagrid = 0;
 	var aaaassssaaa;
 	var HostInterval = function() {
@@ -92,6 +92,7 @@ function real_status_grid_system() {
 					return '<span style="color:yellow;" >' + cellvalue + "</span>";
 				};
 			var formatter_system_one_color = function(cellvalue, options, rowObject) {
+					debugger;
 					if (rowObject.one_m > ncpu) {
 						return '<span style="color:red;" >' + cellvalue + "</span>";
 					} else {
@@ -395,6 +396,7 @@ function real_status_grid_system() {
 }
 
 function real_status_grid_db() {
+	var ncpu = 0;
 	var int_datagrid = 0;
 	var aaaassssaaa;
 var	HostInterval = function() {

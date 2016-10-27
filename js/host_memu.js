@@ -228,8 +228,9 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
         changeServiceName();
         getAllDataService();
         changeDataAllSrvice();
-
+debugger;
  	    addHostRSElementLi("host_second_memu","RS"); 
+        addHostRSElementLi("host_graph_memu","RGS"); 
     };
     
     startFunction();

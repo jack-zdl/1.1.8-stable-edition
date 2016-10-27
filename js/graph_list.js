@@ -53,7 +53,7 @@ var run_graph_list = function () {
 		var getDataNetwork =  new getData();
 		var dataNetwork = getDataNetwork.m1(url_network);
 		var changeDataNetwork = new changeData();
-		changeDataNetwork.m1("Network",dataNetwork['net_dev']);
+		changeDataNetwork.m1("Network",dataNetwork['net_dev' ]);
 
 	};
     run_network_list();

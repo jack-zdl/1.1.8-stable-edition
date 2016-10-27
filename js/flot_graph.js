@@ -3,7 +3,7 @@ function runFlotFunction() {
      var net2_card ="";
      var net3_card="";
    function getAllCard () {
-    debugger;
+   
          net1_card = $($($("#Network").children("li")[0]).children("a")).html();
          net2_card = $($($("#Network").children("li")[1]).children("a")).html();
          net3_card = $($($("#Network").children("li")[2]).children("a")).html();
@@ -270,11 +270,9 @@ function runFlotFunction() {
             }
         }　　
     });
-   
     //////////////////////
     //面向对象写法使用构造函数写法 // //
     //////////////////////
-   
     function Visitors() {
         /**
          * [m1 SET UP flot visitors demo]
