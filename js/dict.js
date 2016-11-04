@@ -7,7 +7,9 @@ var FreshenTime = 5e3;           /*设置刷新时间*/
 
 var IP_old = 0;                 /*全局变量*/
 
-
+ var net1_card="";   //graph的全局变量
+  var nameDisk =""; //graph的全局变量
+  
 var serviceName = "";           /*全局变量*/
 
 var hostName = "";               /*全局变量*/
