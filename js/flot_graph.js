@@ -105,9 +105,11 @@ $('#swap_host').empty();
  function getAllCard () {
         net1_card = $($($("#Network").children("li")[0]).children("a")).html();
         nameDisk = $($($("#Disk").children("li")[0]).children("a")).attr("id");
+        nameHtmlDisk = $($($("#Disk").children("li")[0]).children("a")).html();
     } 
     getAllCard();
 function runFlotFunction() {
+    function add0(m){return m<10?'0'+m:m }
     var getData = new Object({　　　　
         m1: function(obj_url) {
             //获得全量数据
@@ -277,7 +279,7 @@ function runFlotFunction() {
                 tickFormatter: function(val, axis) {
                     var d = new Date(val);
             //        return (d.getHours()) + "/" + d.getMinutes() + "/" + d.getSeconds();
-                     return (d.getHours()) + ":" + d.getMinutes() + ":" + d.getSeconds();
+                     return (d.getHours()) + ":" + add0(d.getMinutes() )+ ":" +add0( d.getSeconds());
                 }
             }],
             legend: {
@@ -315,8 +317,24 @@ function runFlotFunction() {
         m2: {
             series: {
                 pie: {
-                    show: true
-
+                    show: true,
+                          label: {
+                            show:true,
+                            radius: 0.8,
+                            formatter: function (label, series) {                
+                                return '<div style="border:1px solid grey;font-size:8pt;text-align:center;padding:5px;color:white;">' +
+                                label + ' : ' +
+                                Math.round(series.percent) +
+                                '%</div>';
+                            },
+                            background: {
+                                opacity: 0.8,
+                                color: '#000'
+                            }
+                        },
+                        grid: {
+                            hoverable: true
+                        }
 
                 }
             },
@@ -386,7 +404,7 @@ function runFlotFunction() {
      * [ShowTooltip SET UP SHOW DATA OF FLOT]
      */
     function ShowTooltip(){
-        this.m1 = function () {
+        this.m1 = function (obj_key) {
               //  show flot data
          var UseTooltip = function() {
             var previousPoint = null,
@@ -405,7 +423,7 @@ function runFlotFunction() {
                         showTooltip(item.pageX, item.pageY, color,
                             "<strong>" + item.series.label + "</strong><br>" +
                             //              (date.getHours() + 1) + "/" + date.getMinutes() +"/"+date.getSeconds()
-                            (date.getHours()) + "/" + date.getMinutes() + "/" + date.getMinutes() + " : <strong>" + y + "</strong> (Kb/s)");
+                            (date.getHours()) + "/" + date.getMinutes() + "/" + date.getMinutes() + " : <strong>" + y + "</strong> ("+obj_key+"/s)");
                     }
                 } else {
                     $("#tooltip").remove();
@@ -520,30 +538,6 @@ function setDATE(){
     setTimeout(setDATE,10000);
 }
 setDATE();
-
-/*function changeAugmenter(){
-    var Graph_cpu_load=[];
-    var dataAllGraphHost  = {};
-    function getAugmenter(){
-        $.ajax({
-                url:"http://" + IP + "/v1/kv/cmha/service/"+serviceName+"/Graph/current/"+hostName+"?raw" ,
-                method: "get",
-                async: false,
-                dataType: "json",
-                success: function(result, status, xhr) {
-                  debugger;
-                    dataAllGraphHost = result;
-                },
-                error: function(XMLHttpRequest, status, jqXHR, textStatus, e) {
-                    console.error("getData 状态 " + status);
-                }
-            });
-
-        Graph_cpu_load=dataAllGraphHost.Graph_cpu_load;
-    }
-getAugmenter();
-}
-changeAugmenter();*/
 //执行Cpu的flot图形
 var flot_cpu1 = function() {
        
@@ -564,9 +558,6 @@ var flot_cpu1 = function() {
             //BOCOP cmha-chap2 //
             /////////////////////
             function comData(){
-  
-           
-           
             var dataIncCpu = changeAugmenter.getGraph_cpu_load();
          
             var data_inc_cpu1_one =  dataIncCpu[0].one_m;
@@ -579,9 +570,6 @@ var flot_cpu1 = function() {
   
             }
             comData();
-            //var inc_url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/" + hostName + "/" + net1_card + "?raw";
-            
-
             var data_sort_cpu1_one = changeData.m3(    data_cpu1_one ); //sort data
             var data_sort_cpu1_five= changeData.m3(    data_cpu1_five); //sort data         
             var data_sort_cpu1_fifteen = changeData.m3(data_cpu1_five); //sort data
@@ -618,7 +606,7 @@ var flot_cpu1 = function() {
         /////////////////////
         var networkShowTooltip = new ShowTooltip();
          $.fn.UseTooltip =function(){
-            networkShowTooltip.m1();
+            networkShowTooltip.m1("KB");
          };
         /*satrt checkbox*/
         // insert checkboxes 
@@ -684,11 +672,16 @@ var flot_cpu2 = function() {
         var data_cpu2_sys  = changeData.m5(  dataCpu2.sys );
         var data_cpu2_idle = changeData.m5(  dataCpu2.idle);
         var data_cpu2_iow  = changeData.m5(  dataCpu2.iow );
+        var data_cpu2_irq  = changeData.m5(  dataCpu2.irq );
+        var data_cpu2_softirq  = changeData.m5(  dataCpu2.softirq );
+
 
         var after_data_cpu2_user;
         var after_data_cpu2_sys ;
         var after_data_cpu2_idle;
         var after_data_cpu2_iow ;
+        var after_data_cpu2_irq ;
+        var after_data_cpu2_softirq;
 
         var dataFlotCpu2 = {};
         var dataDemoFlotCpu2 = [];
@@ -706,11 +699,15 @@ var flot_cpu2 = function() {
             var data_inc_cpu2_sys =  dataIncCpu[0].sys ;
             var data_inc_cpu2_idle=  dataIncCpu[0].idle;
             var data_inc_cpu2_iow =  dataIncCpu[0].iow ; 
+            var data_inc_cpu2_irq =  dataIncCpu[0].irq ; 
+            var data_inc_cpu2_softirq =  dataIncCpu[0].softirq ; 
 
             data_cpu2_user= changeData.m2(data_cpu2_user, data_inc_cpu2_user);
             data_cpu2_sys = changeData.m2(data_cpu2_sys , data_inc_cpu2_sys );
             data_cpu2_idle= changeData.m2(data_cpu2_idle, data_inc_cpu2_idle);
             data_cpu2_iow = changeData.m2(data_cpu2_iow , data_inc_cpu2_iow );
+            data_cpu2_irq = changeData.m2(data_cpu2_irq , data_inc_cpu2_irq );
+            data_cpu2_softirq = changeData.m2(data_cpu2_softirq , data_inc_cpu2_softirq );
   
         }
         comData();
@@ -721,25 +718,35 @@ var flot_cpu2 = function() {
             var data_sort_cpu2_sys  = changeData.m3(data_cpu2_sys ); //sort data         
             var data_sort_cpu2_idle = changeData.m3(data_cpu2_idle); //sort data
             var data_sort_cpu2_iow  = changeData.m3(data_cpu2_iow ); //sort data
+            var data_sort_cpu2_irq  = changeData.m3(data_cpu2_irq ); //sort data
+            var data_sort_cpu2_softirq = changeData.m3(data_cpu2_softirq ); //sort data
 
             var data_null_cpu2_user = changeData.m4(data_sort_cpu2_user); //add null into data
             var data_null_cpu2_sys  = changeData.m4(data_sort_cpu2_sys ); //add null into data  
             var data_null_cpu2_idle = changeData.m4(data_sort_cpu2_idle); //add null into data
             var data_null_cpu2_iow  = changeData.m4(data_sort_cpu2_iow ); //add null into data
+            var data_null_cpu2_irq   = changeData.m4(data_sort_cpu2_irq ); //add null into data
+            var data_null_cpu2_softirq  = changeData.m4(data_sort_cpu2_softirq ); //add null into data
 
             after_data_cpu2_user = changeData.m1(data_null_cpu2_user);
             after_data_cpu2_sys  = changeData.m1(data_null_cpu2_sys );
             after_data_cpu2_idle = changeData.m1(data_null_cpu2_idle);
             after_data_cpu2_iow  = changeData.m1(data_null_cpu2_iow );
+            after_data_cpu2_irq  = changeData.m1(data_null_cpu2_irq );
+            after_data_cpu2_softirq  = changeData.m1(data_null_cpu2_softirq );
 
-            dataFlotCpu2 = { "user": { label: "one"    ,data: after_data_cpu2_user },
-                                "sys ": { label: "five"   ,data: after_data_cpu2_sys  },
-                                "idle": { label: "five"   ,data: after_data_cpu2_idle },
-                                "iow ": { label: "fifteen",data: after_data_cpu2_iow  }
+            dataFlotCpu2 = { "user": { label: "user"    ,data: after_data_cpu2_user ,color: "#FF77FF"},
+                                "sys ": { label: "sys"   ,data: after_data_cpu2_sys  ,color: "#0f77FF" },
+                                "idle": { label: "idle"   ,data: after_data_cpu2_idle ,color: "#FF3333"},
+                                 "irq": { label: "irq"   ,data:    after_data_cpu2_irq ,color: "#FFFF00"},
+                                  "softirq": { label: "softirq"   ,data: after_data_cpu2_softirq ,color: "#33FF00"},
+                                "iow ": { label: "iow",data: after_data_cpu2_iow ,color: "#7D0096" }
             };
-            dataDemoFlotCpu2 = [{label: "",data: after_data_cpu2_user,color: "#FF77FF"},
+            dataDemoFlotCpu2 = [{label: "",data: after_data_cpu2_user,   color: "#FF77FF"},
                                    {label: "",data: after_data_cpu2_sys ,color: "#0f77FF"},
-                                   {label: "",data: after_data_cpu2_idle,color: "#DD77DD"},
+                                   {label: "",data: after_data_cpu2_idle,color: "#FF3333"},
+                                    {label: "",data: after_data_cpu2_idle,color: "#FFFF00"},
+                                     {label: "",data: after_data_cpu2_idle,color: "#33FF00"},
                                    {label: "",data: after_data_cpu2_iow ,color: "#7D0096"
             }];
         };
@@ -748,26 +755,60 @@ var flot_cpu2 = function() {
         ///////////
         //设置颜色//
         ///////////      
-        var i = 4;
-        $.each(dataFlotCpu2, function(key, val) {
-            val.color = i;
-            ++i;
-        });
+      
         /////////////////////
         //  FLOT VISITORS show flot data //
         /////////////////////
         var networkShowTooltip = new ShowTooltip();
          $.fn.UseTooltip =function(){
-            networkShowTooltip.m1();
+            networkShowTooltip.m1("KB");
          };
         /*satrt checkbox*/
         // insert checkboxes 
         var choiceContainer = $("#choices_cpu2");
-        $.each(dataFlotCpu2, function(key, val) {
-            choiceContainer.append("<br/><input type='checkbox' name='" + key +
-                "' checked='checked' id='id" + key + "'></input>" +
-                "<label for='id" + key + "'>" + val.label + "</label>");
+         $.each(dataFlotCpu2, function(key, val) {
+           switch(val.label)
+            {
+                case 'user':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #FF77FF' for='id" + key + "'>" + val.label + "</label>");
+                    break;
+                case 'sys':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #0f77FF' for='id" + key + "'>" + val.label + "</label>");
+                    
+                  break;
+                case 'idle':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #FF3333' for='id" + key + "'>" + val.label + "</label>");
+                    
+                break;
+                  case 'irq':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #FFFF00' for='id" + key + "'>" + val.label + "</label>");
+                    
+                break;
+                  case 'softirq':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #33FF00' for='id" + key + "'>" + val.label + "</label>");
+                    
+                break;
+
+                 case 'iow':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #7D0096' for='id" + key + "'>" + val.label + "</label>");
+                    
+                break;
+            }
+           
         });
+      
         choiceContainer.find("input").click(plotAccordingToChoices);
         var flotCpu2Host;
         function plotAccordingToChoices() {
@@ -800,7 +841,7 @@ flot_cpu2();
 //执行network的flot图
 var flot_network = function() {
     console.info(hostName+serviceName+net1_card);
-    alert("net1_card==="+net1_card);
+    $('#network_title').html("Bandwidth(net."+net1_card+")");
     var url_network  ="";
     url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_net/history/" +hostName  + "/" + net1_card + "?raw";
     var dataNetwork = {};
@@ -875,11 +916,11 @@ var flot_network = function() {
         after_data_net_output = changeData.m1(data_null_net_output);
         after_data_net_input  = changeData.m1(data_null_net_input );
 
-        dataFlotNetwork = { "output": { label: "output", data: after_data_net_output },
-                            "input": { label: "input",data: after_data_net_input }
+        dataFlotNetwork = { "sent": { label: "sent", data: after_data_net_output,color: "#CD0000" },
+                            "received": { label: "received",data: after_data_net_input,color: "#76EE00" }
         };
-        dataDemoFlotNetwork = [{label: "",data: after_data_net_input,color: "#0077FF"},
-                               {label: "",data: after_data_net_output,color: "#7D0096"
+        dataDemoFlotNetwork = [{label: "",data: after_data_net_input,color: "#CD0000"},
+                               {label: "",data: after_data_net_output,color: "#76EE00"
         }];
        
     };
@@ -889,26 +930,34 @@ var flot_network = function() {
     //设置颜色//            flot_updating_chart.setData([getRandomData()]);
                           //flot_updating_chart.draw();
     ///////////      
-    var i = 4;
-    $.each(dataFlotNetwork, function(key, val) {
-        val.color = i;
-        ++i;
-    });
+    
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
     var choiceContainer = $("#choices");
-    $.each(dataFlotNetwork, function(key, val) {
-        choiceContainer.append("<br/><input type='checkbox' name='" + key +
-            "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
-    });
+      $.each(dataFlotNetwork, function(key, val) {
+           switch(val.label)
+            {
+                case 'sent':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #CD0000' for='id" + key + "'>" + val.label + "</label>");
+                    break;
+                case 'received':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #76EE00' for='id" + key + "'>" + val.label + "</label>");
+                    
+                  break;
+            }
+           
+        });
     choiceContainer.find("input").click(plotAccordingToChoices);
    var flotNetworkHost;
     function plotAccordingToChoices() {
@@ -942,6 +991,163 @@ var flot_network = function() {
     
 };
 flot_network();
+var flot_network2 = function() {
+    $('#network_title2').html("Net Packets (net."+net1_card+")");
+    console.info(hostName+serviceName+net1_card);
+    var url_network  ="";
+    url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_net/history/" +hostName  + "/" + net1_card + "?raw";
+    var dataNetwork = {};
+    dataNetwork = getData.m1(url_network);
+
+    var data_net_output = [];
+    data_net_output = changeData.m5(dataNetwork.net_input_packets);
+    var data_net_input = [];
+    data_net_input = changeData.m5(dataNetwork.net_output_packets);
+    var after_data_net_output = [];
+    var after_data_net_input = [];
+    var dataFlotNetwork2 = {};
+    var dataDemoFlotNetwork2 = [];
+    /*get old data ||get increment data*/
+    var runDataIncFunction = function() {
+
+        /////////////////////
+        //BOCOP cmha-chap2 //
+        /////////////////////
+        //var inc_url_network = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Networktraffic/" + hostName + "/" + net1_card + "?raw";
+        //var dataIncCpu = changeAugmenter.getGraph_cpu_util();
+        /**
+         * 获得增量数据
+         */
+        //循环增加增量数据-------
+        function comDataNetwork(){
+  
+            var dataIncNetwork = [];
+            dataIncNetwork = changeAugmenter.getDataNetwork(net1_card);
+           
+            /**
+             * [data_inc_net_output 取出data_inc_net_output和data_inc_net_input]
+             * @type {[type]}
+             */
+            var data_inc_net_output = [];
+            data_inc_net_output = dataIncNetwork[0].net_output_packets;
+            var data_inc_net_input  = [];
+            data_inc_net_input = dataIncNetwork[0].net_input_packets ;
+            /**
+             * [data_com_net_output 合并历史数据和增量数据]
+             * @type {[type]}
+             */
+           // var data_com_net_output = [];
+            data_net_output = changeData.m2(data_net_output,data_inc_net_output);//changeData.m2(data_net_output, data_inc_net_output);                                                                         
+            //var data_com_net_input = [];
+            data_net_input = changeData.m2(data_net_input ,data_inc_net_input );//changeData.m2(data_net_input , data_inc_net_input );
+            
+  
+        }
+        comDataNetwork();
+        /**
+         * [data_sort_net_output 排序数据，使其升序排列]
+         * @type {[type]}
+         */
+      
+        var data_sort_net_output = [];
+        data_sort_net_output = changeData.m3(data_net_output); //sort data
+        var data_sort_net_input = [];
+        data_sort_net_input  = changeData.m3(data_net_input ); //sort data         
+        /**
+         * [data_null_net_output add null into data]
+         * @type {[type]}
+         */
+        var data_null_net_output = [];
+        data_null_net_output = changeData.m4(data_sort_net_output); //add null into data
+        var data_null_net_input = [];
+        data_null_net_input = changeData.m4(data_sort_net_input ); //add null into data          
+        /**
+         * [after_data_net_output 取出data]
+         * @type {[type]}
+         */
+        after_data_net_output = changeData.m1(data_null_net_output);
+        after_data_net_input  = changeData.m1(data_null_net_input );
+/*
+#FF77FF
+#0f77FF
+#FF3333
+#7D0096
+ */
+        dataFlotNetwork2 = { "sent": { label: "sent", data: after_data_net_output,color: "#CD0000" },
+                            "received": { label: "received",data: after_data_net_input,color: "#76EE00" }
+        };
+        dataDemoFlotNetwork2 = [{label: "",data: after_data_net_input,color: "#CD0000"},
+                               {label: "",data: after_data_net_output,color: "#76EE00"
+        }];
+       
+    };
+    runDataIncFunction();
+    setInterval(runDataIncFunction, 10000);
+    ///////////
+    //设置颜色//            flot_updating_chart.setData([getRandomData()]);
+                          //flot_updating_chart.draw();
+    ///////////      
+    
+    /////////////////////
+    //  FLOT VISITORS show flot data //
+    /////////////////////
+    var networkShowTooltip = new ShowTooltip();
+     $.fn.UseTooltip =function(){
+        networkShowTooltip.m1("KB");
+     };
+    /*satrt checkbox*/
+    // insert checkboxes 
+    var choiceContainer = $("#choices_network2");
+      $.each(dataFlotNetwork2, function(key, val) {
+           switch(val.label)
+            {
+                case 'sent':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='ida" + key + "'></input>" +
+                    "<label  style='color: #CD0000' for='ida" + key + "'>" + val.label + "</label>");
+                    break;
+                case 'received':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='ida" + key + "'></input>" +
+                    "<label  style='color: #76EE00' for='ida" + key + "'>" + val.label + "</label>");
+                    
+                  break;
+            }
+           
+        });
+    choiceContainer.find("input").click(plotAccordingToChoices);
+   var flotNetworkHost2;
+    function plotAccordingToChoices() {
+        runDataIncFunction();
+        var data = [];
+        choiceContainer.find("input:checked").each(function() {
+            var key = $(this).attr("name");
+            if (key && dataFlotNetwork2[key]) {
+                data.push(dataFlotNetwork2[key]);
+            }
+        });
+        if (data.length > 0) {
+            flotNetworkHost2 = $.plot($("#network2_host"),
+                data,
+                options.m1
+            );
+            $("#network2_host").UseTooltip();
+        }
+        ///
+        setTimeout(plotAccordingToChoices, 6000);
+    }
+    plotAccordingToChoices();
+
+    /******end checkbox***************************************************/
+    /*satrt伸缩轴模型*/
+    var overview = $.plot($("#demo_network2_host"), dataDemoFlotNetwork2, options.m3);
+    var network_visitors = new Visitors();
+    network_visitors.m1(demo_network2_host, flotNetworkHost2, overview);
+
+    //动态显示数据--实时数据
+    
+};
+flot_network2();
 //执行swap的flot图
 //swap_used
 var flot_swap = function() {
@@ -1002,11 +1208,11 @@ var flot_swap = function() {
         after_data_swap_si = changeData.m1(data_null_swap_si);
         after_data_swap_so = changeData.m1(data_null_swap_so);
 
-        dataFlotSwap = { "si": { label: "si", data: after_data_swap_si },
-                            "so" : { label: "so",  data: after_data_swap_so }
+        dataFlotSwap = { "in": { label: "in", data: after_data_swap_si ,color: "#76EE00"},
+                            "out" : { label: "out",  data: after_data_swap_so ,color: "#CD0000"}
         };
-        dataDemoFlotSwap = [{label: "",data: after_data_swap_si,color: "#0077FF"},
-                               {label: "",data: after_data_swap_so,color: "#7D0096"
+        dataDemoFlotSwap = [{label: "",data: after_data_swap_si,color: "#76EE00"},
+                               {label: "",data: after_data_swap_so,color: "#CD0000"
         }];
     };
     runDataIncFunction();
@@ -1024,16 +1230,28 @@ var flot_swap = function() {
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("MB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
     var choiceContainer = $("#choices_swap");
     $.each(dataFlotSwap, function(key, val) {
-        choiceContainer.append("<br/><input type='checkbox' name='" + key +
-            "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
-    });
+           switch(val.label)
+            {
+                case 'out':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #CD0000' for='id" + key + "'>" + val.label + "</label>");
+                    break;
+                case 'in':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #76EE00' for='id" + key + "'>" + val.label + "</label>");
+                    
+                  break;
+            }
+           
+        });
     choiceContainer.find("input").click(plotAccordingToChoices);
     
     function plotAccordingToChoices() {
@@ -1088,42 +1306,13 @@ var flot_pies_memory = function() {
                 "</div>");
             $("#flot-memo").html(html.join(''));
         });
-    }
+    };
     //首先必须先有disk的名字
-    /*
-    // var dataset = [
-                //模拟圆饼图数据
-                {
-                    label: "Asia",
-                    data: 4119630000,
-                    color: "#005CDE"
-                }, {
-                    label: "Latin America",
-                    data: 590950000,
-                    color: "#00A36A"
-                }, {
-                    label: "Africa",
-                    data: 1012960000,
-                    color: "#7D0096"
-                }, {
-                    label: "Oceania",
-                    data: 35100000,
-                    color: "#992B00"
-                }, {
-                    label: "Europe",
-                    data: 727080000,
-                    color: "#DE000F"
-                }, {
-                    label: "North America",
-                    data: 344120000,
-                    color: "#ED7B00"
-                }
-            ];
-            */
+   
     var dataPiesMemory =  changeAugmenter.getDataGraph_memory();
    
     
-    $.plot($("#flot-placeholder"), dataPiesMemory, options.m2);
+    $.plot("#flot-placeholder", dataPiesMemory, options.m2);
     $("#flot-placeholder").showMemo();
 };
 flot_pies_memory();
@@ -1150,6 +1339,7 @@ var flotDiskModul = function() {
     }
     startModul();
 //space的进度条
+    $("#SpaceTotal").append(nameHtmlDisk);
     var dataSizeFree = dataDiskAll.space_free[0].data[1];
     var dataSizeAll  = dataDiskAll.space_total[0].data[1];
     var swapPrecent  = changeData.m6(dataSizeFree,dataSizeAll);
@@ -1157,6 +1347,7 @@ var flotDiskModul = function() {
     $("#SpaceTotal").append("("+"Total = "+dataSizeAll+")");
     $("#SpaceFree").html("("+swapPrecent+") ").append(dataSizeFree);
 //inodes的进度条 Inodes
+    $("#InodesTotal").append(nameHtmlDisk);
     var dataInodesUsed = dataDiskAll.inodes_used[0].data[1];
     var dataInodesAll  = dataDiskAll.inodes_total[0].data[1];
     var inodesPrecent  = changeData.m6(dataInodesUsed,dataInodesAll);
@@ -1165,6 +1356,7 @@ var flotDiskModul = function() {
     $("#InodesFree").html("("+inodesPrecent+") ").append(dataInodesUsed);
 //   iops的折线图
     function flotDiskModelIops(){
+      $("#iops_title").append(nameHtmlDisk);
     var url_iops = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_iops/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataIops = getData.m1(url_iops);
     var data_iops_r_s    = changeData.m5(dataIops.r_s);
@@ -1201,38 +1393,43 @@ var flotDiskModul = function() {
         after_data_iops_r_s = changeData.m1(data_null_iops_r_s);
         after_data_iops_w_s = changeData.m1(data_null_iops_w_s);
 
-        dataFlotIops = { "r_s": { label: "r_s", data: after_data_iops_r_s},
-                        "w_s": { label: "w_s", data: after_data_iops_w_s }
+        dataFlotIops = { "reads": { label: "reads", data: after_data_iops_r_s,color: "#76EE00"},
+                        "writes": { label: "writes", data: after_data_iops_w_s  ,color: "#CD0000"}
         };
-        dataDemoFlotIops = [{label: "",data: after_data_iops_r_s    ,color: "#FF77FF"},
-                           {label: "",data: after_data_iops_w_s,color: "#7D0096"
+        dataDemoFlotIops = [{label: "",data: after_data_iops_r_s    ,color: "#76EE00"},
+                           {label: "",data: after_data_iops_w_s,color: "#CD0000"
         }];
     };
     runDataIncFunction();
     setInterval(runDataIncFunction, 60000);
-    ///////////
-    //设置颜色//
-    ///////////      
-    var i = 4;
-    $.each(dataFlotIops, function(key, val) {
-        val.color = i;
-        ++i;
-    });
+    
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
     var choiceContainer = $("#choices_disk_iops");
-    $.each(dataFlotIops, function(key, val) {
-        choiceContainer.append("<br/><input type='checkbox' name='" + key +
-            "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
-    });
+   $.each(dataFlotIops, function(key, val) {
+           switch(val.label)
+            {
+                case 'reads':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='ida" + key + "'></input>" +
+                    "<label  style='color: #76EE00' for='ida" + key + "'>" + val.label + "</label>");
+                    break;
+                case 'writes':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='ida" + key + "'></input>" +
+                    "<label  style='color: #CD0000' for='ida" + key + "'>" + val.label + "</label>");
+                    
+                  break;
+            }
+           
+        });
     choiceContainer.find("input").click(plotAccordingToChoices);
     var flotCpuIops;
     function plotAccordingToChoices() {
@@ -1266,6 +1463,7 @@ flotDiskModelIops();
 //end iops的折线图
 //Throughput的折线图
 function flotDiskModelThroughput(){
+    $("#throughput_title").append(nameHtmlDisk);
     var url_Throughput = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_Throughput/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataThroughput = getData.m1(url_Throughput);
     var data_Throughput_rkB_s   = changeData.m5(dataThroughput.rkB_s);
@@ -1301,38 +1499,42 @@ function flotDiskModelThroughput(){
         after_data_Throughput_rkB_s = changeData.m1(data_null_Throughput_rkB_s);
         after_data_Throughput_wkB_s = changeData.m1(data_null_Throughput_wkB_s);
 
-        dataFlotThroughput = { "rkB_s": { label: "rkB_s", data: after_data_Throughput_rkB_s },
-                         "wkB_s": { label: "wkB_s", data: after_data_Throughput_wkB_s }
+        dataFlotThroughput = { "reads": { label: "reads", data: after_data_Throughput_rkB_s ,color: "#76EE00"},
+                         "writes": { label: "writes", data: after_data_Throughput_wkB_s ,color: "#CD0000"}
         };
-        dataDemoFlotThroughput = [{label: "",data: after_data_Throughput_rkB_s,color: "#FF77FF"},
-                            {label: "",data: after_data_Throughput_wkB_s,color: "#7D0096"
+        dataDemoFlotThroughput = [{label: "",data: after_data_Throughput_rkB_s,color: "#76EE00"},
+                            {label: "",data: after_data_Throughput_wkB_s,color: "#CD0000"
         }];
     };
     runDataIncFunction();
     setInterval(runDataIncFunction, 60000);
-    ///////////
-    //设置颜色//
-    ///////////      
-    var i = 4;
-    $.each(dataFlotThroughput, function(key, val) {
-        val.color = i;
-        ++i;
-    });
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
     var choiceContainer = $("#choices_disk_Throughput");
     $.each(dataFlotThroughput, function(key, val) {
-        choiceContainer.append("<br/><input type='checkbox' name='" + key +
-            "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
-    });
+           switch(val.label)
+            {
+                case 'reads':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #76EE00' for='id" + key + "'>" + val.label + "</label>");
+                    break;
+                case 'writes':
+                    choiceContainer.append("<br/><input type='checkbox' name='" + key +
+                    "' checked='checked' id='id" + key + "'></input>" +
+                    "<label  style='color: #CD0000' for='id" + key + "'>" + val.label + "</label>");
+                    
+                  break;
+            }
+           
+        });
     choiceContainer.find("input").click(plotAccordingToChoices);
     var flotCpuThroughput;
     function plotAccordingToChoices() {
@@ -1365,6 +1567,7 @@ flotDiskModelThroughput();
 //end iops的折线图
 //Queue的折线图
 function flotDiskModelQueue(){
+    $("#queue_title").append(nameHtmlDisk);
     var url_Queue = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_queue/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataQueue = getData.m1(url_Queue);
     var data_Queue_queue   = changeData.m5(dataQueue.queue);
@@ -1395,7 +1598,7 @@ function flotDiskModelQueue(){
         after_data_Queue_queue = changeData.m1(data_null_Queue_queue);
 
         dataFlotQueue = { 
-                         "queue": { label: "queue", data: after_data_Queue_queue }
+                         "queue": { label: "queue", data: after_data_Queue_queue ,color: "#7D0096"}
         };
         dataDemoFlotQueue = [
                             {label: "",data: after_data_Queue_queue,color: "#7D0096"
@@ -1406,17 +1609,13 @@ function flotDiskModelQueue(){
     ///////////
     //设置颜色//
     ///////////      
-    var i = 4;
-    $.each(dataFlotQueue, function(key, val) {
-        val.color = i;
-        ++i;
-    });
+    
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
@@ -1424,7 +1623,7 @@ function flotDiskModelQueue(){
     $.each(dataFlotQueue, function(key, val) {
         choiceContainer.append("<br/><input type='checkbox' name='" + key +
             "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
+            "<label style='color: #7D0096'  for='id" + key + "'>" + val.label + "</label>");
     });
     choiceContainer.find("input").click(plotAccordingToChoices);
     var flotCpuQueue;
@@ -1458,6 +1657,7 @@ flotDiskModelQueue();
 //end iops的折线图
 //Queue的折线图
 function flotDiskModelAwait(){
+    $("#await_title").append(nameHtmlDisk);
     var url_Await = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_await/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataAwait = getData.m1(url_Await);
     var data_Await_await  = changeData.m5(dataAwait.await);
@@ -1487,28 +1687,21 @@ function flotDiskModelAwait(){
         after_data_Await_await = changeData.m1(data_null_Await_await);
 
         dataFlotAwait = { 
-                         "await": { label: "await", data: after_data_Await_await }
+                         "await": { label: "await", data: after_data_Await_await,color: "#CD0000" }
         };
         dataDemoFlotAwait = [
-                            {label: "",data: after_data_Await_await,color: "#7D0096"
+                            {label: "",data: after_data_Await_await,color: "#CD0000"
         }];
     };
     runDataIncFunction();
     setInterval(runDataIncFunction, 60000);
-    ///////////
-    //设置颜色//
-    ///////////      
-    var i = 4;
-    $.each(dataFlotAwait, function(key, val) {
-        val.color = i;
-        ++i;
-    });
+   
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
@@ -1516,7 +1709,7 @@ function flotDiskModelAwait(){
     $.each(dataFlotAwait, function(key, val) {
         choiceContainer.append("<br/><input type='checkbox' name='" + key +
             "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
+            "<label  style='color: #CD0000'  for='id" + key + "'>" + val.label + "</label>");
     });
     choiceContainer.find("input").click(plotAccordingToChoices);
     var flotCpuAwaits;
@@ -1550,6 +1743,7 @@ flotDiskModelAwait();
 //end iops的折线图
 //Queue的折线图
 function flotDiskModelSvctm(){
+    $("#Average_title").append(nameHtmlDisk);
     var url_Svctm = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_svctm/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataSvctm = getData.m1(url_Svctm);
     var data_Svctm_svctm = changeData.m5(dataSvctm.svctm);
@@ -1579,28 +1773,21 @@ function flotDiskModelSvctm(){
         after_data_Svctm_svctm = changeData.m1(data_null_Svctm_svctm);
 
         dataFlotSvctm = { 
-                         "svctm": { label: "svctm", data: after_data_Svctm_svctm}
+                         "svctm": { label: "svctm", data: after_data_Svctm_svctm ,color: "#76EE00"}
         };
         dataDemoFlotSvctm = [
-                            {label: "",data: after_data_Svctm_svctm,color: "#7D0096"
+                            {label: "",data: after_data_Svctm_svctm,color: "#76EE00"
         }];
     };
     runDataIncFunction();
     setInterval(runDataIncFunction, 60000);
-    ///////////
-    //设置颜色//
-    ///////////      
-    var i = 4;
-    $.each(dataFlotSvctm, function(key, val) {
-        val.color = i;
-        ++i;
-    });
+   
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KB");
      };
     /*satrt checkbox*/
     // insert checkboxes 
@@ -1608,7 +1795,7 @@ function flotDiskModelSvctm(){
     $.each(dataFlotSvctm, function(key, val) {
         choiceContainer.append("<br/><input type='checkbox' name='" + key +
             "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
+            "<label style='color: #76EE00' for='id" + key + "'>" + val.label + "</label>");
     });
     choiceContainer.find("input").click(plotAccordingToChoices);
     var flotCpuSvctm;
@@ -1642,6 +1829,7 @@ flotDiskModelSvctm();
 //end iops的折线图
 ////Queue的折线图
 function flotDiskModelUtil(){
+    $("#util_title").append(nameHtmlDisk);
     var url_Util = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_util/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataUtil = getData.m1(url_Util);
     var data_Util_util = changeData.m5(dataUtil.util);
@@ -1672,28 +1860,21 @@ function flotDiskModelUtil(){
         after_data_Util_util = changeData.m1(data_null_Util_util);
 
         dataFlotUtil= { 
-                         "util": { label: "util", data: after_data_Util_util}
+                         "util": { label: "util", data: after_data_Util_util,color: "#CD0000"}
         };
         dataDemoFlotUtil = [
-                            {label: "",data: after_data_Util_util,color: "#7D0096"
+                            {label: "",data: after_data_Util_util,color: "#CD0000"
         }];
     };
     runDataIncFunction();
     setInterval(runDataIncFunction, 60000);
-    ///////////
-    //设置颜色//
-    ///////////      
-    var i = 4;
-    $.each(dataFlotUtil, function(key, val) {
-        val.color = i;
-        ++i;
-    });
+    
     /////////////////////
     //  FLOT VISITORS show flot data //
     /////////////////////
     var networkShowTooltip = new ShowTooltip();
      $.fn.UseTooltip =function(){
-        networkShowTooltip.m1();
+        networkShowTooltip.m1("KN");
      };
     /*satrt checkbox*/
     // insert checkboxes 
@@ -1701,7 +1882,7 @@ function flotDiskModelUtil(){
     $.each(dataFlotUtil, function(key, val) {
         choiceContainer.append("<br/><input type='checkbox' name='" + key +
             "' checked='checked' id='id" + key + "'></input>" +
-            "<label for='id" + key + "'>" + val.label + "</label>");
+            "<label style='color:#CD0000'for='id" + key + "'>" + val.label + "</label>");
     });
     choiceContainer.find("input").click(plotAccordingToChoices);
     var flotCpuUtil;
