@@ -1,0 +1,20 @@
+.cpudygraph {
+  display: inline-block;
+  position: relative;
+  color: #ADADAD;
+  right: -20px;
+  width: 900px;
+  height: 200px;
+}
+.model_cpudygraph {
+  color: #ADADAD;
+  font-weight: bold;
+  position: absolute;
+  left: 930px;
+  width: 200px;
+  font-size: 0.8em;
+  padding-top: 45px;
+}
+#graph_body {
+  background: #2A212A;
+}

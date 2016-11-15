@@ -1747,9 +1747,7 @@ function flotDiskModelSvctm(){
     var url_Svctm = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/Graph_disk_svctm/history/" +hostName  +"/"+nameDisk+ "?raw";
     var dataSvctm = getData.m1(url_Svctm);
     var data_Svctm_svctm = changeData.m5(dataSvctm.svctm);
-  
     var after_data_Svctm_svctm;
-
     var dataFlotSvctm = {};
     var dataDemoFlotSvctm = [];
     /*get old data ||get increment data*/
