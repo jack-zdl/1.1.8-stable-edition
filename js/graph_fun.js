@@ -1,35 +1,13 @@
-/*
-	采用模块化编写,将一些抽象函数写在这里,在另一个文件中调用,
-	模块 GetData函数  ChangeData函数，opntions设置属性，
- */
-
-//获得serviceName   hostName
 require.config({
 	paths:{
 		"jquery" : "jquery"
 	}
 });
-define(['jquery'], function($){
-	var graphIdLength = 720;
-　　function GetData() {
-		var getHostName1 = function() {
-			        var arrayName = document.cookie.split(";");
-
-			        for (var a = 0; a < arrayName.length; a++) {
-			            if (arrayName[a].indexOf("hostName") != -1) {
-			                hostName = arrayName[a].split("=")[1];
-							console.log("hostName=="+hostName);		           
-			            }
-			        }
-			        for (var b = 0; b< arrayName.length; b++) {
-			            if (arrayName[b].indexOf("serviceName") != -1) {
-			                serviceName = arrayName[b].split("=")[1];
-			            	console.log("serviceName=="+serviceName);	
-			            }
-			        }
-	   			};
-		getHostName1();
-		this.getHistoryData = function(obj_url) {//得到历史数据
+require(['jquery'],function($){
+	var GetData = (function (){
+		var data = 7;
+		var after_data = [];
+　　	var getHistoryData = function(obj_url) {//得到历史数据
 			var dataAllGraphHost = {};　　　　　
             $.ajax({
                 url: obj_url,
@@ -45,7 +23,8 @@ define(['jquery'], function($){
             });
             return dataAllGraphHost;　
 		};
-		this.getRandomData  = function() {//得到增量数据
+
+		var getRandomData = function() {//得到增量数据
 			
 			var dataAllGraphHost = {};
 			$.ajax({
@@ -61,40 +40,35 @@ define(['jquery'], function($){
                 }
             });
         	return dataAllGraphHost;
-		};
-	}
-	function ChangeData() {
+		};　
+		　
+		var m1 = function(obj_data) {  //处理原始全量数据
 
-		this.m1 = function(obj_data) {  //处理原始全量数据
-			 var  after_data = [];
             for (var i = 0; i < obj_data.length; i++) {
             	for (var j = obj_data[i].data.length - 1; j >= 0; j--) {
             		var Intdata =  Number(obj_data[i].data[j]);
-            		 obj_data[i].data.splice(j, 1, Intdata );
-
+            		obj_data[i].data.splice(j, 1, Intdata );
             	}
                 after_data.push(obj_data[i].data);
             }
             return after_data;　　
 		};
-		this.m2 = function(obj_data_his,obj_data_inc) {   //处理原始增量数据，将增量数据加进去
+
+		var m2 = function(obj_data_his,obj_data_inc) {   //处理原始增量数据，将增量数据加进去
 	         if (obj_data_his.length >= graphIdLength) {
-                var obj_data_his_length = obj_data_his.length;
+              
                 for (var j = 0; j < obj_data_his_length; j++) {
                     if (obj_data_his[j].id == obj_data_inc[0].id) {
                         obj_data_his.splice(j, 1, obj_data_inc[0]);
-                        return obj_data_his;
                     }
                 }
-
-                return obj_data_his;
-            } else {
+            }else {
                 obj_data_his.push(obj_data_inc[0]);
-                return obj_data_his;
             }
             return obj_data_his;
 		};
-		this.m3 = function(obj_array) {	////js 的插入排序 从小到大
+
+		var m3 = function(obj_array) {	////js 的插入排序 从小到大
 			 var len = obj_array.length,
                 tmp, j;
             for (var i = 1; i < len; i++) {
@@ -110,10 +84,10 @@ define(['jquery'], function($){
             }
             return obj_array;
 		};
-		this.m4 = function(obj_array) {	//断点设置  js 的比较大小，添加null值进去
+
+		var m4 = function(obj_array) {	//断点设置  js 的比较大小，添加null值进去
             var len = obj_array.length;
             var dataLength = obj_array[0].data;  //查看有几条线
-            //= len - 1; i >= 0; i--
             for (var i = 0; i < len-1; i++ ) {
 
                 var quotient = Math.floor((obj_array[i+1].data[0] - obj_array[i].data[0]) / 60000);
@@ -131,35 +105,23 @@ define(['jquery'], function($){
                         }
                         var incObject = {
                             "data": data_m_array
-                        };
+                       		 };
                         obj_array.splice(i+1, 0, incObject);
                     }
                 }
             }
             return obj_array;
-		};
-		this.m5 = function() {  // //delete id=0 from all history data all history data sort by desc
-
-		};
-		this.m6 = function(num, total) {	//计算百分比的--圆饼图
-			var num = parseFloat(num); 
-            var total = parseFloat(total); 
-            if (isNaN(num) || isNaN(total)) { 
-            return "-"; 
-            } 
-            return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00 + "%"); 
-		};
-	}
-	function Options() {
-		this.m1 = function(obj_name) {
+		}; 
+		
+		var Options =function(obj_name) {
 			return {
 				axes: {
            			x: {
 		                valueFormatter: Dygraph.dateString_,
 		                axisLabelFormatter: Dygraph.dateAxisFormatter,
 		                ticker: Dygraph.dateTicker
-		            }
-        		},
+		            	}
+        			},
         		stackedGraph: false,
 
         		strokeBorderColor:"white",
@@ -193,15 +155,23 @@ define(['jquery'], function($){
                 labelsDiv: document.getElementById(obj_name),
                 labelsSeparateLines: true,
                 labelsKMB: true,
-            	axisLineColor: 'white'
+            	axisLineColor: 'white',
 			};
 		};
-		
-	}
-	return {
-		
-		GetData : GetData,
-		ChangeData : ChangeData,
-		Options  : Options
-	};
+		return {
+			Options:Options,
+			getHistoryData:getHistoryData,
+			getRandomData:getRandomData,
+			m1 : m1,
+			m2 : m2,
+			m3 : m3,
+			m4 : m4,
+			data :data
+		};
+
+　　})();
+return {
+GetData:GetData
+};
+
 });
