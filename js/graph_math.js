@@ -12,23 +12,7 @@ require.config({
 define(['jquery'], function($){
 	var graphIdLength = 720;
 　　function GetData() {
-		var getHostName1 = function() {
-			        var arrayName = document.cookie.split(";");
-
-			        for (var a = 0; a < arrayName.length; a++) {
-			            if (arrayName[a].indexOf("hostName") != -1) {
-			                hostName = arrayName[a].split("=")[1];
-							console.log("hostName=="+hostName);		           
-			            }
-			        }
-			        for (var b = 0; b< arrayName.length; b++) {
-			            if (arrayName[b].indexOf("serviceName") != -1) {
-			                serviceName = arrayName[b].split("=")[1];
-			            	console.log("serviceName=="+serviceName);	
-			            }
-			        }
-	   			};
-		getHostName1();
+		
 		this.getHistoryData = function(obj_url) {//得到历史数据
 			var dataAllGraphHost = {};　　　　　
             $.ajax({
@@ -138,17 +122,7 @@ define(['jquery'], function($){
             }
             return obj_array;
 		};
-		this.m5 = function() {  // //delete id=0 from all history data all history data sort by desc
-
-		};
-		this.m6 = function(num, total) {	//计算百分比的--圆饼图
-			var num = parseFloat(num); 
-            var total = parseFloat(total); 
-            if (isNaN(num) || isNaN(total)) { 
-            return "-"; 
-            } 
-            return total <= 0 ? "0%" : (Math.round(num / total * 10000) / 100.00 + "%"); 
-		};
+		
 	}
 	function Options() {
 		this.m1 = function(obj_name) {
@@ -194,6 +168,43 @@ define(['jquery'], function($){
                 labelsSeparateLines: true,
                 labelsKMB: true,
             	axisLineColor: 'white'
+			};
+		};
+		this.pieFun = function() {
+			return {
+				 	chart: {
+            			plotBackgroundColor: null,
+            			plotBorderWidth: null,
+            			plotShadow: false,
+            			type: 'pie'
+        			},
+        			title: {
+            			text: 'Browser market shares. January, 2015 to May, 2015'
+        			},
+					tooltip: {  //提示信息
+				        formatter: function() {
+				            return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage, 1) +'% ('+
+				                         Highcharts.numberFormat(this.y, 0, ',') +' 个)'+',total=('+this.total+')';
+				        }
+					},
+        			plotOptions: {
+            			pie: {
+                			allowPointSelect: true,
+                			cursor: 'pointer',
+                			dataLabels: {
+                    			enabled: true,
+                    			format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                    			style: {
+                        	//		color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    			},
+                    			connectorColor: 'silver'
+                			}
+            			}
+        			},
+        			series: [{
+            			name: 'Brands'
+           
+        			}]
 			};
 		};
 		

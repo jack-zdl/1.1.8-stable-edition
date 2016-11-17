@@ -9,9 +9,9 @@ var pagefunction = function() {
                 hostName = arrayName[a].split("=")[1];
             }
         }
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("serviceName") != -1) {
-                serviceName = arrayName[a].split("=")[1];
+        for (var b = 0; b < arrayName.length; b++) {
+            if (arrayName[b].indexOf("serviceName") != -1) {
+                serviceName = arrayName[b].split("=")[1];
             }
         }                
     };
