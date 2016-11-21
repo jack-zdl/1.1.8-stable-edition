@@ -173,13 +173,18 @@ define(['jquery'], function($){
 		this.pieFun = function() {
 			return {
 				 	chart: {
-            			plotBackgroundColor: null,
+				 		backgroundColor:'#2A212A',
+            			plotBackgroundColor: '#2A212A',
             			plotBorderWidth: null,
             			plotShadow: false,
             			type: 'pie'
         			},
         			title: {
-            			text: 'Browser market shares. January, 2015 to May, 2015'
+        				style:{
+ 							"color": "#ADADAD",
+ 							"fontSize": "8px"
+        				},
+            			text: ''
         			},
 					tooltip: {  //提示信息
 				        formatter: function() {
@@ -187,21 +192,35 @@ define(['jquery'], function($){
 				                         Highcharts.numberFormat(this.y, 0, ',') +' 个)'+',total=('+this.total+')';
 				        }
 					},
+					credits: {
+          			enabled: false  //将highcharts的标签显示在右下角
+      				},
         			plotOptions: {
             			pie: {
                 			allowPointSelect: true,
+                			size:90,
+                			//colors:['#7cb5ec', '#434348'],
+                		//	showInLegend:true,
                 			cursor: 'pointer',
+                			borderWidth:0,
+                			borderColor:'#2A212A',
                 			dataLabels: {
-                    			enabled: true,
-                    			format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                			//	padding:0,
+                				color:"#ADADAD",
+                				distance:10,
+                			//	crop:false,
+                    		//	enabled: true,
+                    			format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
                     			style: {
                         	//		color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                    				"textShadow": "0px 0px contrast" 
                     			},
-                    			connectorColor: 'silver'
+                    			connectorColor: '#ADADAD'
                 			}
             			}
         			},
         			series: [{
+        				data:[],
             			name: 'Brands'
            
         			}]

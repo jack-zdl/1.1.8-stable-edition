@@ -521,9 +521,9 @@ var setTimeFunction = function() {
     pagefunction();
     IP_old = 1;
    
-
+var date = new Date();
   cstimeSetTimeout = setTimeout(setTimeFunction, FreshenTime);
-   
+  console.log("service定时器"+date+"=="+cstimeSetTimeout); 
    
  kaiguan_cs++;
 

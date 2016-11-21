@@ -1,9 +1,16 @@
 var pagefunction = function() {
     
-    
-
-    serviceName = document.cookie.split(";")[0].split("=")[1];
-     
+     var getHostName = function() {
+        var arrayName = document.cookie.split(";");
+        for (var b = 0; b < arrayName.length; b++) {
+            if (arrayName[b].indexOf("serviceName") != -1) {
+                serviceName = arrayName[b].split("=")[1];
+                console.log("=cs====serviceName="+serviceName);
+            }
+        }                
+    };
+    getHostName();
+  //  serviceName = document.cookie.split(";")[0].split("=")[1];
     function run_jqgrid_cs_function() {
         var cmha_cs = [];
         var data_status_cs = [];
@@ -560,7 +567,6 @@ var pagefunction = function() {
      
         var dbJqGrid = function() {
             var jqGridDate = new Date();
-            console.info("jqgrid执行="+jqGridDate);
             if (IP_old == 0) {
                 jQuery("#jqgrid_db").jqGrid({
                     data:after_cmha_db_bocop,
@@ -783,9 +789,9 @@ var setTimeFunction = function() {
     
     pagefunction();
     IP_old = 1;
- 
+    var date = new Date();
+   console.log("CS定时器"+date+"=="+cstimeSetTimeout);
     cstimeSetTimeout = setTimeout(setTimeFunction,FreshenTime);
-
    
   
  kaiguan_cs++;

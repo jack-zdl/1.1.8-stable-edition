@@ -6,6 +6,7 @@ var ncpu = 0;
 	var int_datagrid = 0;
 	var aaaassssaaa;
 	var HostInterval = function() {
+ console.log("表格定时器"+"=="+aaaassssaaa);
 			aaaassssaaa = setInterval(run_real_status_system, 800);
 		};
 	stopclearInterval = function() {
@@ -72,6 +73,10 @@ var ncpu = 0;
 			return after_values;
 		};
 	var run_real_status_system = function() {
+
+		 var date = new Date();
+
+		 console.log("表格定时器"+date+"==");
 			var url_keys_a = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/real_status/" + hostName + "/1?raw";
 			var url_array = [];
 			url_array.push(url_keys_a);

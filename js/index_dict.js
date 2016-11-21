@@ -18,11 +18,6 @@ window.location.href = "http://" + IP + "/ui";
 //      $("#content").load("ajax/jqgrid.html");
  //   window.location.href = "http://" + IP + "/ui";
 };
-/*BACK标签的函数（未使用）
- */
-var backFunction = function() {
-    window.location.href = "http://" + IP + "/ui/log.html";
-};
 /*点击CS菜单
  */
 $("#Home").click(function() {

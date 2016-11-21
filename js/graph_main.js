@@ -8,7 +8,8 @@ require.config({
 		"jquery" : "jquery",
 		"math"	:"graph_math",
 		"Dygraph":"Dygraphs",
-		"highcharts":"highcharts"
+		"highcharts":"highcharts",
+		"list"	: "graph_list"
 		
 	},
 	shim: {
@@ -21,7 +22,89 @@ require.config({
 		}
 　　}
 });
-require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highcharts) {
+require(['math','jquery','Dygraph',"highcharts","list"],function (math,$,Dygraph,highcharts,list) {
+var array = {"netkey":{
+						"Name":["eth0"],
+						"Title":["eth0"],
+						"Graph":["Graph_net_Bytes","Graph_net_packets"],
+						"InKey":["net_Bytes","net_packets"], //以它的数目来循环netGraph
+						"OutKey":["Graph_net"]
+					},
+			"diskkey":{
+				"Name":["dm-0"],
+				"Title":["/"],
+				"Graph":["Graph_disk_Throughput", "Graph_disk_await",  "Graph_disk_iops",
+							"Graph_disk_queue","Graph_disk_svctm", "Graph_disk_util"],
+				"InKey":["disk_rkB_s",
+							"disk_await",
+							"disk_r_s",
+							"disk_queue",
+							"disk_svctm",
+							"disk_util"
+							],
+				"OutKey":["Graph_disk"]
+					}
+			};
+var pieArray ={"disk_space":{"lable":"Disk Space Usage for",
+							"name":"/",
+							"id":"container"},
+			   "disk_inodes_util":{"lable":"Disk Files (inodes) Usage for",
+									"name":"/",
+									"id":"containerA"},
+			   "swap_space":{"lable":"Swap Utilization",
+									"name":" ",
+							 		"id":"containerB"},
+			   "memory_space":{"lable":"Memory Utilization",
+									"name":" ",
+								 	"id":"containerC"}};
+	 // var getHostName = function() {
+  //       var arrayName = document.cookie.split(";");
+  //       for (var a = 0; a < arrayName.length; a++) {
+  //           if (arrayName[a].indexOf("hostName") != -1) {
+  //               hostName = arrayName[a].split("=")[1];
+  //               console.log("====hostName="+hostName);
+  //           }
+  //       }
+  //       for (var b = 0; b < arrayName.length; b++) {
+  //           if (arrayName[b].indexOf("serviceName") != -1) {
+  //               serviceName = arrayName[b].split("=")[1];
+  //               console.log("=====serviceName="+serviceName);
+  //           }
+  //       }                
+  //   };
+  //   getHostName();
+    //目录生成
+	var run_network_list = function(){
+		var url_network ="http://"+IP+"/v1/kv/cmha/service/"+serviceName+"/net_dev/"+hostName+"?raw";
+		var getDataNetwork =  new list.get_graph_list();
+		var dataNetwork = getDataNetwork.m1(url_network);
+		getDataNetwork.m2("Network",dataNetwork['dev_name']);
+		var url_disk ="http://"+IP+"/v1/kv/cmha/service/"+serviceName+"/disk_dev/"+hostName+"?raw";
+		var getDataDisk =  new list.get_graph_list();
+		var dataDisk = getDataDisk.m1(url_disk);
+		getDataDisk.m3("Disk",dataDisk['dev_name']);
+	};
+    run_network_list();
+	//目录生成结束
+	//切换
+$(".GL").click(function(){
+	array.netkey.Name[0]=$(this).attr("id");
+	array.netkey.Title[0]=$(this).attr("id");
+	setNDFunction();
+});	
+$(".GLD").click(function(){
+	array.diskkey.Name[0]=$(this).attr("id");
+	array.diskkey.Title[0]=$(this).html();
+	pieArray.disk_space.name=$(this).html();
+	pieArray.disk_inodes_util.name=$(this).html();
+	setNDFunction();
+	setPie();
+	
+});
+	//结束切换
+
+	//定位
+	//结束定位
 	function SetAllDygraphs() {//建立一个模型来整合建立Dygraphs图表所需的处理数据的步骤
 		this.setAllData = function(obj_array_url,obj_array_key,obj_array_name) {
 			var after_array = [];
@@ -55,17 +138,17 @@ require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highch
 	}
 	function graphFunction(){//建立常规折线图的抽象函数
 		var dygraphsAll = function(){
-			var array = ["Graph_cpu_util","Graph_cpu_load","Graph_swap_used"];//url
+			var arrayDygraph = ["Graph_cpu_util","Graph_cpu_load","Graph_swap_used"];//url
  			var arrayKay = ["Graph_cpu_util","Graph_cpu_load","Graph_swap_used"];//增量数据外层关键字
  			var key = ["cpu_util","cpu_load","swap_util"];//增量数据内层关键字----历史数据的key
  			var setALLData = new SetAllDygraphs();
  		   // var DygraphLabels = [["Date","user","system","iowait","idle","softirq","irq"],["Date","load1","load5","load15"],["Date","in","out"]];//图表标签	
- 			var afterAllData = setALLData.setAllData(array,arrayKay,key).data_object;
+ 			var afterAllData = setALLData.setAllData(arrayDygraph,arrayKay,key).data_object;
 			var array_id = ["cpu_util","cpu_load","swap_used"];//id数组
  			var array_title = ["status_cpu_util","status_cpu_load","status_swap_used"];//标签数组
  			var DygraphLabels = [["Date","user","system","iowait","idle","softirq","irq"],["Date","load1","load5","load15"],["Date","in","out"]];//图表标签	
 			var allKey={"cpu_util":{"status":"status_cpu_util",
-									 "DygraphLabels":["Date","user","system","iowait","idle","softirq","irq"],
+									 "DygraphLabels":["Date","user","system","idle","iowait","softirq","irq"],
 									 "id":"cpu_util",
 									 "title":"CPU utilization (system.cpu)",
 									 "ylabel":"percentage"
@@ -82,7 +165,6 @@ require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highch
 									  "title":"Swap I/O (system.swapio)",
 									  "ylabel":"swapio"
 									  }
-						
 									};
 			var g={};
 			for (var k in allKey) {
@@ -98,17 +180,20 @@ require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highch
                  			all_option);
 					var ID = setInterval(function() {
 							for (var ky in allKey) {
-								after_data =   setALLData.setAllData(array,arrayKay,key).data_object[ky];
+								var date = new Date();
+								console.log("graph_main定时器"+date+"定时器名称="+g[ky]);
+								after_data =   setALLData.setAllData(arrayDygraph,arrayKay,key).data_object[ky];
                     			g[ky].updateOptions( { 'file': after_data } );
 							}
-                        }, 60000);
+                        }, 10000);
 			}
 		};
 		dygraphsAll();
 	}
 	graphFunction();
-	function SetNDygraphs() {
-		this.setAllData = function(obj_array_url,obj_array_url_name,obj_array_key,obj_array_name) {//url,name，OutKey,InKey
+
+	function SetNDygraphs() {//建立network DISK 的抽象数据函数，url,name，OutKey,InKey
+		this.setAllData = function(obj_array_url,obj_array_url_name,obj_array_key,obj_array_name) {
 			var after_array = [];
 			var runDataIncFunction;
 			var data_object = {};
@@ -146,88 +231,67 @@ require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highch
 		};
 	}
 	function setNDFunction() {//建立变化的network和disk的抽象函数
-		var array = {"netkey":{
-						"Name":["eth0"],
-						"Graph":["Graph_net","Graph_net"],
-						"InKey":["net_Bytes","net_packets"], //以它的数目来循环netGraph
-						"OutKey":["Graph_net"]
-					},
-					"diskkey":{
-						"Name":["dm-0"],
-						"Graph":["Graph_disk_Throughput", "Graph_disk_await", /*"Graph_disk_inodes",*/ "Graph_disk_iops",
-									"Graph_disk_queue",/* "Graph_disk_space", */"Graph_disk_svctm", "Graph_disk_util"],
-						"InKey":["disk_rkB_s",
-									"disk_await",
-								//	"disk_inodes_util",
-									"disk_r_s",
-									"disk_queue",
-								//	"disk_space",
-									"disk_svctm",
-									"disk_util"
-									],
-						"OutKey":["Graph_disk"]
-					}};
-		//将network和disk分开
 		var setNData =new SetNDygraphs();	
-		
 		var afterNetData = setNData.setAllData(array.netkey.Graph,array.netkey.Name,array.netkey.OutKey,array.netkey.InKey).data_object;
 		var afterDiskData = setNData.setAllData(array.diskkey.Graph,array.diskkey.Name,array.diskkey.OutKey,array.diskkey.InKey).data_object;
-
 		var after_alldata = $.extend({}, afterNetData, afterDiskData);
-
 		var allKey={"net_Bytes":{"status":"status_net_Bytes",
-									 "DygraphLabels":["Date","load1","load1"],
+									 "DygraphLabels":["Date","received","sent"],
 									 "id":"net_Bytes",
-									 "title":"Bandwidth (net.eth0)",
+									 "title":"Bandwidth ",
 									 "ylabel":"load"
 									 } ,
 					"net_packets":{"status":"status_net_packets",
-									 "DygraphLabels":["Date","load1","load1"],
+									 "DygraphLabels":["Date","received","sent"],
 									 "id":"net_packets",
-									 "title":"Net Packets (net.eth0)",
+									 "title":"Net Packets ",
 									 "ylabel":"load"
 									 } ,
-
-
 					"disk_rkB_s":{"status":"status_disk_rkB_s",
-									 "DygraphLabels":["Date","user","system"],
+									 "DygraphLabels":["Date","reads","writes"],
 									 "id":"disk_rkB_s",
 									 "title":"Disk Average Throughput for",
-									 "ylabel":"percentage"
+									 "ylabel":"kilobytes/s"
 									 } ,
 					"disk_await":{"status":"status_disk_await",
-									 "DygraphLabels":["Date","load1"],
+									 "DygraphLabels":["Date","await"],
 									 "id":"disk_await",
 									 "title":"Average await  for",
 									 "ylabel":"load"
 									 } ,
 					"disk_r_s":{"status":"status_disk_r_s",
-									  "DygraphLabels":["Date","in","out"],
+									  "DygraphLabels":["Date","reads","writes"],
 									  "id":"disk_r_s",
-									  "title":"Swap I/O (system.swapio)",
-									  "ylabel":"swapio"
+									  "title":"Disk I/O Operations for ",
+									  "ylabel":"operations/s"
 									  }, 
 					"disk_queue":{"status":"status_disk_queue",
-									 "DygraphLabels":["Date","load1"],
+									 "DygraphLabels":["Date","queue"],
 									 "id":"disk_queue",
-									 "title":"System Load Average",
+									 "title":"Average await  for ",
 									 "ylabel":"load"
 									 } ,
 					"disk_svctm":{"status":"status_disk_svctm",
-									 "DygraphLabels":["Date","load1"],
+									 "DygraphLabels":["Date","svctm"],
 									 "id":"disk_svctm",
-									 "title":"System Load Average",
+									 "title":"Average Service Time for ",
 									 "ylabel":"load"
 									 } ,
 					"disk_util":{"status":"status_disk_util",
-									 "DygraphLabels":["Date","load1"],
+									 "DygraphLabels":["Date","utilization"],
 									 "id":"disk_util",
 									 "title":"Disk Utilization Time for",
 									 "ylabel":"load"
 									 } 
-					
 									};
-
+			for (var key in allKey) {
+				if(key == "net_Bytes" || key == "net_packets"){
+				allKey[key].title = allKey[key].title+"  ("+array.netkey.Name[0]+")";
+				}
+				else{
+					allKey[key].title = allKey[key].title +" "+array.diskkey.Title[0];
+				}
+			}
  			var g={};
 			for (var k in allKey) {
 				var all_option , after_data;
@@ -242,28 +306,22 @@ require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highch
                  			all_option);
 					var ID = setInterval(function() {
 							for (var ky in allKey) {
-								after_data =   setALLData.setAllData(array,arrayKay,key).data_object[ky];
-                    			g[ky].updateOptions( { 'file': after_data } );
+								var IncafterNetData = setNData.setAllData(array.netkey.Graph,array.netkey.Name,array.netkey.OutKey,array.netkey.InKey).data_object;
+								var IncafterDiskData = setNData.setAllData(array.diskkey.Graph,array.diskkey.Name,array.diskkey.OutKey,array.diskkey.InKey).data_object;
+								var Incafter_alldata = $.extend({}, IncafterNetData, IncafterDiskData);
+								var IncAfterData =Incafter_alldata[ky];
+                    			g[ky].updateOptions( { 'file': IncAfterData } );
 							}
-                        }, 60000);
+                        }, 10000);
 			}
 	}
 	setNDFunction();
-	function SetDataPie(){ //建立长条和圆饼的数据处理
-		this.setPie = function(){
-			
+
+	function SetDataPie(){ //建立长条和圆饼的数据处理 圆饼图的disk实时也需要切换
+		this.setPie = function(obj_name){
 			var dataObject = new math.GetData();
 			var allData = dataObject.getRandomData();
-			var pieData = allData.Graph_memory[0].memory_space[0].data;
-			var pieDataOption = [{name:"A",y:parseInt(pieData[2]) },
-							 	{name:"B",y: parseInt(pieData[3])},
-							 	{name:"C",y:parseInt(pieData[4]) },
-							 	{name:"D",y: parseInt(pieData[5])}];
-			return pieDataOption;
-			};
-		this.setGauge = function(obj_name) {
-			var dataObject = new math.GetData();
-			var allData = dataObject.getRandomData();
+			//var memory_space_data = allData.Graph_memory[0].memory_space[0].data;
 			var dataAllDisk =allData.Graph_disk;
 			var dataDisk = {};
 			for (var i = dataAllDisk.length - 1; i >= 0; i--) {
@@ -272,56 +330,45 @@ require(['math','jquery','Dygraph',"highcharts"],function (math,$,Dygraph,highch
 					break;
 				}
 			}
-			var data ={};
-			data["disk_space"]=dataDisk.disk_space[0].data;
-			data["disk_inodes_util"]=dataDisk.disk_inodes_util[0].data;
-			data["swap_space"]=allData.Graph_swap_size[0].swap_space[0].data;
-			var afterData = {};
+			var data                 ={};
+				data["disk_space"      ] =dataDisk.disk_space[0].data;
+				data["disk_inodes_util"] =dataDisk.disk_inodes_util[0].data;
+				data["swap_space"      ] =allData.Graph_swap_size[0].swap_space[0].data;
+				data["memory_space"    ] =allData.Graph_memory[0].memory_space[0].data;
+			var pieName = ["used","free","buffers","cached"];
+			var afterData            = {};
 			for(var k in data){
-				var dataArray = [];
-				var dataObjUse={};
-				dataObjUse["name"]="Use";
-				dataObjUse["y"]=parseInt(data[k][2]);
-				var dataObjUuse = {};
-				dataObjUuse["name"]="UnUse";
-				dataObjUuse["y"]=parseInt(data[k][3]);
-				dataArray.push(dataObjUse,dataObjUuse);
-				afterData[k]=dataArray;
+				var dataArray            = [];
+				for(var j=0;j<data[k].length;j++){
+					var dataObjUse           ={};
+					dataObjUse["name"]       =pieName[j];
+					dataObjUse["y"]          =parseInt(data[k][j]);
+					dataArray.push(dataObjUse);
+				}
+				afterData[k]             =dataArray;
 			}
-			//dataAll["disk_space"]=allData["Graph_disk"].
-			return	afterData;
-		};
-			
-		
+			return afterData;
+			};
 	}
 	function setPie(){
 		var pieObj = new SetDataPie();
-		var getPieData = pieObj.setPie();
-		var options =new  math.Options();
-		var pieOption = options.pieFun();
-		pieOption.series[0]["data"]=getPieData;
-		$('#container').highcharts(pieOption);
-		//建立长条
-		var getGaugeData = pieObj.setGauge("dm-0");
-		debugger;
-		var idName=["#containerA","#containerB","#containerC"];
-		var i =2;
-		for(var ky in getGaugeData){
-			
-			debugger;
-			var newOption = new math.Options();
-			var newGagueOption = newOption.pieFun();
-			newGagueOption.series[0]["data"]=getGaugeData[ky];
-			$(idName[i]).highcharts(newGagueOption);
-			i--;
+		var pieTables=[];
+		var getPieData = pieObj.setPie(array["diskkey"]["Name"]);
+		var g ={};
+		for(var k in getPieData){
+			var options =new  math.Options();
+			var pieOption = options.pieFun();
+			var lablePie = pieArray[k].lable+pieArray[k].name;
+			pieOption.title.text=lablePie;
+			pieOption.series[0]["data"]=getPieData[k];
+			g[k]= new Highcharts.chart(pieArray[k].id,pieOption);
+			var ID= setInterval(function(){
+			 	var getPieData = pieObj.setPie(array["diskkey"]["Name"]);//更新数据
+			 	for(var ky in getPieData){
+			 		g[ky].series[0].setData(getPieData[ky]);
+			 	}
+			 },10000);
 		}
-		// for (var i = getGaugeData.length - 1; i >= 0; i--) {
-		// 	var newOption = new math.Options();
-		// 	var newGagueOption = newOption.pieFun();
-		// 	newGagueOption.series[0]["data"]=getGaugeData[i];
-		// 	document.getElementById(idName[i]).highcharts(newGagueOption);
-		// }
 	}
 	setPie();
-		
 });

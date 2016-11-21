@@ -1,20 +1,6 @@
 $(".GLD").click(function(){
       nameDisk = $(this).attr("id");
-       var getHostName1 = function() {
-        var arrayName = document.cookie.split(";");
-
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("hostName") != -1) {
-                hostName = arrayName[a].split("=")[1];
-            }
-        }
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("serviceName") != -1) {
-                serviceName = arrayName[a].split("=")[1];
-            }
-        }
-    };
-    getHostName1();
+       
  $('#cpu1_host').empty(); 
   $('#choices_cpu1').empty(); 
 
@@ -46,22 +32,10 @@ $('#swap_host').empty();
   $('#choices_disk_util').empty(); 
     runFlotFunction();
 });
+
 $(".GL").click(function(){
     net1_card = $(this).attr("id");
-    var getHostName1 = function() {
-        var arrayName = document.cookie.split(";");
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("hostName") != -1) {
-                hostName = arrayName[a].split("=")[1];
-            }
-        }
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("serviceName") != -1) {
-                serviceName = arrayName[a].split("=")[1];
-            }
-        }
-    };
-    getHostName1();
+   
 
     // document.cookie = "graph_card=" + graph_card;
     //var newrunFlotFunction = new runFlotFunction();
@@ -455,7 +429,6 @@ function runFlotFunction() {
 var changeAugmenter = new Object({
     dataAllGraphHost : {},
     m1 : function(){
-        getHostName();
         console.log("serviceName="+serviceName+"hostName="+hostName);
         $.ajax({
                 url:"http://" + IP + "/v1/kv/cmha/service/"+serviceName+"/Graph/current/"+hostName+"?raw" ,
@@ -1922,25 +1895,7 @@ console.time('t');
      * [getHostName description]
      * @return {[type]} [description]
      */
-    var getHostName = function() {
-        var arrayName = document.cookie.split(";");
-
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("hostName") != -1) {
-               
-                hostName = arrayName[a].split("=")[1];
-            }
-        }
-        for (var a = 0; a < arrayName.length; a++) {
-            if (arrayName[a].indexOf("serviceName") != -1) {
-             
-                serviceName = arrayName[a].split("=")[1];
-            }
-        }
-       
-    };
-  
-    getHostName();
+    
 
 if(serviceName!="" && hostName!=""){
     runFlotFunction();
