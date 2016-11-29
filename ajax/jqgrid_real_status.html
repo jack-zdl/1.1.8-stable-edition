@@ -2,6 +2,9 @@
 <html>
 <head>
  <meta charset="UTF-8">
+ 
+ <!-- <meta http-equiv="Pragma" content="no-cache"> -->
+ 
    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />	
    <link rel="stylesheet" href="css/jquery-ui.css" media="screen" type="text/css" />
    <link rel="stylesheet" href="css/ui.host.jqgrid.css" media="screen" type="text/css"/>
@@ -20,11 +23,14 @@
 
 
   </style>
+  <!--
+
   <script type="text/javascript"  src="js/jquery.js"></script>
   <script type="text/javascript" src="js/grid.locale-zh_CN.js"></script>
    <script type="text/javascript"  src="js/jquery.jqGrid.min.js"></script>
     <script type="text/javascript"  src="js/jquery-ui-1.10.3.min.js"></script>
  
+ -->
 </head>
 <body>
 
@@ -46,13 +52,19 @@
   <table id="jqgrid_host_db"></table>
   <div id="pjqgrid_host_db"></div>
   </div>
+<!--defer async="true" -->
 
-
-<script type="text/javascript" src="js/real_status.js"></script>
+<script src="js/require2.3.2.min.js" defer async="true" data-main="js/jqgrid_main"></script>
+<!--
+<script type="text/javascript">
+   $('#jqgrid_system').empty(); 
+   $('#jqgrid_host_db').empty(); 
+</script>
+<!-- <script type="text/javascript" src="js/real_status.js"></script>
+-->
 
 
 <script>
-
 
 </script>
 </body>

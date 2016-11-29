@@ -66,7 +66,9 @@ define(['jquery'], function($){
                 var obj_data_his_length = obj_data_his.length;
                 for (var j = 0; j < obj_data_his_length; j++) {
                     if (obj_data_his[j].id == obj_data_inc[0].id) {
-                        obj_data_his.splice(j, 1, obj_data_inc[0]);
+                    //    obj_data_his.splice(j, 1, obj_data_inc[0]);
+                          obj_data_his.splice(j,1);
+                          obj_data_his.push(obj_data_inc[0]);
                         return obj_data_his;
                     }
                 }
@@ -122,7 +124,6 @@ define(['jquery'], function($){
             }
             return obj_array;
 		};
-		
 	}
 	function Options() {
 		this.m1 = function(obj_name) {
@@ -145,6 +146,12 @@ define(['jquery'], function($){
 		    //labels: labels.slice(),
 		        highlightCircleSize: 2,
         		strokeWidth: 1,
+                /*
+                联动
+                 */
+                // zoom: true,
+                // selection: true,
+         // range: syncRange,
 
 		        strokeBorderWidth: false ? null : 0,
 		         showLabelsOnHighlight: true,
@@ -226,12 +233,13 @@ define(['jquery'], function($){
         			}]
 			};
 		};
-		
 	}
+
 	return {
 		
 		GetData : GetData,
 		ChangeData : ChangeData,
 		Options  : Options
+       
 	};
 });

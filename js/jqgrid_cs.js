@@ -1,16 +1,17 @@
 var pagefunction = function() {
-    
+    //获得service
      var getHostName = function() {
-        var arrayName = document.cookie.split(";");
-        for (var b = 0; b < arrayName.length; b++) {
-            if (arrayName[b].indexOf("serviceName") != -1) {
-                serviceName = arrayName[b].split("=")[1];
-                console.log("=cs====serviceName="+serviceName);
-            }
-        }                
+            var arrayName = document.cookie.split(";");
+            for (var b = 0; b < arrayName.length; b++) {
+                if (arrayName[b].indexOf("serviceName") != -1) {
+                    serviceName = arrayName[b].split("=")[1];
+                    console.log("=cs====serviceName="+serviceName);
+                }
+            }                
     };
     getHostName();
   //  serviceName = document.cookie.split(";")[0].split("=")[1];
+    
     function run_jqgrid_cs_function() {
         var cmha_cs = [];
         var data_status_cs = [];
@@ -20,6 +21,7 @@ var pagefunction = function() {
         var data_leader_cs = "";
         var Node_cs_a = "", Node_cs_b = "", Node_cs_c = "";
         var Node_cs = [];
+        //得到cmha_cs的信息简略信息信息
         var getAllDataCS = function() {
             $.ajax({
                 url:"http://" + IP + "/v1/catalog/service/consul",
@@ -34,6 +36,7 @@ var pagefunction = function() {
                 }
             });
         };
+        //得到cmha的某个详细信息
         var getDataCS = function() {
             for (var jj = 0; jj < Node_cs.length; jj++) {
                 $.ajax({
@@ -61,6 +64,7 @@ var pagefunction = function() {
                 });
             }
         };
+        //得到那个是leader
         var getDataCS_Leader = function() {
             $.ajax({
                 method:"get",
@@ -75,19 +79,16 @@ var pagefunction = function() {
                 }
             });
         };
+        //判断那个是Leader
         var changeRoleOfDB = function(obj_IP) {
-           
-
                 if (after_data_leader_cs == obj_IP) {
                 return "leader";
                 } else {
                 return " ";
                 }
-
-          
-            
         };
         var data_cs = [];
+        //处理数据
         var changeData_cs = function() {
             try {
                 for (i = 0; i < cmha_cs.length; i++) {
@@ -109,6 +110,7 @@ var pagefunction = function() {
             }
         };
         var after_data_leader_cs = "";
+        //根据原始数据的得到IP
         var getleaderIp = function() {
             var leader_string_Array = [];
             leader_string_Array = data_leader_cs.split(" ");
@@ -116,6 +118,7 @@ var pagefunction = function() {
             leader_ip_Array = leader_string_Array[leader_string_Array.length - 1].split(":");
             after_data_leader_cs = leader_ip_Array[0];
         };
+        //合并数据
         var getNodeOfCS = function() {
             try {
                 getAllDataCS();
@@ -136,6 +139,7 @@ var pagefunction = function() {
             }
         };
         getNodeOfCS();
+        //表格的内在函数
         var formatter = function(cellvalue, options, rowObject) {
             if (rowObject.Address == after_data_leader_cs) {
                 return "<span after_data_leader_db >" + cellvalue + "</span>";
@@ -225,6 +229,8 @@ var pagefunction = function() {
         };
         csJqGrid();
     }
+
+
     function run_jqgrid_db_function() {
         var data_leader_db = [];
         var data_services_db = {};
@@ -318,6 +324,7 @@ var pagefunction = function() {
                 return data_backup;
             }
         };
+
         var getRoleofchap = function(obj_serviceName, obj_hostName) {
             var data_RandVofchap = {};
             $.ajax({
@@ -365,13 +372,14 @@ var pagefunction = function() {
                 return "Unknown";
             }
         };
-         var changeVipOfChap = function(obj_a_serfHealth_status,obj_vip){
+        var changeVipOfChap = function(obj_a_serfHealth_status,obj_vip){
             if(obj_a_serfHealth_status == "OK"){
                 return obj_vip;
             }else{
                 return "";
             }
         };
+        //具体类型转换
         var changeType = function(obj_type, a_Node, a_Service_ID, a_chap01_status, obj_Address,obj_a_serfHealth_status) {
             var dataArray = {};
             switch (obj_type) {
@@ -452,6 +460,7 @@ var pagefunction = function() {
             }
         };
         var after_cmha_db_bocop = [], cmha_db_bocop_a = [], cmha_db_bocop_b = [], cmha_db_bocop_c = [], cmha_db_bocop_d = [], after_cmha_db_bocop_a = {}, after_cmha_db_bocop_b = {}, after_cmha_db_bocop_c = {}, after_cmha_db_bocop_d = {};
+       
         var changeData_db = function() {
             after_cmha_db_bocop = [];
             for (var x = 0; x < cmha_db_bocop.length; x++) {
@@ -465,6 +474,7 @@ var pagefunction = function() {
                     var a_Address = cmha_db_bocop_a.Service.Address;
                     var a_Port = cmha_db_bocop_a.Service.Port;
                     var a_chap01 = cmha_db_bocop_a.Checks[0].CheckID;
+                    debugger;
                     var a_serfHealth_status = changeStatus(getAgentStatus(cmha_db_bocop_a.Checks));
                     var a_chap01_status = getStatus(getReallyStatus(cmha_db_bocop_a.Checks, dbServiceName[x]), a_serfHealth_status);
                     var a_serfHealth = cmha_db_bocop_a.Checks[1].CheckID;

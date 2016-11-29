@@ -4,7 +4,7 @@
 /*预定义首页，
  */
 var load = function() {
-    $("#content").load("ajax/jqgrid.html");
+    $("#content").load("ajax/jqgrid_cs.html");
 };
 /*登录界面定义的函数（未使用）
  */
@@ -64,9 +64,21 @@ $(".serviceHost").click(function() {
 //
 $(".RGS").click(function(){
     hostName = $(this).attr("id");
-    
     serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
     document.cookie = "hostName=" + hostName;
     document.cookie = "serviceName=" + serviceName;
-    $("#content").load("ajax/graph.html");
+    var hostType  = globalObject.getTypeHost();
+    if(hostType == "db")
+    $("#content").load("ajax/graph_db.html");
+    if(hostType == "system")
+    $("#content").load("ajax/graph.html"); 
 });   
+$(".RS").click(function(){  
+    
+    hostName = $(this).attr("id");
+    serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
+    document.cookie = "serviceName=" + serviceName;
+    document.cookie = "hostName=" + hostName;
+    debugger;
+   $("#content").load("ajax/jqgrid_real_status.html");
+});

@@ -1,19 +1,20 @@
 
 var JQGridData = 0;             /*全局变量*/
-
+var iiiiiii=0;
 function real_status_grid_system() {
 var ncpu = 0;
 	var int_datagrid = 0;
 	var aaaassssaaa;
 	var HostInterval = function() {
- console.log("表格定时器"+"=="+aaaassssaaa);
+ console.log("表格定时器-------开始"+iiiiiii+"=="+aaaassssaaa);
+
 			aaaassssaaa = setInterval(run_real_status_system, 800);
 		};
 	stopclearInterval = function() {
 		
 		clearInterval(aaaassssaaa);
 	};
-	var time = 9999;
+	var time = 9999; //全局变量，判断第二次建表
 	after_sys_real_status_values = [];
 	var getData = function(obj_array_url) {
 			var keys = [];
@@ -47,7 +48,7 @@ var ncpu = 0;
 				endTime = endTime.replace(/\-/g, '/');
 				var date_values = new Date(endTime);
 				var time_values = (date_values).getTime();
-				if (int_datagrid == 0) {
+				if (int_datagrid == 0) {  //判断是否是第一次建表
 					var after_time = getDate(endTime);
 					obj_array_values[i].sys.time = after_time;
 					obj_array_values[i].db.time = after_time;
@@ -75,8 +76,8 @@ var ncpu = 0;
 	var run_real_status_system = function() {
 
 		 var date = new Date();
-
-		 console.log("表格定时器"+date+"==");
+		 console.log("表格定时器"+iiiiiii+date+"==");
+		 iiiiiii++;
 			var url_keys_a = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/real_status/" + hostName + "/1?raw";
 			var url_array = [];
 			url_array.push(url_keys_a);
@@ -87,7 +88,6 @@ var ncpu = 0;
 		
 
 			var   real_status_system_data = new Date();
-			console.info("host_status执行="+real_status_system_data);
 
 			if (after_sys_real_status_values.length > 100) {
 				after_sys_real_status_values.shift();
@@ -399,8 +399,11 @@ var ncpu = 0;
 	HostInterval();
 }
 
+
+
+
 function real_status_grid_db() {
-	var ncpu = 0;
+	var ncpu = 0;  //全局变量----来显示是否为红色
 	var int_datagrid = 0;
 	var aaaassssaaa;
 var	HostInterval = function() {
@@ -945,31 +948,31 @@ var getTypeHost = function() {
 				
 			}
 		});
-		 if(kaiguan_cs != 0){
+		//  if(kaiguan_cs != 0){
    
-   			clearInterval(cstimeSetTimeout);
-   			if (kaiguan == 0) {
+  //  			clearInterval(cstimeSetTimeout);
+  //  			if (kaiguan == 0) {
 				
-				kaiguan++;
-			} else {
+		// 		kaiguan++;
+		// 	} else {
 				
 			
 			
-			stopclearInterval();
-			}
+		// 	stopclearInterval();
+		// 	}
 
- 		}else{
- 			if (kaiguan == 0) {
+ 	// 	}else{
+ 	// 		if (kaiguan == 0) {
 			
-			kaiguan++;
-		} else {
+		// 	kaiguan++;
+		// } else {
 			
 			
 			
-			stopclearInterval();
-		}
+		// 	stopclearInterval();
+		// }
     		
- 		}
+ 	// 	}
 
 		$.ajaxSetup ({
     	// Disable caching of AJAX responses */
@@ -998,8 +1001,8 @@ var getTypeHost = function() {
 	};
 getTypeHost();
 	var chengeDataStart = function () {
-  JQGridData = 0;
-}
-var chengeDataStop = function () {
-  JQGridData = 1;
-}
+  		JQGridData = 0;
+	};
+	var chengeDataStop = function () {
+  		JQGridData = 1;
+	};
