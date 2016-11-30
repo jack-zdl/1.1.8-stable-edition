@@ -6,22 +6,10 @@
  */
 require.config({
 	paths:{
-		"jquery" : "lib/jquery",
-		"underscore":"lib/Underscore",
-		"backbone":"lib/backbone"
-		
-	},
-	shim: {
-　　　　'underscore':{
-　　　　　　exports: '_'
-　　　　},
-　　　　'backbone': {
-　　　　　　deps: ['underscore', 'jquery'],
-　　　　　　exports: 'backbone'
-　　　　}
-　　}
+		"jquery" : "lib/jquery"
+	}
 });
-define(['jquery','underscore','backbone'],function($,underscore,backbone){
+define(['jquery'],function($){
 	function Commons(){
 		//来处理所有的http请求
 		this.getData = function(obj_array_url) {

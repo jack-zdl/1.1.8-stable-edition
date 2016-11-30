@@ -18,7 +18,6 @@ var pagefunction = function() {
     getHostName();
     function getDate(tm) {
               var tt = new Date(tm * 1e3);
- 
         var Y = tt.getFullYear() + "-";
         var M = (tt.getMonth() + 1 < 10 ? "0" + (tt.getMonth() + 1) :tt.getMonth() + 1) + "-";
         var D = (tt.getDate() < 10 ? "0" + tt.getDate() :tt.getDate()) + " ";

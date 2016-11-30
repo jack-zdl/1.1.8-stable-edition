@@ -11,6 +11,25 @@ require.config({
 });
 define(['jquery'],function($){
 	function Commons(){
+		//来处理所有的http请求
+			this.getData = function(obj_array_url) {
+				var data = [];
+				for (var i = obj_array_url.length - 1; i >= 0; i--) {
+					 $.ajax({
+		                url:obj_array_url[i],
+		                method:"get",
+		                async:false,
+		                dataType:"json",
+		                success:function(result, status, xhr) {
+		                    data.push(result);
+		                },
+		                error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
+		                    console.error("getAllDataCS  CS数据状态文本 " + status);
+		                }
+	            	});
+				}
+				return data;
+			};
 			this.getText = function(obj_array_url){
 				var data = [];
 				for (var i = obj_array_url.length - 1; i >= 0; i--) {
@@ -56,7 +75,6 @@ define(['jquery'],function($){
 	              case "critical":
 	                obj_status_all = "Fail";
 	                return obj_status_all;
-
 	              default:
 	                return obj_status_all;
 	            }
@@ -118,7 +136,7 @@ define(['jquery'],function($){
 		                    console.error("getRoleofchap 获得chap的role  状态文本 " + status);
 		                }
 		            });
-		             
+
 	            return data_RandVofchap;
         	};
         	this. getRepl_err_counterOfDB = function(objRepl_serviceName, obj5Repl_hostname) {

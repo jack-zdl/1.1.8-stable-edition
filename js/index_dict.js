@@ -21,14 +21,14 @@ window.location.href = "http://" + IP + "/ui";
 /*点击CS菜单
  */
 $("#Home").click(function() {
-    $("#content").load("ajax/jqgrid.html");
+    $("#content").load("ajax/jqgrid_cs.html");
 });
 /*点击base info
  */
 $(".serviceNews").click(function() {
-    serviceName = $(this).attr("id");
-    document.cookie = "serviceName=" + serviceName;
-    $("#content").load("ajax/jqgrid2.html");
+    globalObject.serviceName = $(this).attr("id");
+    document.cookie = "serviceName=" + globalObject.serviceName;
+    $("#content").load("ajax/jqgrid_base.html");
 });
 /*点击主机节点
  */

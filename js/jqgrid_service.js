@@ -130,16 +130,14 @@ var pagefunction = function() {
             }
             return " ";
         };
-
-
-          var changeRoleOfChap = function(obj_a_serfHealth_status,obj_role){
+        var changeRoleOfChap = function(obj_a_serfHealth_status,obj_role){
             if(obj_a_serfHealth_status == "OK"){
                 return obj_role;
             }else{
                 return "Unknown";
             }
         };
-         var changeVipOfChap = function(obj_a_serfHealth_status,obj_vip){
+        var changeVipOfChap = function(obj_a_serfHealth_status,obj_vip){
             if(obj_a_serfHealth_status == "OK"){
                 return obj_vip;
             }else{
@@ -297,7 +295,7 @@ var pagefunction = function() {
                 return '<span style="color:red;" >' + cellvalue + "</span>";
             }
         };
-         var formatter_role_status = function(cellvalue, options, rowObject) {
+        var formatter_role_status = function(cellvalue, options, rowObject) {
             if (rowObject.role == "Unknown") {
                 return '<span style="color:red;" >' + cellvalue + "</span>";
             }  else {
@@ -396,6 +394,7 @@ var pagefunction = function() {
         };
         dbJqGrid();
     }
+    
     var run_jqgrid_warn_function = function() {
         var after_data_WSV = [];
         var data_WSK = [];

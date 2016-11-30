@@ -7,8 +7,6 @@
 require.config({
 	paths:{
 		"jquery":"lib/jquery",
-		"underscore":"lib/Underscore",
-		"backbone":"lib/backbone",
 		"jquery-ui": "lib/jquery-ui-1.10.3.min",
 		"gridlocale": "lib/grid.locale-zh_CN",
 		"jqG": "lib/jquery.jqGrid.min",
@@ -18,15 +16,6 @@ require.config({
 		"dict":"commons/dict"
 	},
 	shim: {
-　　　　'underscore':{
-　　　　　　exports: '_'
-　　　　},
-　　　　'backbone': {
-　　　　　　deps: ['underscore', 'jquery'],
-　　　　　　exports: 'backbone'
-　　　　},
-		
-		
 		'jquery-ui': {
 			deps: ['jquery'],
 			exports: 'jquery-ui'
@@ -41,11 +30,10 @@ require.config({
 		}
 　　}
 });
-require(['jquery','underscore','backbone','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,underscore,backbone,CsMath,ServiceMath,WarnMath){
+require(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,CsMath,ServiceMath,WarnMath){
 	//建立jqgrid_cs页面的主函数
 	function runJqgridCSFunction(){
 		function runJqgridCS(){
-			console.log(configObject.IP);
 			var urlConsul = ["http://" + configObject.IP + "/v1/catalog/service/consul"];
 			var getCS = new CsMath.Commons();
 			var getCSAllData = getCS.getData(urlConsul);//得到consul的大致信息

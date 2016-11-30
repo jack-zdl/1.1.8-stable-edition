@@ -115,7 +115,7 @@ var formatter_counter_status = function(cellvalue, options, rowObject) {
         serviceName : "",   /*获得服务名-全局变量*/
         hostName    : "",   /*获得主机名-全局变量*/
         isSetJqgrid : 0,    /*决定首页的jqgrid是否重建还是update数据 为0时建表，为1时update数据*/
-        
+
         afterTypeHost :"",
         /**
          * [getTypeHost description]根据API获得主机类型
@@ -167,6 +167,17 @@ var formatter_counter_status = function(cellvalue, options, rowObject) {
         var tt_time = h + m + s;
         
         return tt_time;
+        },
+        getYearData : function(tm){
+            var tt = new Date(tm * 1e3);
+            var Y = tt.getFullYear() + "-";
+            var M = (tt.getMonth() + 1 < 10 ? "0" + (tt.getMonth() + 1) :tt.getMonth() + 1) + "-";
+            var D = (tt.getDate() < 10 ? "0" + tt.getDate() :tt.getDate()) + " ";
+            var h = (tt.getHours() < 10 ? "0" + tt.getHours() :tt.getHours()) + ":";
+            var m = (tt.getMinutes() < 10 ? "0" + tt.getMinutes() :tt.getMinutes()) + ":";
+            var s = tt.getSeconds() < 10 ? "0" + tt.getSeconds() :tt.getSeconds();
+            var tt_time = Y + M + D + h + m + s;
+            return tt_time;
         },
 　　　　m2 : function (){
 　　　　　　
