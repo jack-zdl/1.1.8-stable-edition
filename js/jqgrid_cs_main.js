@@ -14,6 +14,7 @@ require.config({
 		"jqG": "lib/jquery.jqGrid.min",
 		"CsMath":"commons/cs_math",
 		"ServiceMath" : "commons/service_math",
+		"WarnMath" : "commons/warn_math",
 		"dict":"commons/dict"
 	},
 	shim: {
@@ -40,7 +41,7 @@ require.config({
 		}
 　　}
 });
-require(['jquery','underscore','backbone','CsMath','ServiceMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,underscore,backbone,CsMath,ServiceMath){
+require(['jquery','underscore','backbone','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,underscore,backbone,CsMath,ServiceMath,WarnMath){
 	//建立jqgrid_cs页面的主函数
 	function runJqgridCSFunction(){
 		function runJqgridCS(){
@@ -111,7 +112,7 @@ require(['jquery','underscore','backbone','CsMath','ServiceMath','jquery-ui', 'g
         	};
         	changeData_cs();
         	var setCSJqGrid = function() {
-	           if (IP_old == 0) {
+	           if (globalObject.isSetJqgrid == 0) {
 	                jQuery("#jqgrid_cs").jqGrid({
 	                    data:afterAllCSData,
 	                    datatype:"local",
@@ -245,10 +246,6 @@ require(['jquery','underscore','backbone','CsMath','ServiceMath','jquery-ui', 'g
 	                    var Port = data.Service.Port;
 	                    var chap01 = data.Checks[0].CheckID;
 	                    var serfHealth_status = getService.changeStatus(getService.getAgentStatus(data.Checks));
-		                // for(var k =0,length = arrayServiceName.length;k<length;k++){
-		                // 	var hahaahh = getService.getReallyStatus(data.Checks, arrayServiceName[x]);
-
-		                //   }
 	                    var chap01_status = getService.getStatus(getService.getReallyStatus(data.Checks, arrayServiceName[x]), serfHealth_status);
 	                    var serfHealth = data.Checks[1].CheckID;
 	                    var chap01_Output = data.Checks[0].Output;
@@ -267,17 +264,169 @@ require(['jquery','underscore','backbone','CsMath','ServiceMath','jquery-ui', 'g
 	                    afterArrayData.push(afterData);
 	                }
             	}
+            	if (globalObject.isSetJqgrid == 0) {
+	                jQuery("#jqgrid_db").jqGrid({
+	                    data:afterArrayData,
+	                    datatype:"local",
+	                    height:"auto",
+	                    colNames:[ "ServiceName", "Node", "Type", "Address", "ServicePort", "Status", "Ca_Status", "Role", "VIP", "Repl_Status", "Repl_Err_Counter", "Output" ],
+	                    colModel:[ {
+	                        name:"ServiceName",
+	                        index:"ServiceName",
+	                        align:"center",
+	                        editable:true
+	                    }, {
+	                        name:"Node",
+	                        index:"Node",
+	                        align:"center",
+	                        sortable:false
+	                    }, {
+	                        name:"type",
+	                        index:"type",
+	                        align:"center",
+	                        sortable:false
+	                    }, {
+	                        name:"Address",
+	                        index:"Address",
+	                        align:"center",
+	                        editable:true,
+	                        sortable:false
+	                    }, {
+	                        name:"ServicePort",
+	                        index:"ServicePort",
+	                         align:"center",
+	                        editable:true,
+	                        sortable:false
+	                    }, {
+	                        name:"chap_status",
+	                        index:"chap_status",
+	                         align:"center",
+	                        formatter:getService.formatter_chap_status,
+	                        sortable:false
+	                    }, {
+	                        name:"serfHealth_status",
+	                        index:"serfHealth_status",
+	                        align:"center",
+	                        formatter:getService.formatter_serfHealth_status,
+	                        sortable:false
+	                    }, {
+	                        name:"role",
+	                        index:"role",
+	                          align:"center",
+	                          formatter:getService.formatter_role_status,
+	                        sortable:false
+	                    }, {
+	                        name:"VIP",
+	                        index:"VIP",
+	                          align:"center",
+	                        sortable:false
+	                    }, {
+	                        name:"REPL_STATUS",
+	                        index:"REPL_STATUS",
+	                         align:"center",
+	                        formatter:getService.formatter_repl_status,
+	                        sortable:false
+	                    }, {
+	                        name:"REPL_ERR_COUNTER",
+	                        index:"REPL_ERR_COUNTER",
+	                         align:"center",
+	                        formatter:getService.formatter_counter_status,
+	                        sortable:false
+	                    }, {
+	                        name:"Output",
+	                        index:"Output",
+	                        align:"left",
+	                        sortable:false
+	                    } ],
+	                    pager:"#pjqgrid_db",
+	                    sortname:"ServiceName",
+	                    toolbarfilter:true,
+	                    viewrecords:true,
+	                    sortorder:"asc",
+	                    editurl:"dummy.html",
+	                    caption:"service info",
+	                    multiselect:true,
+	                    autowidth:true
+	                });
+            	} else {
+	                jQuery("#jqgrid_db").setGridParam({
+	                    data:afterArrayData,
+	                    datatype:"local"
+	                }).trigger("reloadGrid");
+            	}
 			}	
 			setServiceJqgrid();
-		
-
-
-
 		}
 		runJqgridDBfunction();
+		function runJqgridWarnFunction(){
+				var urlWarn = ["http://" + configObject.IP + "/v1/kv/cmha/service/" + "CS/alerts/alerts_counter?keys"];
+				var getWarn = new WarnMath.Commons();
+				var urlArrayWarnKey = getWarn.getData(urlWarn);
+				var urlArrayWarn = [];
+				for (var i = urlArrayWarnKey.length - 1; i >= 0; i--) {
+					urlArrayWarn.push("http://" + configObject.IP + "/v1/kv/" + urlArrayWarnKey[i] + "?raw");
+				}
+				var urlArrayWarnValue = getWarn.getText(urlArrayWarn);
+				var afterDataWarn = getWarn.changeData(urlArrayWarnValue);
+				function setJqgridWarn(){
+					if (globalObject.isSetJqgrid == 0) {
+		                jQuery("#jqgrid_warning").jqGrid({
+		                    data:afterDataWarn,
+		                    datatype:"local",
+		                    height:"auto",
+		                    colNames:[ "Time", "Type", "ServiceName", "Log" ],
+		                    colModel:[ {
+		                        name:"timeOW",
+		                        index:"timeOW",
+		                        align:"center",
+		                        editable:true,
+		                        width:30
+		                    }, {
+		                        name:"typeOW",
+		                        index:"typeOW",
+		                        align:"center",
+		                        sortable:false,
+		                        width:20
+		                    }, {
+		                        name:"serviceOW",
+		                        index:"serviceOW",
+		                        align:"center",
+		                        sortable:false,
+		                        width:20
+		                    }, {
+		                        name:"valueOW",
+		                        index:"valueOW",
+		                        align:"left",
+		                        sortable:false
+		                    } ],
+		                    rowNum:10,
+		                    rowList:[ 10 ],
+		                    pager:"#pjqgrid_warning",
+		                    sortname:"timeOW",
+		                    toolbarfilter:true,
+		                    viewrecords:true,
+		                    sortorder:"asc",
+		                    editurl:"dummy.html",
+		                    caption:"cs alerts info",
+		                    multiselect:true,
+		                    autowidth:true
+		                });
+            		} else {
+		                jQuery("#jqgrid_warning").setGridParam({
+		                    data:afterDataWarn,
+		                    datatype:"local"
+		                }).trigger("reloadGrid");
+		            }
+				}
+				setJqgridWarn();
+		}
+		runJqgridWarnFunction();
 	}
-	runJqgridCSFunction();
-	
-
+	function setTime(){
+		runJqgridCSFunction();
+		globalObject.isSetJqgrid = 1;
+		setTimeout(setTime,configObject.FreshenTime);
+	}
+	setTime();
 });
 

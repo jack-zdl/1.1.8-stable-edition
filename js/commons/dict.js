@@ -114,6 +114,8 @@ var formatter_counter_status = function(cellvalue, options, rowObject) {
     var globalObject=new Object({
         serviceName : "",   /*获得服务名-全局变量*/
         hostName    : "",   /*获得主机名-全局变量*/
+        isSetJqgrid : 0,    /*决定首页的jqgrid是否重建还是update数据 为0时建表，为1时update数据*/
+        
         afterTypeHost :"",
         /**
          * [getTypeHost description]根据API获得主机类型

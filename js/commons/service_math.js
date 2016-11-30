@@ -73,53 +73,52 @@ define(['jquery'],function($){
 	                return obj_status;
 	            }
 	        };
-	        // this.makeMaster = function(obj_master, obj_serviceName){
-	        // 	debugger;
-		       //  	if (obj_master == "master") {
-		       //          var data_master = {};
-		       //          data_master["role"] = obj_master;
-		       //          data_master["VIP"] = getVipofchap(obj_serviceName);
-		       //          return data_master;
-		       //      } else {
-		       //          var data_backup = {};
-		       //          data_backup["role"] = obj_master;
-		       //          data_backup["VIP"] = " ";
-		       //          return data_backup;
-		       //      }
-	        // };
-	        this.getRoleofchap = function(obj_serviceName, obj_hostName) {
-	        	debugger;
-	        	function makeMaster(obj_master, obj_serviceName){
-	        		debugger;
+	        var getMaster = function(obj_master,obj_serviceName){
+	        	  	var data_master = {};
 		        	if (obj_master == "master") {
-		                var data_master = {};
+		              //  var data_master = {};
 		                data_master["role"] = obj_master;
 		                data_master["VIP"] = getVipofchap(obj_serviceName);
-		                return data_master;
+		               // return data_master;
 		            } else {
-		                var data_backup = {};
-		                data_backup["role"] = obj_master;
-		                data_backup["VIP"] = " ";
-		                return data_backup;
+		               // var data_backup = {};
+		                data_master["role"] = obj_master;
+		                data_master["VIP"] = " ";
+		                //return data_backup;
 		            }
-	        	}
+		             return data_master;
+	        };
+	        var  getVipofchap = function(obj_serviceName) {
+		            var data_getVipofchap = "";
+		            $.ajax({
+		                method:"get",
+		                url:"http://" + IP + "/v1/kv/cmha/service/" + obj_serviceName + "/chap/VIP?raw",
+		                async:false,
+		                dataType:"text",
+		                success:function(result, status, xhr) {
+		                    data_getVipofchap = result;
+		                },
+		                error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
+		                    console.error("getVipofchap 获得chap的VIP 状态文本 " + status);
+		                }
+		            });
+		            return data_getVipofchap;
+        	};
+	        this.getRoleofchap = function(obj_serviceName, obj_hostName) {
 	            var data_RandVofchap = {};
-	            // var result = "";
 		            $.ajax({
 		                method:"get",
 		                url:"http://" + IP + "/v1/kv/cmha/service/" + obj_serviceName + "/chap/role/" + obj_hostName + "?raw",
 		                async:false,
 		                dataType:"text",
 		                success:function(result, status, xhr) {
-		                	debugger;
-							// result = result;
-		                   data_RandVofchap = makeMstaer(result, obj_serviceName);
+							data_RandVofchap = getMaster(result,obj_serviceName);
 		                },
 		                error:function(XMLHttpRequest, status, jqXHR, textStatus, e) {
 		                    console.error("getRoleofchap 获得chap的role  状态文本 " + status);
 		                }
 		            });
-	            
+		             
 	            return data_RandVofchap;
         	};
         	this. getRepl_err_counterOfDB = function(objRepl_serviceName, obj5Repl_hostname) {
@@ -264,6 +263,21 @@ define(['jquery'],function($){
 	                return '<span >' + cellvalue + "</span>";
 	            }
         	};
+        	this.formatter_repl_status = function(cellvalue, options, rowObject) {
+			    if (rowObject.REPL_STATUS == "OK") {
+			        return '<span style="color:green;" >' + cellvalue + "</span>";
+			    } else if (rowObject.REPL_STATUS == "warning") {
+			        return '<span style="color:red;" >' + cellvalue + "</span>";
+			    } else {
+			        return '<span style="color:red;" >' + cellvalue + "</span>";
+			    }
+			};
+			this.formatter_counter_status = function(cellvalue, options, rowObject) {
+			    if (rowObject.REPL_ERR_COUNTER == 1) {
+			        return '<span style="color:red;" >' + cellvalue + "</span>";
+			    }
+			    return '<span style="color:green;" >' + cellvalue + "</span>";
+			};
 
 
 
