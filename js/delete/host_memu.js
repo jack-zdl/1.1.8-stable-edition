@@ -1,6 +1,6 @@
 /*这是首页的js文件，用于设置动态菜单。
  *根据consul下的所有service服务名，以及服务下的所有主机节点。
- *动态产生左边菜单栏。
+ *动态产生top菜单栏。
  */
  
 var changeMemu = function() {
@@ -11,11 +11,11 @@ var changeMemu = function() {
     dataConsul = [],
     ConuslName = [];
 
-/*获得consul下的所有服务名。
- */ 
+    /*获得consul下的所有服务名。
+     */ 
     var getService_db = function() {
         $.ajax({
-            url:"http://" + IP + "/v1/catalog/services",
+            url:"http://" + configObject.IP + "/v1/catalog/services",
             method:"get",
             async:false,
             dataType:"json",
@@ -27,12 +27,12 @@ var changeMemu = function() {
             }
         });
     };
-/*获得CS下的所有服务名称
- *尝试nginx仿真实的URL
- */
+    /*获得CS下的所有服务名称
+     *尝试nginx仿真实的URL
+     */
     var getConsulName = function () {
           $.ajax({
-            url:"http://" + IP + "/v1/catalog/service/consul",
+            url:"http://" + configObject.IP + "/v1/catalog/service/consul",
 
             method:"get",
             async:false,
@@ -45,13 +45,13 @@ var changeMemu = function() {
             }
         });
     }
-/*根据服务名，来获得服务名下的所有主机节点信息。
- */
+    /*根据服务名，来获得服务名下的所有主机节点信息。
+     */
     var getAllDataService = function() {
         for (var i = 0; i < after_dataMemu.length; i++) {
             $.ajax({
                 method:"get",
-                url:"http://" + IP + "/v1/health/service/" + after_dataMemu[i],
+                url:"http://" + configObject.IP + "/v1/health/service/" + after_dataMemu[i],
                 async:false,
                 dataType:"json",
                 success:function(result, status, xhr) {
@@ -66,15 +66,15 @@ var changeMemu = function() {
         }
     };
 
-/*处理CS数据，获得CS下的n个主机名
- */
- var getCSName = function () {
-    for (var i = dataConsul.length - 1; i >= 0; i--) {
-      ConuslName.push(dataConsul[i].Node);
-    }
- }
-/*处理主机节点信息，获得服务的四个主机名
- */
+    /*处理CS数据，获得CS下的n个主机名
+     */
+     var getCSName = function () {
+        for (var i = dataConsul.length - 1; i >= 0; i--) {
+          ConuslName.push(dataConsul[i].Node);
+        }
+     }
+    /*处理主机节点信息，获得服务的四个主机名
+     */
     var changeDataAllSrvice = function() {
         try {
             for (var ky in dataAllService) {
@@ -88,8 +88,8 @@ var changeMemu = function() {
             console.error("changeDataAllSrvice  获得主机服务名出错！！！");
         }
     };
-/*自行构造函数，设置可以从数组中remove掉某个对象
- */
+    /*自行构造函数，设置可以从数组中remove掉某个对象
+     */
     Array.prototype.indexOf = function(val) {
         for (var i = 0; i < this.length; i++) {
             if (this[i] == val) return i;
@@ -102,8 +102,8 @@ var changeMemu = function() {
             this.splice(index, 1);
         }
     };
-/*getService_db函数执行后，得到所有服务名，筛选服务数据。
- */
+    /*getService_db函数执行后，得到所有服务名，筛选服务数据。
+     */
     var changeServiceName = function() {
         try {
             for (var key in dataServices) {
@@ -116,65 +116,65 @@ var changeMemu = function() {
         }
     };
    
-/*只针对主机节点的菜单没有base info
- *区别在与每一个主机我都添加了RS 点击这个RS跳到另一个页面
- *HOST=====HOST
- */  
-function addElementLiHost(obj,obj_cs,obj_rs) {
+    /*只针对主机节点的菜单没有base info
+     *区别在与每一个主机我都添加了RS 点击这个RS跳到另一个页面
+     *HOST=====HOST
+     */  
+    function addElementLiHost(obj,obj_cs,obj_rs) {
 
-        var ul = document.getElementById(obj);
-        ul.appendChild(obj_cs);
-        for (var k in dataMenuItem) {
-            var li = document.createElement("li");
-            li.setAttribute("class","dropdown-submenu");
-            var a = document.createElement("a");
-            a.setAttribute("href", "#");
-          	a.setAttribute("tabindex","-1");
-          	var span = document.createElement("span");
-        
-            span.innerHTML = k;
-            var span_serive_a = document.createElement("span");
+            var ul = document.getElementById(obj);
+            ul.appendChild(obj_cs);
+            for (var k in dataMenuItem) {
+                var li = document.createElement("li");
+                li.setAttribute("class","dropdown-submenu");
+                var a = document.createElement("a");
+                a.setAttribute("href", "#");
+              	a.setAttribute("tabindex","-1");
+              	var span = document.createElement("span");
             
-            var ul_1 = document.createElement("ul");
-          	ul_1.setAttribute("class","dropdown-menu");
-           
+                span.innerHTML = k;
+                var span_serive_a = document.createElement("span");
+                
+                var ul_1 = document.createElement("ul");
+              	ul_1.setAttribute("class","dropdown-menu");
+               
 
-           
-            for (var ky = 0; ky < dataMenuItem[k].length; ky++) {
-                var li_1 = document.createElement("li");
-                var a_1 = document.createElement("a");
-                a_1.setAttribute("href", "#");
-                a_1.setAttribute("tabindex", "-1");
-                a_1.setAttribute("class",obj_rs);
-        
-                a_1.setAttribute("id", dataMenuItem[k][ky]);
-                var span_1 = document.createElement("span");
-            //    span_1.setAttribute("class", "serviceHost nav-text");
-           //   span_1.setAttribute("class",obj_rs);
-        
-             //   span_1.setAttribute("id", dataMenuItem[k][ky]);
-                span_1.innerHTML = dataMenuItem[k][ky];
+               
+                for (var ky = 0; ky < dataMenuItem[k].length; ky++) {
+                    var li_1 = document.createElement("li");
+                    var a_1 = document.createElement("a");
+                    a_1.setAttribute("href", "#");
+                    a_1.setAttribute("tabindex", "-1");
+                    a_1.setAttribute("class",obj_rs);
+            
+                    a_1.setAttribute("id", dataMenuItem[k][ky]);
+                    var span_1 = document.createElement("span");
+                //    span_1.setAttribute("class", "serviceHost nav-text");
+               //   span_1.setAttribute("class",obj_rs);
+            
+                 //   span_1.setAttribute("id", dataMenuItem[k][ky]);
+                    span_1.innerHTML = dataMenuItem[k][ky];
+                  
+                    a_1.appendChild(span_1);
+                    li_1.appendChild(a_1);
+                    ul_1.appendChild(li_1);
+                }
               
-                a_1.appendChild(span_1);
-                li_1.appendChild(a_1);
-                ul_1.appendChild(li_1);
+             
+                
+                a.appendChild(span);
+                  a.appendChild(span_serive_a);
+                li.appendChild(a);
+                li.appendChild(ul_1);
+               
+                ul.appendChild(li);
             }
-          
-         
             
-            a.appendChild(span);
-              a.appendChild(span_serive_a);
-            li.appendChild(a);
-            li.appendChild(ul_1);
-           
-            ul.appendChild(li);
-        }
-        
-    };
+        };
 
-/*执行主机节点的真实状态的左边菜单
- * RS = real_status
- */
+    /*执行主机节点的真实状态的左边菜单
+     * RS = real_status
+     */
     var addHostRSElementLi = function (obj_Element,obj_rs) {
         //添加CS的各个主机节点信息
       
@@ -196,21 +196,14 @@ function addElementLiHost(obj,obj_cs,obj_rs) {
                a_host1.setAttribute("tabindex", "-1");
                 a_host1.setAttribute("id", ConuslName[y]);
                 var span_host1 = document.createElement("span");
-        //        span_host1.setAttribute("class", "serviceHost nav-text");
-//               span_host1.setAttribute("class", obj_rs);
-      //          span_host1.setAttribute("id", ConuslName[y]);
                 span_host1.innerHTML = ConuslName[y];
-             
                 a_host1.appendChild(span_host1);
                 li_host1.appendChild(a_host1);
                 ul_host.appendChild(li_host1); 
         }
         var span_host_a = document.createElement("span");
-       
         span_host_a.innerHTML="CS";
          var span_host_b = document.createElement("span");
-         
-      
         a_host.appendChild(span_host_a);
          a_host.appendChild(span_host_b);
         li_host.appendChild(a_host);

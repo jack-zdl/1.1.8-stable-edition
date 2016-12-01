@@ -30,8 +30,7 @@ require.config({
 		}
 　　}
 });
-require(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,CsMath,ServiceMath,WarnMath){
-	console.log(globalObject.serviceName);
+define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,CsMath,ServiceMath,WarnMath){
 	function runJqgridBaseFunction(){
 		function runJqgridDBfunction(){
 			var getDB = new CsMath.Commons();
@@ -245,5 +244,8 @@ require(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', '
 		globalObject.isSetJqgrid = 1;
 		setTimeout(setTime,configObject.FreshenTime);
 	}
-	setTime();
+	//setTime();
+	return {
+		setTime :setTime
+	};
 });

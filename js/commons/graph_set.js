@@ -21,7 +21,7 @@ define(['math'],function(math){
                 var data_object = {};
                 var data_id_object = {};
                 for (var i = obj_array_outkey.length - 1; i >= 0; i--) {
-                    var url = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/"+obj_array_outkey[i] +"/history/" +hostName  + "?raw";
+                    var url = "http://" + configObject.IP + "/v1/kv/cmha/service/" + globalObject.serviceName + "/Graph/"+obj_array_outkey[i] +"/history/" +globalObject.hostName  + "?raw";
                     var GetData1 =new  math.GetData();
                     var dataHis = GetData1.getHistoryData(url)[obj_array_inkey[i]];
                     var after_data;
@@ -43,7 +43,7 @@ define(['math'],function(math){
 				var data_object = {};
 				var data_id_object = {};
 				for (var i = obj_array_inkey.length - 1; i >= 0; i--) {
-					var url = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/Graph/"+obj_array_Graph[i] +"/history/" +hostName +"/"+obj_array_name[0] + "?raw";
+					var url = "http://" + configObject.IP + "/v1/kv/cmha/service/" + globalObject.serviceName + "/Graph/"+obj_array_Graph[i] +"/history/" +globalObject.hostName +"/"+obj_array_name[0] + "?raw";
 					var GetData1 =new  math.GetData();
 					var dataHis = GetData1.getHistoryData(url)[obj_array_inkey[i]];
 					var after_data;

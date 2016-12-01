@@ -1,6 +1,6 @@
 require.config({
 	paths:{
-		"jquery":"jquery"
+		"jquery":"lib/jquery"
 	}
 });
 define(['jquery'],function ($) {
@@ -45,7 +45,7 @@ define(['jquery'],function ($) {
 				var date_values = new Date(endTime);
 				var time_values = (date_values).getTime();
 				if (obj_int_datagrid == 0) {  //判断是否是第一次建表
-					var after_time = getDate(endTime);
+					var after_time = globalObject.getDate(endTime);
 					obj_array_values[i].sys.time = after_time;
 					obj_array_values[i].db.time = after_time;
 					// after_values = $.extend({}, obj_array_values[i].sys, obj_array_values[i].db);
@@ -57,7 +57,7 @@ define(['jquery'],function ($) {
 					time = time_values;
 				} else {
 					if (time_values > obj_time) {
-						var after_time = getDate(endTime);
+						var after_time = globalObject.getDate(endTime);
 						obj_array_values[i].sys.time = after_time;
 						obj_array_values[i].db.time = after_time;
 						// after_values = $.extend({}, obj_array_values[i].sys, obj_array_values[i].db);

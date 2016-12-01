@@ -191,7 +191,7 @@ var pagefunction = function() {
                 return "Unknown";
             }
         };
-         var changeVipOfChap = function(obj_a_serfHealth_status,obj_vip){
+        var changeVipOfChap = function(obj_a_serfHealth_status,obj_vip){
             if(obj_a_serfHealth_status == "OK"){
                 return obj_vip;
             }else{
@@ -544,175 +544,177 @@ var pagefunction = function() {
             getData_SHV();
         };
         var changeData_SHV = function() {
-            var dict_monitor = [ {
-                id:"001",
-                type:"I",
-                value:"Monitor Handler Triggered"
-            }, {
-                id:"002",
-                type:"E",
-                value:"Create consul-api client failed!"
-            }, {
-                id:"003",
-                type:"I",
-                value:"Give up switching to async replication!"
-            }, {
-                id:"005",
-                type:"I",
-                value:"Create consul-api client successfully! "
-            }, {
-                id:"006",
-                type:"E",
-                value:"Get peer service | + servicename + | health status from CS failed! "
-            }, {
-                id:"007",
-                type:"I",
-                value:"Get peer service | + servicename + | health status from CS successfully! "
-            }, {
-                id:"008",
-                type:"E",
-                value:"|+ servicename + | peer service not exist in CS! "
-            }, {
-                id:"009",
-                type:"I",
-                value:"|+servicename + | peer service exist in CS! "
-            }, {
-                id:"010",
-                type:"I",
-                value:"Service health status is passing in CS! "
-            }, {
-                id:"011",
-                type:"W",
-                value:"Warning! Peer database | + other_hostname + | replicaton error. Service health status is warning in CS! "
-            }, {
-                id:"012",
-                type:"I",
-                value:"Current switch_async value is | + Switch "
-            }, {
-                id:"013",
-                type:"I",
-                value:"Config file switch_async format error,off or on! "
-            }, {
-                id:"014",
-                type:"I",
-                value:"Service health status is critical in CS! "
-            }, {
-                id:"015",
-                type:"E",
-                value:"Set peer database repl_err_counter to 1 in CS failed! "
-            }, {
-                id:"016",
-                type:"I",
-                value:"Set peer database repl_err_counter to 1 in CS successfully! "
-            }, {
-                id:"017",
-                type:"E",
-                value:"Not passing,not waring,not critical ,is invalid state! "
-            }, {
-                id:"018",
-                type:"E",
-                value:"Get and check current service leader from CS failed! "
-            }, {
-                id:"019",
-                type:"I",
-                value:"Get and check current service leader from CS successfully! "
-            }, {
-                id:"020",
-                type:"I",
-                value:"| +ip + | is not service leader! "
-            }, {
-                id:"021",
-                type:"I",
-                value:"| +ip + | is service leader! "
-            }, {
-                id:"022",
-                type:"E",
-                value:"Get | +servicename + | service health status from CS failed! "
-            }, {
-                id:"023",
-                type:"I",
-                value:"Get | +servicename + | service health status from CS successfully! "
-            }, {
-                id:"024",
-                type:"I",
-                value:"| +ip +| service health status is |+status+| "
-            }, {
-                id:"025",
-                type:"E",
-                value:"Create connection object to local database failed! "
-            }, {
-                id:"026",
-                type:"I",
-                value:"Create connection object to local database successfully! "
-            }, {
-                id:"027",
-                type:"E",
-                value:"Connected to local database failed! "
-            }, {
-                id:"028",
-                type:"I",
-                value:"Connected to local database successfully! "
-            }, {
-                id:"029",
-                type:"E",
-                value:"Set rpl_semi_sync_master_keepsyncrepl=0 failed! "
-            }, {
-                id:"030",
-                type:"I",
-                value:"Set rpl_semi_sync_master_keepsyncrepl=0 successfully! "
-            }, {
-                id:"031",
-                type:"E",
-                value:"Set rpl_semi_sync_master_trysyncrepl=0 failed! "
-            }, {
-                id:"032",
-                type:"I",
-                value:"Set rpl_semi_sync_master_trysyncrepl=0 successfully! "
-            }, {
-                id:"033",
-                type:"I",
-                value:"Switching local database to async replication! "
-            }, {
-                id:"034",
-                type:"I",
-                value:"Monitor Handler Sleep 60s! "
-            }, {
-                id:"035",
-                type:"I",
-                value:"Connecting to peer database...... "
-            }, {
-                id:"036",
-                type:"E",
-                value:"Create connection object to peer database failed! "
-            }, {
-                id:"037",
-                type:"I",
-                value:"Create connection object to peer database successfully! "
-            }, {
-                id:"038",
-                type:"E",
-                value:"Connected to the peer database failed! "
-            }, {
-                id:"039",
-                type:"I",
-                value:"Connected to the peer database successfully! "
-            }, {
-                id:"040",
-                type:"I",
-                value:"Checking peer database I/O thread status. Failed! "
-            }, {
-                id:"041",
-                type:"I",
-                value:"Checking peer database I/O thread status. Successfully! "
-            }, {
-                id:"042",
-                type:"E",
-                value:"Resolve slave status failed! "
-            }, {
-                id:"043",
-                type:"I",
-                value:"The I/O thread status is | + string(Slave_IO_Running.(uint8)) + |! "
-            } ];
+            var dict_monitor = [ 
+                                        {
+                                            id:"001",
+                                            type:"I",
+                                            value:"Monitor Handler Triggered"
+                                        }, {
+                                            id:"002",
+                                            type:"E",
+                                            value:"Create consul-api client failed!"
+                                        }, {
+                                            id:"003",
+                                            type:"I",
+                                            value:"Give up switching to async replication!"
+                                        }, {
+                                            id:"005",
+                                            type:"I",
+                                            value:"Create consul-api client successfully! "
+                                        }, {
+                                            id:"006",
+                                            type:"E",
+                                            value:"Get peer service | + servicename + | health status from CS failed! "
+                                        }, {
+                                            id:"007",
+                                            type:"I",
+                                            value:"Get peer service | + servicename + | health status from CS successfully! "
+                                        }, {
+                                            id:"008",
+                                            type:"E",
+                                            value:"|+ servicename + | peer service not exist in CS! "
+                                        }, {
+                                            id:"009",
+                                            type:"I",
+                                            value:"|+servicename + | peer service exist in CS! "
+                                        }, {
+                                            id:"010",
+                                            type:"I",
+                                            value:"Service health status is passing in CS! "
+                                        }, {
+                                            id:"011",
+                                            type:"W",
+                                            value:"Warning! Peer database | + other_hostname + | replicaton error. Service health status is warning in CS! "
+                                        }, {
+                                            id:"012",
+                                            type:"I",
+                                            value:"Current switch_async value is | + Switch "
+                                        }, {
+                                            id:"013",
+                                            type:"I",
+                                            value:"Config file switch_async format error,off or on! "
+                                        }, {
+                                            id:"014",
+                                            type:"I",
+                                            value:"Service health status is critical in CS! "
+                                        }, {
+                                            id:"015",
+                                            type:"E",
+                                            value:"Set peer database repl_err_counter to 1 in CS failed! "
+                                        }, {
+                                            id:"016",
+                                            type:"I",
+                                            value:"Set peer database repl_err_counter to 1 in CS successfully! "
+                                        }, {
+                                            id:"017",
+                                            type:"E",
+                                            value:"Not passing,not waring,not critical ,is invalid state! "
+                                        }, {
+                                            id:"018",
+                                            type:"E",
+                                            value:"Get and check current service leader from CS failed! "
+                                        }, {
+                                            id:"019",
+                                            type:"I",
+                                            value:"Get and check current service leader from CS successfully! "
+                                        }, {
+                                            id:"020",
+                                            type:"I",
+                                            value:"| +ip + | is not service leader! "
+                                        }, {
+                                            id:"021",
+                                            type:"I",
+                                            value:"| +ip + | is service leader! "
+                                        }, {
+                                            id:"022",
+                                            type:"E",
+                                            value:"Get | +servicename + | service health status from CS failed! "
+                                        }, {
+                                            id:"023",
+                                            type:"I",
+                                            value:"Get | +servicename + | service health status from CS successfully! "
+                                        }, {
+                                            id:"024",
+                                            type:"I",
+                                            value:"| +ip +| service health status is |+status+| "
+                                        }, {
+                                            id:"025",
+                                            type:"E",
+                                            value:"Create connection object to local database failed! "
+                                        }, {
+                                            id:"026",
+                                            type:"I",
+                                            value:"Create connection object to local database successfully! "
+                                        }, {
+                                            id:"027",
+                                            type:"E",
+                                            value:"Connected to local database failed! "
+                                        }, {
+                                            id:"028",
+                                            type:"I",
+                                            value:"Connected to local database successfully! "
+                                        }, {
+                                            id:"029",
+                                            type:"E",
+                                            value:"Set rpl_semi_sync_master_keepsyncrepl=0 failed! "
+                                        }, {
+                                            id:"030",
+                                            type:"I",
+                                            value:"Set rpl_semi_sync_master_keepsyncrepl=0 successfully! "
+                                        }, {
+                                            id:"031",
+                                            type:"E",
+                                            value:"Set rpl_semi_sync_master_trysyncrepl=0 failed! "
+                                        }, {
+                                            id:"032",
+                                            type:"I",
+                                            value:"Set rpl_semi_sync_master_trysyncrepl=0 successfully! "
+                                        }, {
+                                            id:"033",
+                                            type:"I",
+                                            value:"Switching local database to async replication! "
+                                        }, {
+                                            id:"034",
+                                            type:"I",
+                                            value:"Monitor Handler Sleep 60s! "
+                                        }, {
+                                            id:"035",
+                                            type:"I",
+                                            value:"Connecting to peer database...... "
+                                        }, {
+                                            id:"036",
+                                            type:"E",
+                                            value:"Create connection object to peer database failed! "
+                                        }, {
+                                            id:"037",
+                                            type:"I",
+                                            value:"Create connection object to peer database successfully! "
+                                        }, {
+                                            id:"038",
+                                            type:"E",
+                                            value:"Connected to the peer database failed! "
+                                        }, {
+                                            id:"039",
+                                            type:"I",
+                                            value:"Connected to the peer database successfully! "
+                                        }, {
+                                            id:"040",
+                                            type:"I",
+                                            value:"Checking peer database I/O thread status. Failed! "
+                                        }, {
+                                            id:"041",
+                                            type:"I",
+                                            value:"Checking peer database I/O thread status. Successfully! "
+                                        }, {
+                                            id:"042",
+                                            type:"E",
+                                            value:"Resolve slave status failed! "
+                                        }, {
+                                            id:"043",
+                                            type:"I",
+                                            value:"The I/O thread status is | + string(Slave_IO_Running.(uint8)) + |! "
+                                        }
+                         ];
             var b_really_data_SHV = [];
             var after_decodeData_SHV_monitor = function(obj_valueOfSHV, obj_time) {
                 b_really_data_SHV = [];
@@ -1232,6 +1234,7 @@ var pagefunction = function() {
         changeData_SHV();
         warnJqGrid();
     };
+    //系统的
     var run_jqgrid_Statistics_function = function() {
         var data_statistics = [];
         var get_statistics_data = function() {

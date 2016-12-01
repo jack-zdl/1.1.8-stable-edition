@@ -1,10 +1,10 @@
 require.config({
 	paths: {
-		"jquery": "jquery",
-		"JQmath": "jqgrid_math",
-		"gridlocale": "grid.locale-zh_CN",
-		"jqG": "jquery.jqGrid.min",
-		"jquery-ui": "jquery-ui-1.10.3.min"
+		"jquery": "lib/jquery",
+		"JQmath": "commons/jqgrid_math",
+		"gridlocale": "lib/grid.locale-zh_CN",
+		"jqG": "lib/jquery.jqGrid.min",
+		"jquery-ui": "lib/jquery-ui-1.10.3.min"
 	},
 	shim: {　　　　
 		'grid_locale': {
@@ -21,7 +21,7 @@ require.config({
 		}　　
 	}
 });
-require(['jquery', 'JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery, JQmath, gridlocale) {
+define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQmath, gridlocale) {
 	alert("jqgrid_main.js");
 	//这个是系统的变量
 	var after_sys_real_status_values = [],//表格数据数组
@@ -37,8 +37,8 @@ require(['jquery', 'JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,
 				JQGridData = 1;
 		});
 	function runJqgridFunction() {
-		jQuery("#showServiceName").html(serviceName);
-		jQuery("#showHostName").html(hostName);
+		jQuery("#showServiceName").html(globalObject.serviceName);
+		jQuery("#showHostName").html(globalObject.hostName);
 		//获得主机名的类型。分为DB和系统类型
 		 var hostType  = globalObject.getTypeHost();
 			switch (hostType) { //根据类型来判定展示哪个表格，Db或系统表格
@@ -59,7 +59,7 @@ require(['jquery', 'JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,
 			}
 		function setRealSystem() {
 			//var ncpu=0;//全局变量----来显示是否为红色
-			var url_keys_a = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/real_status/" + hostName + "/1?raw";
+			var url_keys_a = "http://" + configObject.IP + "/v1/kv/cmha/service/" + globalObject.serviceName + "/real_status/" + globalObject.hostName + "/1?raw";
 			var url_array = [url_keys_a];
 			//url_array.push(url_keys_a);
 			var getDataFunction = new JQmath.SetDataFunction();
@@ -270,7 +270,7 @@ require(['jquery', 'JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,
 			setTimeout(setRealSystem, 800);
 		}
 		function setRealDB(){
-			var url_keys_a = "http://" + IP + "/v1/kv/cmha/service/" + serviceName + "/real_status/" + hostName + "/1?raw";
+			var url_keys_a = "http://" + configObject.IP + "/v1/kv/cmha/service/" + globalObject.serviceName + "/real_status/" + globalObject.hostName + "/1?raw";
 			var url_array = [url_keys_a];
 			var getDataFunction = new JQmath.SetDataFunction();
 			var getData = getDataFunction.setData(url_array); //得到数据
@@ -581,5 +581,8 @@ require(['jquery', 'JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,
 			setTimeout(setRealDB, 800);
 		}
 	}
-	runJqgridFunction();
+//	runJqgridFunction();
+	return {
+		runJqgridFunction : runJqgridFunction
+	};
 });

@@ -30,7 +30,7 @@ require.config({
 		}
 　　}
 });
-require(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,CsMath,ServiceMath,WarnMath){
+define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,CsMath,ServiceMath,WarnMath){
 	//建立jqgrid_cs页面的主函数
 	function runJqgridCSFunction(){
 		function runJqgridCS(){
@@ -415,6 +415,9 @@ require(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', '
 		globalObject.isSetJqgrid = 1;
 		setTimeout(setTime,configObject.FreshenTime);
 	}
-	setTime();
+//	setTime();
+	return {
+		setTime  : setTime
+	};
 });
 

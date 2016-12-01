@@ -27,29 +27,22 @@ $("#Home").click(function() {
  */
 $(".serviceNews").click(function() {
     globalObject.serviceName = $(this).attr("id");
-    document.cookie = "serviceName=" + globalObject.serviceName;
     $("#content").load("ajax/jqgrid_base.html");
 });
 /*点击主机节点
  */
 $(".serviceHost").click(function() {
-    hostName = $(this).attr("id");
-    serviceName =$($($($($($(this).parents("ul")[0])).children("li")[0]).children("a")).children("span")).attr("id");
-    
-    document.cookie = "hostName=" + hostName;
-    document.cookie = "serviceName=" + serviceName;
-    $("#content").load("ajax/jqgrid3.html");
+    globalObject.hostName = $(this).attr("id");
+    globalObject.serviceName =$($($($($($(this).parents("ul")[0])).children("li")[0]).children("a")).children("span")).attr("id");
+    $("#content").load("ajax/jqgrid_host.html");
 });
 /*2016/9/20 add Host_real_status
  */
 /*2016/10/24 点击菜单传达 service and host net_card
  */
  $(".GHS").click(function(){
-    
-    hostName = $(this).attr("id");
-    serviceName =$($($(this).parents("ul")[0]).prev()).children("span").html();
-    document.cookie = "hostName=" + hostName;
-    document.cookie = "serviceName=" + serviceName;
+    globalObject.hostName = $(this).attr("id");
+    globalObject.serviceName =$($($(this).parents("ul")[0]).prev()).children("span").html();
      $("#content").load("ajax/graph.html");
  });
  //点击右边菜单
@@ -63,10 +56,8 @@ $(".serviceHost").click(function() {
 //点击菜单host graph
 //
 $(".RGS").click(function(){
-    hostName = $(this).attr("id");
-    serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
-    document.cookie = "hostName=" + hostName;
-    document.cookie = "serviceName=" + serviceName;
+    globalObject.hostName = $(this).attr("id");
+    globalObject.serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
     var hostType  = globalObject.getTypeHost();
     if(hostType == "db")
     $("#content").load("ajax/graph_db.html");
@@ -74,11 +65,7 @@ $(".RGS").click(function(){
     $("#content").load("ajax/graph.html"); 
 });   
 $(".RS").click(function(){  
-    
-    hostName = $(this).attr("id");
-    serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
-    document.cookie = "serviceName=" + serviceName;
-    document.cookie = "hostName=" + hostName;
-    debugger;
+    globalObject.hostName = $(this).attr("id");
+    globalObject.serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
    $("#content").load("ajax/jqgrid_real_status.html");
 });

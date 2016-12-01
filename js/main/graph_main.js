@@ -5,12 +5,12 @@
 var change;
 require.config({
 	paths:{
-		"jquery" : "jquery",
-		"math"	:"graph_math",
-		"Dygraph":"Dygraphs",
-		"highcharts":"highcharts",
-		"list"	: "graph_list",
-		"set":"graph_set"
+		"jquery" : "lib/jquery",
+		"math"	:"commons/graph_math",
+		"Dygraph":"lib/Dygraphs",
+		"highcharts":"lib/highcharts",
+		"list"	: "commons/graph_list",
+		"set":"commons/graph_set"
 	},
 	shim: {
 　　　　'Dygraph':{
@@ -22,7 +22,7 @@ require.config({
 		}
 　　}
 });
-require(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dygraph,highcharts,list,set) {
+define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dygraph,highcharts,list,set) {
 	var array = {
 					"netkey":{
 							"Name":["eth0"],
@@ -61,30 +61,37 @@ require(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,D
 										 	"id":"containerC"}
 					};
 		//切换
-	$(".GL").click(function(){
+	function elementClick(){
+		$(".GL").click(function(){
+		debugger;
 		array.netkey.Name[0]=$(this).attr("id");
 		array.netkey.Title[0]=$(this).attr("id");
 		run_graph_sys_main();
 	});	
 	$(".GLD").click(function(){
+		debugger;
 		array.diskkey.Name[0]=$(this).attr("id");
 		array.diskkey.Title[0]=$(this).html();
 		pieArray.disk_space.name=$(this).html();
 		pieArray.disk_inodes_util.name=$(this).html();
 		run_graph_sys_main();
 	});
+	}
+	
 	//结束切换
 	function run_graph_sys_main(){
+		debugger;
+		elementClick();
 		/**
 		 * [run_network_list description]set memu network or disk
 		 * @return {[type]} [description]
 		 */
 		var run_network_list = function(){
-			var url_network ="http://"+IP+"/v1/kv/cmha/service/"+serviceName+"/net_dev/"+hostName+"?raw";
+			var url_network ="http://"+configObject.IP+"/v1/kv/cmha/service/"+globalObject.serviceName+"/net_dev/"+globalObject.hostName+"?raw";
 			var getDataNetwork =  new list.get_graph_list();
 			var dataNetwork = getDataNetwork.m1(url_network);
 			getDataNetwork.m2("Network",dataNetwork['dev_name']);
-			var url_disk ="http://"+IP+"/v1/kv/cmha/service/"+serviceName+"/disk_dev/"+hostName+"?raw";
+			var url_disk ="http://"+configObject.IP+"/v1/kv/cmha/service/"+globalObject.serviceName+"/disk_dev/"+globalObject.hostName+"?raw";
 			var getDataDisk =  new list.get_graph_list();
 			var dataDisk = getDataDisk.m1(url_disk);
 			getDataDisk.m3("Disk",dataDisk['dev_name']);
@@ -274,6 +281,8 @@ require(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,D
 		}
 		getPieGraphs();
 	}
-	run_graph_sys_main();
-	
+	//run_graph_sys_main();
+	return {
+		run_graph_sys_main : run_graph_sys_main
+	};
 });

@@ -14,7 +14,7 @@ var changeCsMemu = function() {
  */ 
     var getService_db = function() {
         $.ajax({
-            url:"http://" + IP + "/v1/catalog/services",
+            url:"http://" + configObject.IP + "/v1/catalog/services",
             method:"get",
             async:false,
             dataType:"json",
@@ -31,7 +31,7 @@ var changeCsMemu = function() {
  */
     var getConsulName = function () {
           $.ajax({
-            url:"http://" + IP + "/v1/catalog/service/consul",
+            url:"http://" + configObject.IP + "/v1/catalog/service/consul",
 
             method:"get",
             async:false,
@@ -50,7 +50,7 @@ var changeCsMemu = function() {
         for (var i = 0; i < after_dataMemu.length; i++) {
             $.ajax({
                 method:"get",
-                url:"http://" + IP + "/v1/health/service/" + after_dataMemu[i],
+                url:"http://" + configObject.IP + "/v1/health/service/" + after_dataMemu[i],
                 async:false,
                 dataType:"json",
                 success:function(result, status, xhr) {

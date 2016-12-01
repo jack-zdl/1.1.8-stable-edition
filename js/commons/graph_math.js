@@ -6,7 +6,7 @@
 //获得serviceName   hostName
 require.config({
 	paths:{
-		"jquery" : "jquery"
+		"jquery" : "lib/jquery"
 	}
 });
 define(['jquery'], function($){
@@ -33,7 +33,7 @@ define(['jquery'], function($){
 			
 			var dataAllGraphHost = {};
 			$.ajax({
-                url:"http://" + IP + "/v1/kv/cmha/service/"+serviceName+"/Graph/current/"+hostName+"?raw" ,
+                url:"http://" + configObject.IP + "/v1/kv/cmha/service/"+globalObject.serviceName+"/Graph/current/"+globalObject.hostName+"?raw" ,
                 method: "get",
                 async: false,
                 dataType: "json",
