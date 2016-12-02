@@ -2,7 +2,7 @@
  */
 require.config({
 	paths:{
-		"jquery" : "jquery"
+		"jquery" : "lib/jquery"
 	}
 });
 define(['jquery'],function($){

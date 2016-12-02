@@ -113,6 +113,7 @@ define(['jquery'],function($){
 	        var li_cs = document.createElement("li");
 	        var a_cs  = document.createElement("a");
 	        a_cs.setAttribute("href","#");
+	        a_cs.setAttribute("class","cs-home");
 	        a_cs.setAttribute("id","Home");
 	        var i_cs =document.createElement("i");
 	        i_cs.setAttribute("class","fa fa-archive fa-lg");

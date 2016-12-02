@@ -10,7 +10,8 @@ require.config({
 		"Dygraph":"lib/Dygraphs",
 		"highcharts":"lib/highcharts",
 		"list"	: "commons/graph_list",
-		"set":"commons/graph_set"
+		"set":"commons/graph_set",
+		"allKeyFun":"commons/allKey"
 	},
 	shim: {
 　　　　'Dygraph':{
@@ -22,7 +23,7 @@ require.config({
 		}
 　　}
 });
-define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dygraph,highcharts,list,set) {
+define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],function (math,$,Dygraph,highcharts,list,set,allKeyFun) {
 	var array = {
 					"netkey":{
 							"Name":["eth0"],
@@ -63,19 +64,19 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 		//切换
 	function elementClick(){
 		$(".GL").click(function(){
-		debugger;
-		array.netkey.Name[0]=$(this).attr("id");
-		array.netkey.Title[0]=$(this).attr("id");
-		run_graph_sys_main();
-	});	
-	$(".GLD").click(function(){
-		debugger;
-		array.diskkey.Name[0]=$(this).attr("id");
-		array.diskkey.Title[0]=$(this).html();
-		pieArray.disk_space.name=$(this).html();
-		pieArray.disk_inodes_util.name=$(this).html();
-		run_graph_sys_main();
-	});
+			debugger;
+			array.netkey.Name[0]=$(this).attr("id");
+			array.netkey.Title[0]=$(this).attr("id");
+			run_graph_sys_main();
+		});	
+		$(".GLD").click(function(){
+			debugger;
+			array.diskkey.Name[0]=$(this).attr("id");
+			array.diskkey.Title[0]=$(this).html();
+			pieArray.disk_space.name=$(this).html();
+			pieArray.disk_inodes_util.name=$(this).html();
+			run_graph_sys_main();
+		});
 	}
 	
 	//结束切换
@@ -102,7 +103,7 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 		var getIncData;//全局变量
 		function getIncDataFun(){
 			var getData = new math.GetData();
-			 getIncData = getData.getRandomData();
+			getIncData = getData.getRandomData();
 			return getIncData;
 		}
 		getIncDataFun();
@@ -111,11 +112,37 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 		 * [getAllDygraphs 建立系统的常规折线图]
 		 * @return {[type]} [description]
 		 */
+		var g={};
+		var allKey;
+		var getAllData ;
+		//var after_alldata;
+		var getNetData;  
+		var getDiskData; 
+		function setTime(){
+			var getAllDygraphs = new set.SetDygraphs();
+			var getDNgraphs = new set.SetDygraphs();
+			var allKeyFunction = new allKeyFun.Commons().systemAllKey;
+			var pieObj = new set.SetDygraphs();
+		  	var getPieData =pieObj.SetDatePie(array["diskkey"]["Name"],globalObject.afterTypeHost,getIncData);//更新数据
+		  	for(var ky in getPieData){
+		  		g[ky].series[0].setData(getPieData[ky]);
+		  	}
+			var after_data_network1 = getDNgraphs.incDNComHis(getNetData.data_id_object,array.netkey.OutKey,array.netkey.Name,getIncData);
+			var after_data_disk1 = getDNgraphs.incDNComHis(getDiskData.data_id_object,array.diskkey.OutKey,array.diskkey.Name,getIncData);
+			var after_data1 = getAllDygraphs.incComHis(getAllData.data_id_object,allKeyFunction,getIncData);
+			var afterAlldata = $.extend({}, after_data_network1, after_data_disk1,after_data1);
+			for (var ky in allKeyFunction) {
+					g[ky].updateOptions( { 'file': afterAlldata[ky] } );
+				}
+				console.log("system定时器");
+			globalObject.graphTimer = setTimeout(setTime,6000);
+ 		}
+ 		setTimeout(setTime,6000);
 		function getAllDygraphs(){
  			var arrayOutKey = ["Graph_cpu_util","Graph_cpu_load","Graph_swap_used"];//url
  			var arrayInKey = ["cpu_util","cpu_load","swap_util"];//增量数据内层关键字----历史数据的key
  			var DygraphLabels = [["Date","user","system","iowait","idle","softirq","irq"],["Date","load1","load5","load15"],["Date","in","out"]];//图表标签	
-			var allKey={
+			allKey={
 							"cpu_util":{"status":"status_cpu_util",
 										"DygraphLabels":["Date","user","system","idle","iowait","softirq","irq"],
 										"OutKey":"Graph_cpu_util",
@@ -141,17 +168,7 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 										  }
 						};
 			var getAllDygraphs = new set.SetDygraphs();
-			var getAllData = getAllDygraphs.setAllData(arrayOutKey,arrayInKey);
-							
-			var g={};
- 			function setTime(){
-				var after_data1 = getAllDygraphs.incComHis(afterAllData,arrayKay1,key);
-				for (var ky in allKey) {
-						g[ky].updateOptions( { 'file': after_data1[ky] } );
-					}
-				setTimeout(setTime,60000);
- 			}
- 			setTimeout(setTime,60000);
+			getAllData = getAllDygraphs.setAllData(arrayOutKey,arrayInKey);				
 			for (var k in allKey) {
 				var all_option , after_data;
 					all_option= new math.Options().m1(allKey[k].status);
@@ -163,7 +180,6 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
                  			document.getElementById(allKey[k].id),
                  			after_data,
                  			all_option);
-					//gs.push(g[k]);
 			}
 		}
 		getAllDygraphs();
@@ -219,9 +235,10 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 										 } 
 					};
 			var getDNgraphs = new set.SetDygraphs();
-			var getNetData  = getDNgraphs.setDNData(array.netkey.Graph,array.netkey.OutKey,array.netkey.Name,array.netkey.InKey);
-			var getDiskData = getDNgraphs.setDNData(array.diskkey.Graph,array.diskkey.OutKey,array.diskkey.Name,array.diskkey.InKey);
-			var after_alldata = $.extend({}, getNetData.data_object, getDiskData.data_object);
+			getNetData  = getDNgraphs.setDNData(array.netkey.Graph,array.netkey.OutKey,array.netkey.Name,array.netkey.InKey);
+			getDiskData = getDNgraphs.setDNData(array.diskkey.Graph,array.diskkey.OutKey,array.diskkey.Name,array.diskkey.InKey);
+			//var after_alldata = $.extend({}, getNetData.data_object, getDiskData.data_object);
+			after_alldata = $.extend({}, getNetData.data_object, getDiskData.data_object);
 			for(var key in allKey){
 				if(key == "net_Bytes" || key == "net_packets"){
 					allKey[key].title = allKey[key].title+"  ("+array.netkey.Name[0]+")";
@@ -229,19 +246,19 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 					allKey[key].title = allKey[key].title +" "+array.diskkey.Title[0];
 				}
 			}
-			var g={};
-			function setTime() {
-				var after_data_network1 = getDNgraphs.incDNComHis(getNetData.data_id_object,array.netkey.OutKey,array.netkey.Name,getIncData);
-				var after_data_disk1 = getDNgraphs.incDNComHis(getDiskData.data_id_object,array.diskkey.OutKey,array.diskkey.Name,getIncData);
-				var after_all_data = $.extend({}, after_data_network1, after_data_disk1);
+			//var g={};
+			// function setTime() {
+			// 	var after_data_network1 = getDNgraphs.incDNComHis(getNetData.data_id_object,array.netkey.OutKey,array.netkey.Name,getIncData);
+			// 	var after_data_disk1 = getDNgraphs.incDNComHis(getDiskData.data_id_object,array.diskkey.OutKey,array.diskkey.Name,getIncData);
+			// 	var after_all_data = $.extend({}, after_data_network1, after_data_disk1);
 
-				for (var ky in allKey) {
-					var after_data_inc = after_all_data[ky];
-					g[ky].updateOptions( { 'file': after_data_inc } );
-				}
-				setTimeout(setTime,60000);
-			}
-			setTimeout(setTime,6000);
+			// 	for (var ky in allKey) {
+			// 		var after_data_inc = after_all_data[ky];
+			// 		g[ky].updateOptions( { 'file': after_data_inc } );
+			// 	}
+			// 	setTimeout(setTime,60000);
+			// }
+			// setTimeout(setTime,6000);
 			for(var k in allKey){
 				var all_option , after_data;
 					all_option= new math.Options().m1(allKey[k].status);
@@ -261,15 +278,6 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 			var pieObj = new set.SetDygraphs();
 			var pieTables=[];
 			var getPieData = pieObj.SetDatePie(array["diskkey"]["Name"],globalObject.afterTypeHost,getIncData);
-			var g = {};
-			function setTime() {
-			  	var getPieData =pieObj.SetDatePie(array["diskkey"]["Name"],globalObject.afterTypeHost,getIncData);//更新数据
-			  	for(var ky in getPieData){
-			  		g[ky].series[0].setData(getPieData[ky]);
-			  	}
-			  	setTimeout(setTime,60000);
-			}
-			setTimeout(setTime,6000);
 			for(var k in getPieData){
 				var options =new  math.Options();
 				var pieOption = options.pieFun();
@@ -281,7 +289,6 @@ define(['math','jquery','Dygraph',"highcharts","list","set"],function (math,$,Dy
 		}
 		getPieGraphs();
 	}
-	//run_graph_sys_main();
 	return {
 		run_graph_sys_main : run_graph_sys_main
 	};

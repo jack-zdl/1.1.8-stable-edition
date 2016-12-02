@@ -32,7 +32,7 @@ require.config({
 　　}
 });
 define(['jquery','CsMath','ServiceMath','WarnMath','HostMath','jquery-ui', 'gridlocale', 'jqG'],function(jQuery,CsMath,ServiceMath,WarnMath,HostMath){
-	alert(globalObject.hostName+globalObject.serviceName);
+	//alert(globalObject.hostName+globalObject.serviceName);
 	function runJqgridHostFunction(){
 		function runJqgridDBFunction(){
 			var getDB = new CsMath.Commons();
@@ -401,9 +401,7 @@ define(['jquery','CsMath','ServiceMath','WarnMath','HostMath','jquery-ui', 'grid
 		}
 		//runJqgridDBReportFunction();
 		function getType() {
-			debugger;
 			runJqgridDBFunction();
-			console.log(globalObject.getTypeHost());
 	        if (globalObject.getTypeHost() == "db") {
 	            runJqgridDBSwitchFunction();
 	            runJqgridDBFailoverFunction();
@@ -416,10 +414,11 @@ define(['jquery','CsMath','ServiceMath','WarnMath','HostMath','jquery-ui', 'grid
 	}
 	function setTime() {
 	    runJqgridHostFunction();
+	    console.log("Host的定时器 = "+new Date());
 	    globalObject.isSetJqgrid = 1;
-	    setTimeout(setTime, configObject.FreshenTime);
+	    globalObject.hostTimer = setTimeout(setTime, configObject.FreshenTime);
 	}
-	setTime();
+//setTime();
 	return {
 		setTime : setTime
 	};

@@ -77,7 +77,6 @@ define(['math'],function(math){
                 return dataFlot;
             };
        		this.incDNComHis = function(obj_data_his,obj_array_outKey,obj_array_url_name,obi_getIncData){
-       			debugger;
        			var dataFlot = {};
 				for(var k in obj_data_his){
 					var i = 0;
@@ -120,7 +119,6 @@ define(['math'],function(math){
 						dataDb["swap_space"] =obj_getIncData.Graph_swap_size[0].swap_space[0].data;
 						dataDb["memory_space"] =obj_getIncData.Graph_memory[0].memory_space[0].data;
 						dataDb["buffer_pool"]=obj_getIncData.Graph_db_buffer_pool[0].db_buffer_pool[0].data;
-						debugger;
 						var pieName = ["used","free","buffers","cached"];
 						for(var k in dataDb){
 							var dataArray            = [];

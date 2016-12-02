@@ -22,11 +22,11 @@ require.config({
 	}
 });
 define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQmath, gridlocale) {
-	alert("jqgrid_main.js");
+	//alert("jqgrid_main.js");
 	//这个是系统的变量
 	var after_sys_real_status_values = [],//表格数据数组
 		int_grid = 0,//判断是否二次处理数据
-		int_data = 0,//判断是否二次添加表格
+	//	globalObject.isSetJqgrid = 0,//判断是否二次添加表格
 		ncpu = 0,//变量--显示红色
 		firstTime = 999,//起始时间
 		JQGridData = 0;//判断是否停止表格
@@ -41,15 +41,16 @@ define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQ
 		jQuery("#showHostName").html(globalObject.hostName);
 		//获得主机名的类型。分为DB和系统类型
 		 var hostType  = globalObject.getTypeHost();
+		 after_sys_real_status_values = [];
 			switch (hostType) { //根据类型来判定展示哪个表格，Db或系统表格
 				case "db":
-					int_data = 0;
+					//int_data = 0;
 					typeIntHost = 0;
 					debugger;
 					setRealDB();
 					break;
 				case "system":
-					int_data = 0;
+					//int_data = 0;
 					typeIntHost = 1;
 					debugger;
 					setRealSystem();
@@ -74,7 +75,7 @@ define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQ
 				after_sys_real_status_values.shift();
 			}
 			if (JQGridData == 0) {
-				if (int_data == 0) {
+				if (globalObject.isSetJqgrid == 0) {
 					jQuery("#jqgrid_system").jqGrid({
 						data: after_sys_real_status_values,
 						datatype: "local",
@@ -264,10 +265,10 @@ define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQ
 					}).trigger("reloadGrid");
 				}
 			}
-			int_data = 1;
+			globalObject.isSetJqgrid = 1;
 			int_grid = 1;
-			console.log("realtime_status定时器");
-			setTimeout(setRealSystem, 800);
+			console.log(" system realtime_status定时器");
+			globalObject.jqgridTimer=setTimeout(setRealSystem, 800);
 		}
 		function setRealDB(){
 			var url_keys_a = "http://" + configObject.IP + "/v1/kv/cmha/service/" + globalObject.serviceName + "/real_status/" + globalObject.hostName + "/1?raw";
@@ -286,7 +287,7 @@ define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQ
 				after_sys_real_status_values.shift();
 			}
 			if (JQGridData == 0) {
-				if (int_data == 0) {
+				if (globalObject.isSetJqgrid == 0) {
 					jQuery("#jqgrid_host_db").jqGrid({
 						data: after_sys_real_status_values,
 						datatype: "local",
@@ -575,10 +576,10 @@ define(['jquery','JQmath', 'gridlocale', 'jqG', 'jquery-ui'], function(jQuery,JQ
 					}).trigger("reloadGrid");
 				}
 			}
-			int_data = 1;
+			globalObject.isSetJqgrid = 1;
 			int_grid = 1;
-			console.log("realtime_status定时器");
-			setTimeout(setRealDB, 800);
+			console.log("db realtime_status定时器");
+			globalObject.jqgridTimer=setTimeout(setRealDB, 800);
 		}
 	}
 //	runJqgridFunction();

@@ -413,7 +413,8 @@ define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'j
 	function setTime(){
 		runJqgridCSFunction();
 		globalObject.isSetJqgrid = 1;
-		setTimeout(setTime,configObject.FreshenTime);
+		console.log("CS的定时器 = "+new Date());
+		globalObject.csTimer = setTimeout(setTime,configObject.FreshenTime);
 	}
 //	setTime();
 	return {

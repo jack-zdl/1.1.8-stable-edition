@@ -110,7 +110,7 @@ define(['jquery'],function($){
 		            var data_getVipofchap = "";
 		            $.ajax({
 		                method:"get",
-		                url:"http://" + IP + "/v1/kv/cmha/service/" + obj_serviceName + "/chap/VIP?raw",
+		                url:"http://" + configObject.IP + "/v1/kv/cmha/service/" + obj_serviceName + "/chap/VIP?raw",
 		                async:false,
 		                dataType:"text",
 		                success:function(result, status, xhr) {
@@ -126,7 +126,7 @@ define(['jquery'],function($){
 	            var data_RandVofchap = {};
 		            $.ajax({
 		                method:"get",
-		                url:"http://" + IP + "/v1/kv/cmha/service/" + obj_serviceName + "/chap/role/" + obj_hostName + "?raw",
+		                url:"http://" + configObject.IP + "/v1/kv/cmha/service/" + obj_serviceName + "/chap/role/" + obj_hostName + "?raw",
 		                async:false,
 		                dataType:"text",
 		                success:function(result, status, xhr) {
@@ -143,7 +143,7 @@ define(['jquery'],function($){
 		            var data_result = "";
 		            $.ajax({
 		                method:"get",
-		                url:"http://" + IP + "/v1/kv/cmha/service/" + objRepl_serviceName + "/db/repl_err_counter/" + obj5Repl_hostname + "?raw",
+		                url:"http://" + configObject.IP + "/v1/kv/cmha/service/" + objRepl_serviceName + "/db/repl_err_counter/" + obj5Repl_hostname + "?raw",
 		                async:false,
 		                dataType:"json",
 		                success:function(result, status, xhr) {
