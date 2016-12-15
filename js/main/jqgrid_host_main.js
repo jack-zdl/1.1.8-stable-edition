@@ -399,7 +399,6 @@ define(['jquery','CsMath','ServiceMath','WarnMath','HostMath','jquery-ui', 'grid
 			}
 			setJqgridDBReportFunction();
 		}
-		//runJqgridDBReportFunction();
 		function getType() {
 			runJqgridDBFunction();
 	        if (globalObject.getTypeHost() == "db") {
@@ -414,11 +413,9 @@ define(['jquery','CsMath','ServiceMath','WarnMath','HostMath','jquery-ui', 'grid
 	}
 	function setTime() {
 	    runJqgridHostFunction();
-	    console.log("Host的定时器 = "+new Date());
 	    globalObject.isSetJqgrid = 1;
-	    globalObject.hostTimer = setTimeout(setTime, configObject.FreshenTime);
+	    globalObject.isTimer = setTimeout(setTime, configObject.FreshenTime);
 	}
-//setTime();
 	return {
 		setTime : setTime
 	};

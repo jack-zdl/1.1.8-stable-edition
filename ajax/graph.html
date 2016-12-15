@@ -1,219 +1,200 @@
-<!DOCTYPE html>
-<html >
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-
-<link href="css/jquery-accordion-menu.css" rel="stylesheet" type="text/css" />
-<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="css/graph.css">
-
 <style type="text/css">
-
-*{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
-body{background:#FFF;} /*#2A212A*/
-.content{width:60px;margin:20px auto;}
-.filterinput{ 
-	background-color:rgba(249, 244, 244, 0);
-	border-radius:15px;
-	width:90%;
-	height:30px;
-	border:thin solid #FFF;
-	text-indent:0.5em;
-	font-weight:bold;
-	color:#FFF;
-}
-#demo-list a{
-	overflow:hidden;
-	text-overflow:ellipsis;
-	-o-text-overflow:ellipsis;
-	white-space:nowrap;
-	width:100%;
-}
-#label_network_host {
-    background-color: #fff;
-    padding: 2px;
-    margin-bottom: 8px;
-    border-radius: 3px 3px 3px 3px;
-    border: 1px solid #E6E6E6;
-    display: inline-block;
-    margin: 0 auto;
-   
-   float: left;
-     font-size: 14px;
-    line-height: 1.2em;
-}
-#label_network_host font{
-	color: red;
-	display:block;
-}
+	*{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+	body{background:#FFF;} /*#2A212A*/
+	.content{width:60px;margin:20px auto;}
+	.filterinput{ 
+		background-color:rgba(249, 244, 244, 0);
+		border-radius:15px;
+		width:90%;
+		height:30px;
+		border:thin solid #FFF;
+		text-indent:0.5em;
+		font-weight:bold;
+		color:#FFF;
+	}
+	#demo-list a{
+		overflow:hidden;
+		text-overflow:ellipsis;
+		-o-text-overflow:ellipsis;
+		white-space:nowrap;
+		width:100%;
+	}
+	#label_network_host {
+	    background-color: #fff;
+	    padding: 2px;
+	    margin-bottom: 8px;
+	    border-radius: 3px 3px 3px 3px;
+	    border: 1px solid #E6E6E6;
+	    display: inline-block;
+	    margin: 0 auto;
+	   
+	   float: left;
+	     font-size: 14px;
+	    line-height: 1.2em;
+	}
+	#label_network_host font{
+		color: red;
+		display:block;
+	}
 </style>
-
-
 <script src="js/lib/jquery-accordion-menu.js" type="text/javascript"></script>
 <script type="text/javascript">
-
-$(function(){	
-	//顶部导航切换
-	$("#demo-list li").click(function(){
-		$("#demo-list li.active").removeClass("active");
-		$(this).addClass("active");
-	});	
-})	
+	$(function(){	
+		//顶部导航切换
+		$("#demo-list li").click(function(){
+			$("#demo-list li.active").removeClass("active");
+			$(this).addClass("active");
+		});	
+	})	
 </script>
-</head>
-<body  id="graph_body">
+<!-- </head>
+<body  id="graph_body"> -->
 <!-- style="background-color: #2A212A;"-->
-<div style="position:absolute; line-height: 90% ;background:#2A212A;width:1350px;">
-
-<br><!-- 圆饼图-->
-<div id="container" class="pieHighChartsPie" style=""></div>
-<!-- 用圆饼图来代替的长条-->
-<div id="containerA" class="pieHighChartsA" style=""></div>
-<div id="containerB" class="pieHighChartsB" style=""></div>
-
-<div id="containerC" class="pieHighChartsC" style=""></div>
-<br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!-- --><br><br><br><br>
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="cpu_util" ></div>
-			</td>
-			<td valign=top>
-				<div class="model_cpudygraph" id="status_cpu_util" style=""></div>
-			</td>
-		</tr>
-	</table>
-	<br>
-<!-- -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="cpu_load" ></div>
-			</td>
-			<td valign=top>
-				<div class="model_cpudygraph" id="status_cpu_load" style=""></div>
-			</td>
-		</tr>
-	</table>
+<div class="col-md-12 .col-sm-12 .col-lg-12 graph-content">
+	<div style="position:absolute; line-height: 90% ;background:#2A212A;width:100%;left:0px;">
+		<div id="container" class="pieHighChartsPie-sys" style=""></div>
+		<div id="containerA" class="pieHighChartsA-sys" style=""></div>
+		<div id="containerB" class="pieHighChartsB-sys" style=""></div>
+		<div id="containerC" class="pieHighChartsC-sys" style=""></div>
 		<br>
-<!-- -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="swap_used" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_swap_used" style=""></div>
-			</td>
-		</tr>
-	</table>
-			<br>
-<!--1111111111111111111111111 -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="net_Bytes" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_net_Bytes" style=""></div>
-			</td>
-		</tr>
-	</table>
-			<br>
-<!-- -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="net_packets" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_net_packets" style=""></div>
-			</td>
-		</tr>
-	</table>
-	<br>
+		<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+		<!-- --><br><br><br><br>
 		<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_rkB_s" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_rkB_s" style=""></div>
-			</td>
-		</tr>
-	</table>
-			<br>
-<!-- -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_await" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_await" style=""></div>
-			</td>
-		</tr>
-	</table>
-	<br>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="cpu_util" ></div>
+					</td>
+					<td valign=top>
+						<div class="model_cpudygraph" id="status_cpu_util" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
 		<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_r_s" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_r_s" style=""></div>
-			</td>
-		</tr>
-	</table>
-			<br>
-<!-- -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_queue" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_queue" style=""></div>
-			</td>
-		</tr>
-	</table>
-	<br>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="cpu_load" ></div>
+					</td>
+					<td valign=top>
+						<div class="model_cpudygraph" id="status_cpu_load" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
 		<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_svctm" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_svctm" style=""></div>
-			</td>
-		</tr>
-	</table>
-			<br>
-<!-- -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_util" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_util" style=""></div>
-			</td>
-		</tr>
-	</table>
-</div>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="swap_used" ></div>
+					</td>
+					<td valign=top>
+						<div  class="model_cpudygraph" id="status_swap_used" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="net_Bytes" ></div>
+					</td>
+					<td valign=top>
+						<div  class="model_cpudygraph" id="status_net_Bytes" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="net_packets" ></div>
+					</td>
+					<td valign=top>
+						<div  class="model_cpudygraph" id="status_net_packets" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+			<tr>
+				<td><!--#disk_rkB_s -->
+					<div class="cpudygraph" id="disk_rkB_s" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_disk_rkB_s" style=""></div>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="disk_await" ></div>
+					</td>
+					<td valign=top>
+						<div  class="model_cpudygraph" id="status_disk_await" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="disk_r_s" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_disk_r_s" style=""></div>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="disk_queue" ></div>
+					</td>
+					<td valign=top>
+						<div  class="model_cpudygraph" id="status_disk_queue" style=""></div>
+					</td>
+				</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="disk_svctm" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_disk_svctm" style=""></div>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<!-- -->
+		<table>
+				<tr>
+					<td>
+						<div class="cpudygraph" id="disk_util" ></div>
+					</td>
+					<td valign=top>
+						<div  class="model_cpudygraph" id="status_disk_util" style=""></div>
+					</td>
+				</tr>
+		</table>
+	</div>
 
-
-<div class="content" style="position:absolute;width:0px;float: left;
-	left: 580px;">
-
-	
-
-	<div id="jquery-accordion-menu" style="background-color:#2A212A " class="jquery-accordion-menu ">
-		<!-- <div class="jquery-accordion-menu-header" id="form"></div> -->
+	<div class="content" style="position:absolute;width:0px;float: left;
+	left: 520px;">
+	<div id="jquery-accordion-menu" style="background-color:#2A212A; " class="jquery-accordion-menu ">
 		<ul id="demo-list"  style="background-color: :#2A212A ">
 			<li><a style="background-color:#2A212A " href="#">Cpu </a>
 				<ul class="submenu">
@@ -223,73 +204,69 @@ $(function(){
 			</li>
 			<li><a style="background-color:#2A212A "  href="#">Memory </a>
 				<ul class="submenu">
-					<li><a id="ratio" href="#containerC">ratio</a></li>
+					<li><a id="ratio" href="#containerC">space util</a></li>
 				</ul>
 			</li>
-			<li><a style="background-color:#2A212A "  href="#">Disk </a>
+			<li><a style="background-color:#2A212A "  href="#disk_rkB_s">Disk </a>
 				<ul  style="background-color:#2A212A " id="Disk" class="submenu">
 				
 				</ul>
 			</li>
-			<li><a style="background-color:#2A212A " href="#" >Network </a>
+			<li><a style="background-color:#2A212A " href="#net_Bytes" >Network </a>
 				<ul id="Network" class="submenu">
 					
 				</ul>
 			</li>
 			<li><a style="background-color:#2A212A " href="#">Swap </a>
-				<ul style="background-color:#2A212A " class="submenu">
-					<li><a style="background-color:#2A212A " id="size" href="#containerB">size</a></li>
-					<li><a  style="background-color:#2A212A " id="used" href="#swap_used">used</a></li>
+				<ul  class="submenu">
+					<li><a  id="size" href="#containerB">space util</a></li>
+					<li><a   id="used" href="#swap_used">swap io</a></li>
 				</ul>
 			</li>
 		</ul>
-		
 	</div>
-
+</div>	
+	<script type="text/javascript">
+		(function($) {
+		$.expr[":"].Contains = function(a, i, m) {
+			return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+		};
+		function filterList(header, list) {
+			//@header 头部元素
+			//@list 无需列表
+			//创建一个搜素表单
+			var form = $("<form>").attr({
+				"class":"filterform",
+				action:"#"
+			}), input = $("<input>").attr({
+				"class":"filterinput",
+				type:"text"
+			});
+			$(form).append(input).appendTo(header);
+			$(input).change(function() {
+				var filter = $(this).val();
+				if (filter) {
+					$matches = $(list).find("a:Contains(" + filter + ")").parent();
+					$("li", list).not($matches).slideUp();
+					$matches.slideDown();
+				} else {
+					$(list).find("li").slideDown();
+				}
+				return false;
+			}).keyup(function() {
+				$(this).change();
+			});
+		}
+		$(function() {
+			filterList($("#form"), $("#demo-list"));
+		});
+		})(jQuery);	
+	</script>
+	<script type="text/javascript">
+		jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
+	</script>
 </div>
 
-<script type="text/javascript">
-(function($) {
-$.expr[":"].Contains = function(a, i, m) {
-	return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-};
-function filterList(header, list) {
-	//@header 头部元素
-	//@list 无需列表
-	//创建一个搜素表单
-	var form = $("<form>").attr({
-		"class":"filterform",
-		action:"#"
-	}), input = $("<input>").attr({
-		"class":"filterinput",
-		type:"text"
-	});
-	$(form).append(input).appendTo(header);
-	$(input).change(function() {
-		var filter = $(this).val();
-		if (filter) {
-			$matches = $(list).find("a:Contains(" + filter + ")").parent();
-			$("li", list).not($matches).slideUp();
-			$matches.slideDown();
-		} else {
-			$(list).find("li").slideDown();
-		}
-		return false;
-	}).keyup(function() {
-		$(this).change();
-	});
-}
-$(function() {
-	filterList($("#form"), $("#demo-list"));
-});
-})(jQuery);	
-</script>
-
-<script type="text/javascript">
-
-	jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
-	
-</script>
 
 <!-- Dygraphs
 <script type="text/javascript" src="js/flot_graph.js"></script>
@@ -299,6 +276,3 @@ $(function() {
 -->
 
 
-
-</body>
-</html>

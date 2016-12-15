@@ -55,8 +55,10 @@ define(['jquery','menuMath'],function($,menuMath){
 			var objectService = date.objectService;
 			var objectCS = date.consulName
 			var getMenu = new menuMath.Commons();
-			getMenu.setTopElementLi("host_second_memu","RS",objectCS,objectService);
-			getMenu.setTopElementLi("host_graph_memu","RGS",objectCS,objectService); 
+			getMenu.setTopElementLi("realtime-menu","RS",objectCS,objectService);
+			getMenu.setTopElementLi("hostgraph-menu","RGS",objectCS,objectService); 
+			// getMenu.setTopElementLi("host_second_memu","RS",objectCS,objectService);
+			// getMenu.setTopElementLi("host_graph_memu","RGS",objectCS,objectService); 
 		}
 		runIndexTopMenu();
 	})($,menuMath);

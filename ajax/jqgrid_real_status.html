@@ -1,71 +1,23 @@
-<!DOCTYPE html>
-<html>
-<head>
- <meta charset="UTF-8">
- 
- <!-- <meta http-equiv="Pragma" content="no-cache"> -->
- 
-   <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />	
-   <link rel="stylesheet" href="css/jquery-ui.css" media="screen" type="text/css" />
-   <link rel="stylesheet" href="css/ui.host.jqgrid.css" media="screen" type="text/css"/>
-  <style type="text/css">
-    body {
-     background-color: #2A212A;
-    }
-    .main-menu {
-      width: 0px;
-      height: 0px;
-    }
-
-.dropdown-menu > li > a {
-      padding: 3px 5px;
-}
-
-
-  </style>
-  <!--
-
-  <script type="text/javascript"  src="js/jquery.js"></script>
-  <script type="text/javascript" src="js/grid.locale-zh_CN.js"></script>
-   <script type="text/javascript"  src="js/jquery.jqGrid.min.js"></script>
-    <script type="text/javascript"  src="js/jquery-ui-1.10.3.min.js"></script>
- 
- -->
-</head>
-<body>
-
-<ul  class="nav nav-pills">
-<li><a id="showServiceName" ></a></li>
-<li><a id="showHostName" ></a></li>
- <li><a href="#" id="startHost" onclick="chengeDataStart()">Start</a></li>
- <li><a href="#" id="stopHost" onclick="chengeDataStop()">Pause </a></li>
-</ul>
-
-
-
-  <div  style="position:relative;width:1335px;left:5px;right:5px;">   
-  <table id="jqgrid_system"></table>
-  <div id="pjqgrid_system"></div>
+  <link rel="stylesheet" href="css/ui.host.jqgrid.css" media="screen" type="text/css"/>
+<div class=" col-md-12 col-sm-12 col-lg-12 container-fluid real-status ">
+  <div class="row">
+   <div class="col-md-12 col-sm-12 col-lg-12 real-status-nav">
+        <ul  class="nav nav-pills">
+      <li><a id="showServiceName" ></a></li>
+      <li><a id="showHostName" ></a></li>
+      <li><a href="#" id="startHost" class="startHost" >Start</a></li>
+      <li><a href="#" id="stopHost" class="stopHost">Pause </a></li>
+    </ul>
+    <table id="jqgrid_system" class="left-table"></table>
+    <div id="pjqgrid_system" class="left-table"></div>
+    <div>   
+    <table id="jqgrid_host_db"></table>
+    <div id="pjqgrid_host_db"></div>
+    </div>    
+   </div>
+      
   </div>
-
-  <div  style="position:relative;width:1335px;left:5px;right:5px;">   
-  <table id="jqgrid_host_db"></table>
-  <div id="pjqgrid_host_db"></div>
-  </div>
-<!--defer async="true" 
-
-<script src="js/lib/require2.3.2.min.js" defer async="true" data-main="js/jqgrid_main"></script>
-<!--
+</div>
 <script type="text/javascript">
-   $('#jqgrid_system').empty(); 
-   $('#jqgrid_host_db').empty(); 
+   // $(window).resize(function() {$(".real-status").width($(window).width())});
 </script>
-<!-- <script type="text/javascript" src="js/real_status.js"></script>
--->
-
-
-<script>
-
-</script>
-</body>
-</html>

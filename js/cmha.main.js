@@ -17,26 +17,23 @@ require.config({
 	}
 });
 require(['jquery','menuMain','graph_main','graph_db_main','jqgrid_base_main','jqgrid_cs_main','jqgrid_host_main','jqgrid_main'],function($,menuMain,graph_main,graph_db_main,jqgrid_base_main,jqgrid_cs_main,jqgrid_host_main,jqgrid_main){
-	// function load() {
- //    	$("#content").load("ajax/jqgrid_cs.html");
-	// };
+	(function(jqgrid_cs_main){
+		$("#content").load("ajax/jqgrid_cs.html");
+    	setTimeout(jqgrid_cs_main.setTime,1000);
+	})(jqgrid_cs_main);
 	var initFunction = new Init();
 	$(".cs-home").click(function() {
-		debugger;
 		initFunction.distroyTimer();
     	$("#content").load("ajax/jqgrid_cs.html");
     	setTimeout(jqgrid_cs_main.setTime,1000);
 	});
 	$(".serviceNews").click(function() {
-		debugger;
-		
 		initFunction.distroyTimer();
     	globalObject.serviceName = $(this).attr("id");
     	$("#content").load("ajax/jqgrid_base.html");
     	setTimeout(jqgrid_base_main.setTime,1000);
 	});
 	$(".serviceHost").click(function() {
-		debugger;
 		initFunction.distroyTimer();
     	globalObject.hostName = $(this).attr("id");
     	globalObject.serviceName =$($($($($($(this).parents("ul")[0])).children("li")[0]).children("a")).children("span")).attr("id");
@@ -44,7 +41,6 @@ require(['jquery','menuMain','graph_main','graph_db_main','jqgrid_base_main','jq
     	setTimeout(jqgrid_host_main.setTime,1000);
 	});
  	$(".RGS").click(function(){
- 		debugger;
  		initFunction.distroyTimer();
 	    globalObject.hostName = $(this).attr("id");
 	    globalObject.serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
@@ -60,15 +56,11 @@ require(['jquery','menuMain','graph_main','graph_db_main','jqgrid_base_main','jq
 	   
 	});   
 	$(".RS").click(function(){  
-		debugger;
 		initFunction.distroyTimer();
 	    globalObject.hostName = $(this).attr("id");
 	    globalObject.serviceName =$($($($(this).parents("li")[1]).children("a")).children("span")[0]).text();
 	   $("#content").load("ajax/jqgrid_real_status.html");
 	   setTimeout(jqgrid_main.runJqgridFunction,1000);
 	});
-
-	// (function(){
-	// })($,menuMain);
 });
 

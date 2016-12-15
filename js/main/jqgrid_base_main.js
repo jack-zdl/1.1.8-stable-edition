@@ -241,11 +241,9 @@ define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'j
 	}
 	function setTime(){
 		runJqgridBaseFunction();
-		console.log("Base的定时器 = "+new Date());
 		globalObject.isSetJqgrid = 1;
-		globalObject.baseTimer = setTimeout(setTime,configObject.FreshenTime);
+		globalObject.isTimer = setTimeout(setTime,configObject.FreshenTime);
 	}
-	//setTime();
 	return {
 		setTime :setTime
 	};

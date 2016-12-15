@@ -1,57 +1,31 @@
-/*将变量赋给全局变量whole_commons
- */
-
-
-// var net1_card="";   //graph的全局变量
-// var nameDisk =""; //graph的全局变量
-//   var nameHtmlDisk = "";
-
-
-// var net_card ="";
-
-
-// var Hostrole_id = "";            /*全局变量*/
-
-// var stopclearInterval;
-
-// var IntData =0;  
-/*Graph全局变量  来判断执行那个左边菜单*/
-// var IntData_cs=0;
-//Graph全局变量  来执行移除那个菜单DOM元素
-/*real_status.js的全局变量*/
-
-// var  cstimeSetTimeout =0;
-// var  cstimeSetTimeout_b =0;
-// var  kaiguan_cs=0;
-// var  changeGraphMemu;
-
-
-// var kaiguan=0;                  
-// var after_sys_real_status_values = [];
-// var globalObject.int_grid=0;
-// var typeIntHost=1;
 /**全局变量
  * [configObject description]
  * @type {Object}
  */
 var configObject = new Object({
-    IP :"192.168.200.135:8500",
-    FreshenTime : 5e3,
+    IP :"192.168.200.135:8500",//主机IP
+    FreshenTime : 5e3,  //首页刷新时间
+    graphFreshenTime :6e4, //graph刷新时间
+    graphAllTime : 24,    //graph总共时间
 });
 
 var globalObject=new Object({
+
         serviceName : "",   /*获得服务名-全局变量*/
         hostName    : "",   /*获得主机名-全局变量*/
         isSetJqgrid   : 0,    /*决定首页的CS jqgrid是否重建还是update数据 为0时建表，为1时update数据*/
         // isBaseSetJqgrid : 0,
         // isHostSetJqgrid : 0,
         afterTypeHost :"",
-        csTimer : null,
-        baseTimer : null,
-        hostTimer : null,
-        jqgridTimer : null,
-        graphTimer : null,
-        grraphDBTimer : null,
+        isTimer : null,
+        getGraphFreshenTime : function(){
+            return configObject.graphAllTime*36e5/configObject.graphFreshenTime;
+        },
+        // baseTimer : null,
+        // hostTimer : null,
+        // jqgridTimer : null,
+        // graphTimer : null,
+        // grraphDBTimer : null,
         /**
          * [getTypeHost description]根据API获得主机类型
          * @return {[type]} [description]返回主机类型db system
@@ -116,21 +90,10 @@ var globalObject=new Object({
 //建立销毁定时器的函数和初始化页面的函数的构造函数
 function Init(){
     this.distroyTimer = function(){
-        debugger;
-       if(globalObject.csTimer != null){
-             clearTimeout(globalObject.csTimer);
-       }else if(globalObject.baseTimer != null){
-            clearTimeout(globalObject.baseTimer);
-       }else if(globalObject.hostTimer != null){
-            clearTimeout(globalObject.baseTimer);
-       }else if(globalObject.jqgridTimer != null){
-            clearTimeout(globalObject.jqgridTimer);
-       }else if(globalObject.graphTimer != null){
-            clearTimeout(globalObject.graphTimer);
-       }else if(globalObject.grraphDBTimer != null){
-            clearTimeout(globalObject.grraphDBTimer);
-       }
-
+       if(globalObject.isTimer != null){
+             clearTimeout(globalObject.isTimer);
+        }
+       //页面初始化
         globalObject.isSetJqgrid  =0;
     };
    

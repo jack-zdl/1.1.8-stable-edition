@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>cmha</title>
-<link rel="stylesheet" href="css/jquery-ui.css" media="screen" type="text/css" />
-<link rel="stylesheet" href="css/bootstrap.css" media="screen" type="text/css" />
- <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
-<link href="css/jquery-accordion-menu.css" rel="stylesheet" type="text/css" />
-<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript"  src="js/lib/jquery.js"></script>
-<script type="text/javascript" src="js/lib/bootstrap.js"></script>
-<script src="js/lib/jquery-accordion-menu.js" type="text/javascript"></script>
-<script type="text/javascript" src="js/commons/dict.interface.js"></script>
-<script type="text/javascript" src="js/commons/dict.js"></script>
-<script type="text/javascript">
-    Array.prototype.remove = function(val) {
+    <meta charset="UTF-8">
+    <meta name="author" content="zhangdelei<zhangdelei@bsgchina.com>" >
+    <title>CMHA</title><!--cmha 1.1.7 -->
+    <link rel="stylesheet" href="css/jquery-ui.css" media="screen" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap.css" media="screen" type="text/css" />
+    <link href="css/jquery-accordion-menu.css" rel="stylesheet" type="text/css" />
+    <link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/ui.jqgrid.css" media="screen" type="text/css"/>
+  
+    <link rel="stylesheet" type="text/css" href="css/graph.css">
+    <link rel="stylesheet" href="css/style.css" media="screen" type="text/css" />
+    
+    <script type="text/javascript">
+        Array.prototype.remove = function(val) {
             var index = this.indexOf(val);
             if (index > -1) {
             this.splice(index, 1);
             }
         };
-</script>
+    </script>
+    <style type="text/css">  
 
- <style type="text/css">  
         .dropdown-submenu {  
             position: relative;  
         }  
@@ -66,58 +66,68 @@
         }  
     </style> 
 </head>
-<!-- onload="load()"-->
 <body  > 
-<div class="header">
-    <div  class="header-icon"></div>
-    <div class="header-menu">
-    <nav class="navbar  navbar-default navbar-fixed-top header-menu-right" role="navigation"> 
-    <div class="container-fluid"> 
-    <div> 
-        <ul class="nav navbar-nav"> 
-            <li class="dropdown"> 
-                <a href="#" class="dropdown-toggle cs-home"  data-toggle="dropdown"> 
-                    Dashboards <b class="caret"></b> 
-                </a> 
-            </li> 
-            <li class="dropdown"> 
-                <a href="#" class="dropdown-toggle Host_status " data-toggle="dropdown" > 
-                    RealTime Status <b class="caret"></b> 
-                </a> 
-                <ul id="host_second_memu" class="dropdown-menu     multi-level" role="menu" aria-labelledby="dropdownMenu">  
-            </ul>  
-            </li> 
-              <li class="dropdown"> 
-                <a href="#" class="dropdown-toggle" id="GH"  data-toggle="dropdown"> 
-                   Host Graph <b class="caret"></b> 
-                </a> 
-                 <ul id="host_graph_memu" class="dropdown-menu     multi-level" role="menu" aria-labelledby="dropdownMenu">  
-                </ul> 
-            </li> 
-        </ul> 
-    </div> 
-    </div> 
-</nav>
-  </div>
-</div> 
-<!--头部菜单 -->
-<nav  id="parentUlAll" class="main-menu"> 
-      <div class="logo"></div>
-      <div class="settings"></div>
+<!-- bootstrap 导航栏-->
+<div class=" container-fluid header">
+    <div class="row">
+        <div class="col-md-2 col-sm-2 col-lg-2 navbar-header img-rounder logo-lg"><!-- img-rounder logo-lgs-->
+            <img src="images/cmhaaaa.png">
+        </div>
+        <div class="col-md-10 col-sm-10 col-lg-10">
+            <nav class="navbar navbar-default" role="navigation">
+             <div class="container-fluid">
+                 <div class="row">
+                        <ul class="nav navbar-nav">
+                            <li >
+                                <a href="#" class="cs-home" >
+                                    <span >
+                                        Dashboards
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                 <a href="#" class="dropdown-toggle Host_status" data-toggle="dropdown">
+                                    <span >
+                                    RealTime Status
+                                    </span>
+                                    <b class="caret"></b>
+                                 </a>
+                                 <ul id="realtime-menu" class="dropdown-menu"></ul>
+                            </li>
+                            <li class="dropdown">
+                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <span >
+                                    Graph
+                                    </span>
+                                    <b class="caret"></b>
+                                 </a>
+                                 <ul id="hostgraph-menu" class="dropdown-menu"></ul>
+                            </li>
+                        </ul>
+                 </div>
+             </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- content-->
+<div class="container-fluid">
+    <div id="grid-graph" class="row">
+        <div class="col-md-2 col-sm-2 col-lg-2 left-sidebar">
             <ul id="parentUl">
             </ul>
-            <ul id="parentUlGraph">
-            </ul>
-</nav>
-<div id="content" >
+        </div>
+        <div id="content" class="col-md-10 col-sm-10 col-lg-10 ">
+        </div>
+    </div>
 </div>
-<!--
-<script type="text/javascript" src="js/host_memu.js"></script>
-<script type="text/javascript"  src="js/index.js"></script>
-<script type="text/javascript"  src="js/index_dict.js"></script>
--->
+<!--footer -->
+<div class="footer"></div>
+<script type="text/javascript"  src="js/lib/jquery.js"></script>
+<script type="text/javascript" src="js/lib/bootstrap.js"></script>
+<script src="js/lib/jquery-accordion-menu.js" type="text/javascript"></script>
+<script type="text/javascript" src="js/commons/dict.js"></script>
 <script src="js/lib/require2.3.2.min.js" defer async="true" data-main="js/cmha.main"></script>
-
 </body>
 </html>
 

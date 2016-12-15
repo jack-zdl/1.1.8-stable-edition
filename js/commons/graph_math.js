@@ -10,7 +10,7 @@ require.config({
 	}
 });
 define(['jquery'], function($){
-	var graphIdLength = 720;
+	var graphIdLength = globalObject.getGraphFreshenTime();
 　　function GetData() {
 		
 		this.getHistoryData = function(obj_url) {//得到历史数据
@@ -102,13 +102,13 @@ define(['jquery'], function($){
             //= len - 1; i >= 0; i--
             for (var i = 0; i < len-1; i++ ) {
 
-                var quotient = Math.floor((obj_array[i+1].data[0] - obj_array[i].data[0]) / 60000);
+                var quotient = Math.floor((obj_array[i+1].data[0] - obj_array[i].data[0]) / configObject.graphFreshenTime);//60000
                 var dataStart = obj_array[i].data[0];
                 if (quotient > 1) {
                     for (var j = quotient - 1; j > 0; j--) {
 
                         var Intdatatimestamp = parseInt(dataStart, 10);
-                        var stringData = "" + (Intdatatimestamp + j * 60000);
+                        var stringData = "" + (Intdatatimestamp + j * configObject.graphFreshenTime);//60000
                         //添加入几条null
                         var data_m_array  = [];
                         data_m_array.push(stringData);
@@ -196,7 +196,7 @@ define(['jquery'], function($){
 					tooltip: {  //提示信息
 				        formatter: function() {
 				            return '<b>'+ this.point.name +'</b>: '+ Highcharts.numberFormat(this.percentage, 1) +'% ('+
-				                         Highcharts.numberFormat(this.y, 0, ',') +' 个)'+',total=('+this.total+')';
+				                         Highcharts.numberFormat(this.y, 0, ',') +' )'+',total=('+this.total+')';
 				        }
 					},
 					credits: {
@@ -215,7 +215,7 @@ define(['jquery'], function($){
                 			//	padding:0,
                 				color:"#ADADAD",
                 				distance:10,
-                			//	crop:false,
+                				crop:false,
                     		//	enabled: true,
                     			format: '<b>{point.name}</b>:<br> {point.percentage:.1f} %',
                     			style: {

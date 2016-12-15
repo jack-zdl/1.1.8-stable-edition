@@ -48,41 +48,20 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 					}
 				};
 	var pieArray = {
-						"disk_space":{"lable":"Disk Space Usage for",
+						"disk_space":{"lable":"Disk Space Usage (MB) for",
 									"name":"/",
 									"id":"container"},
 					   "disk_inodes_util":{"lable":"Disk Files (inodes) Usage for",
 											"name":"/",
 											"id":"containerA"},
-					   "swap_space":{"lable":"Swap Utilization",
+					   "swap_space":{"lable":"Swap Utilization (MB)",
 											"name":" ",
 									 		"id":"containerB"},
-					   "memory_space":{"lable":"Memory Utilization",
+					   "memory_space":{"lable":"Memory Utilization (MB)",
 											"name":" ",
 										 	"id":"containerC"}
 					};
-		//切换
-	function elementClick(){
-		$(".GL").click(function(){
-			debugger;
-			array.netkey.Name[0]=$(this).attr("id");
-			array.netkey.Title[0]=$(this).attr("id");
-			run_graph_sys_main();
-		});	
-		$(".GLD").click(function(){
-			debugger;
-			array.diskkey.Name[0]=$(this).attr("id");
-			array.diskkey.Title[0]=$(this).html();
-			pieArray.disk_space.name=$(this).html();
-			pieArray.disk_inodes_util.name=$(this).html();
-			run_graph_sys_main();
-		});
-	}
-	
-	//结束切换
 	function run_graph_sys_main(){
-		debugger;
-		elementClick();
 		/**
 		 * [run_network_list description]set memu network or disk
 		 * @return {[type]} [description]
@@ -98,6 +77,20 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 			getDataDisk.m3("Disk",dataDisk['dev_name']);
 		};
 		run_network_list();
+
+		$(".GL").click(function(){
+			array.netkey.Name[0]=$(this).attr("id");
+			array.netkey.Title[0]=$(this).attr("id");
+			getNDygraphs();
+		});	
+		$(".GLD").click(function(){
+			array.diskkey.Name[0]=$(this).attr("id");
+			array.diskkey.Title[0]=$(this).html();
+			pieArray.disk_space.name=$(this).html();
+			pieArray.disk_inodes_util.name=$(this).html();
+			getNDygraphs();
+			getPieGraphs();
+		});
 		//目录生成结束
 		//获得增量数据
 		var getIncData;//全局变量
@@ -107,7 +100,7 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 			return getIncData;
 		}
 		getIncDataFun();
-		setInterval(getIncDataFun,60000);
+		setInterval(getIncDataFun,configObject.graphFreshenTime);
 		/**
 		 * [getAllDygraphs 建立系统的常规折线图]
 		 * @return {[type]} [description]
@@ -134,10 +127,9 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 			for (var ky in allKeyFunction) {
 					g[ky].updateOptions( { 'file': afterAlldata[ky] } );
 				}
-				console.log("system定时器");
-			globalObject.graphTimer = setTimeout(setTime,6000);
+			globalObject.isTimer = setTimeout(setTime,configObject.graphFreshenTime);
  		}
- 		setTimeout(setTime,6000);
+ 		setTimeout(setTime,configObject.graphFreshenTime);
 		function getAllDygraphs(){
  			var arrayOutKey = ["Graph_cpu_util","Graph_cpu_load","Graph_swap_used"];//url
  			var arrayInKey = ["cpu_util","cpu_load","swap_util"];//增量数据内层关键字----历史数据的key
@@ -156,14 +148,14 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 										"DygraphLabels":["Date","load1","load5","load15"],
 										
 										 "id":"cpu_load",
-										 "title":"System Load Average",
+										 "title":"CPU Load Average",
 										 "ylabel":"load"
 										 } ,
 							"swap_util":{"status":"status_swap_used",
 										"OutKey":"Graph_swap_used",
 										  "DygraphLabels":["Date","in","out"],
 										  "id":"swap_used",
-										  "title":"Swap I/O (system.swapio)",
+										  "title":"swap_io",
 										  "ylabel":"swapio"
 										  }
 						};
@@ -188,14 +180,14 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 						"net_Bytes":{"status":"status_net_Bytes",
 									 "DygraphLabels":["Date","received","sent"],
 									 "id":"net_Bytes",
-									 "title":"Bandwidth ",
-									 "ylabel":"load"
+									 "title":"Net Bandwidth ",
+									 "ylabel":"Bandwidth_KB/s"//Net Bandwidth (eth0)Bandwidth_KB/s
 									 } ,
 						"net_packets":{"status":"status_net_packets",
 										 "DygraphLabels":["Date","received","sent"],
 										 "id":"net_packets",
 										 "title":"Net Packets ",
-										 "ylabel":"load"
+										 "ylabel":"Packets/s"
 										 } ,
 						"disk_rkB_s":{"status":"status_disk_rkB_s",
 										 "DygraphLabels":["Date","reads","writes"],
@@ -206,8 +198,8 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 						"disk_await":{"status":"status_disk_await",
 										 "DygraphLabels":["Date","await"],
 										 "id":"disk_await",
-										 "title":"Average await  for",
-										 "ylabel":"load"
+										 "title":"Disk Average Await for ",
+										 "ylabel":"Await/s"
 										 } ,
 						"disk_r_s":{"status":"status_disk_r_s",
 										  "DygraphLabels":["Date","reads","writes"],
@@ -218,20 +210,20 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 						"disk_queue":{"status":"status_disk_queue",
 										 "DygraphLabels":["Date","queue"],
 										 "id":"disk_queue",
-										 "title":"Average await  for ",
-										 "ylabel":"load"
+										 "title":"Disk Average Queue for  ",
+										 "ylabel":"Queue/s"
 										 } ,
 						"disk_svctm":{"status":"status_disk_svctm",
 										 "DygraphLabels":["Date","svctm"],
 										 "id":"disk_svctm",
-										 "title":"Average Service Time for ",
-										 "ylabel":"load"
+										 "title":"Disk Average Service Time for ",
+										 "ylabel":"Svctm"
 										 } ,
 						"disk_util":{"status":"status_disk_util",
 										 "DygraphLabels":["Date","utilization"],
 										 "id":"disk_util",
-										 "title":"Disk Utilization Time for",
-										 "ylabel":"load"
+										 "title":"Disk Average Utilization Time for",
+										 "ylabel":"Utilization/s"
 										 } 
 					};
 			var getDNgraphs = new set.SetDygraphs();
@@ -246,19 +238,6 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 					allKey[key].title = allKey[key].title +" "+array.diskkey.Title[0];
 				}
 			}
-			//var g={};
-			// function setTime() {
-			// 	var after_data_network1 = getDNgraphs.incDNComHis(getNetData.data_id_object,array.netkey.OutKey,array.netkey.Name,getIncData);
-			// 	var after_data_disk1 = getDNgraphs.incDNComHis(getDiskData.data_id_object,array.diskkey.OutKey,array.diskkey.Name,getIncData);
-			// 	var after_all_data = $.extend({}, after_data_network1, after_data_disk1);
-
-			// 	for (var ky in allKey) {
-			// 		var after_data_inc = after_all_data[ky];
-			// 		g[ky].updateOptions( { 'file': after_data_inc } );
-			// 	}
-			// 	setTimeout(setTime,60000);
-			// }
-			// setTimeout(setTime,6000);
 			for(var k in allKey){
 				var all_option , after_data;
 					all_option= new math.Options().m1(allKey[k].status);

@@ -1,0 +1,361 @@
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 300;
+  src:url(../fonts/anMUvcNT0H1YN4FII8wpr24bNCNEoFTpS2BTjF6FB5E.woff) format('woff');
+}
+.fa {                               
+  display: block; 
+ // font-family: FontAwesome;
+  font-family: Titillium Web;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-lg {
+  font-size: 1.3333333333333333em;
+  line-height: 0.75em;
+  vertical-align: -15%;
+}
+.fa-spin {
+  -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
+@-moz-keyframes spin {
+  0% {
+    -moz-transform: rotate(0deg);
+  }
+  100% {
+    -moz-transform: rotate(359deg);
+  }
+}
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+  }
+}
+@-o-keyframes spin {
+  0% {
+    -o-transform: rotate(0deg);
+  }
+  100% {
+    -o-transform: rotate(359deg);
+  }
+}
+@-ms-keyframes spin {
+  0% {
+    -ms-transform: rotate(0deg);
+  }
+  100% {
+    -ms-transform: rotate(359deg);
+  }
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
+}
+/* Font Awesome uses the Unicode Private Use Area (PUA) to ensure screen  �б�ǰ���ͼ��
+   readers do not read off random characters that represent icons
+    f085  f1b2 f1b3  f1c0 this is icon
+    */
+.fa-skype:before {
+  content: "\f17e";
+}
+.fa-stack-exchange:before {
+   content: "\f18d";
+ }
+.fa-dot-circle-o:before {
+    content: "\f192";
+}
+.fa-archive:before {
+  content: "\f187";
+}
+.fa-lightbulb-o:before {
+  content: "\f05c";
+}
+
+
+
+
+
+
+// body{
+//  //color: #8AA1B3l;
+// }
+// .header{
+// width: 100%;
+// height: 50px;
+// background-color: #2A212A;
+// }
+// .header-icon {
+//   display: inline-table;
+//   background-repeat: no-repeat;
+//   background-image: url("../images/cmhaaaa.png");
+//   left: 0px;
+//   width: 150px;
+//   height: 50px;
+// }
+// .header-menu{
+//   display: inline-table;
+//   position:absolute;
+//   top:0px;
+//   left: 150px;
+//   background-color: #2A212A;
+//   width: 1200px;
+//   height: 50px;
+// }
+// .main-menu {
+//   background:#F7F7F7;
+//  background-color: #2A212A;
+// border-right:0px solid #e5e5e5;
+// position:absolute;
+// top:50px;
+// bottom:0;
+// height:100%;
+// left:0;
+// width:150px;
+// overflow:hidden;
+// -webkit-transition:width .2s linear;
+// transition:width .2s linear;
+// -webkit-transform:translateZ(0) scale(1,1);  /*box-shadow: 1px 0 1px rgba(0, 0, 0, 0.07);��Ӱ */
+// opacity:1;
+ 
+
+// }
+
+// #content {
+//   text-align:center;  
+// /*  clear:both; */
+// }
+// .main-menu>ul {   
+// margin:40px 0;  /*top right button left*/
+// }
+
+// .main-menu >ul>li {  
+// position:relative;       /**/
+// display:block;
+// width:150px;
+// }
+
+// .main-menu >ul>li>a {
+// position:relative;
+// width:150px;
+// display:table;    
+// border-collapse:collapse;   /*combine table border*/
+// border-spacing:0;
+// color:#fff;
+// font-size: 14px;
+// text-decoration:none;   /*text  (underline)*/
+// -webkit-transform:translateZ(0) scale(1,1);
+// -webkit-transition:all .14s linear;
+// transition:all .14s linear;
+// font-family: 'Strait', sans-serif;
+
+// }
+
+// /*�����˵�**/
+// .main-menu >ul>li>ul{
+// position:relative;   /*��Զ�λ*/
+// width:150px;    /*���*/
+// display:none;     /**/
+// border-collapse:separate;  /*border-collapse:collapse; �ϲ����ı߿�*/
+// border-spacing:0;    /*�߿����*/
+// color:#fff;
+// font-size:0px;
+// text-decoration:none;   /*�ı�����*/
+// -webkit-transform:translateZ(0) scale(1,1);
+// -webkit-transition:all .14s linear;
+// transition:all .14s linear;
+// font-family: 'Strait', sans-serif;
+// border-top:0px solid #F0F0F0;
+// /*box-shadow:inset 0 1px 1px #FAFAFA; text-shadow: 0px 0px 0px  #fff;   */
+// }
+// /*�����˵��Ĳ˵���ʽ*/
+// .main-menu >ul>li>ul>li{
+//   height: 36px;
+
+// }
+
+// .main-menu >ul>li>ul>li>a {
+// position:relative;
+// width:150px;
+// left: 10px;
+// display:table;    
+// border-collapse:collapse;
+// border-spacing:0;
+// color:#fff;
+// font-size: 10px;
+// text-decoration:none;
+// -webkit-transform:translateZ(0) scale(1,1);
+// -webkit-transition:all .14s linear;
+// transition:all .14s linear;
+// font-family: 'Strait', sans-serif;
+// border-top:0px solid #F0F0F0;
+// /*box-shadow:inset 0 1px 1px #FAFAFA;  text-shadow: 1px 1px 1px  #fff; */ 
+// }
+// .main-menu li:hover ul {
+
+//   display :table-cell;
+  
+// }
+
+// .logo{
+//     background-image: url(../images/cmha.png);
+//      background-repeat:no-repeat;
+// }
+
+// .fa-lg {              /* ��������    */
+// font-size: 1em;  /*�����С*/
+// }
+// /*�Լ����*/
+// /* makes the font 33% larger relative to the icon container */
+// .fa-lg {
+//   font-size: 1.3333333333333333em;
+//   line-height: 0.75em;
+//   vertical-align: -15%;
+// }
+// .fa {  /*����Ḳ������ġ�fa*/
+// position: relative;   /*Ԫ�صĶ�λ�������;�̬��̬���Ի������*/
+// display: table-cell;
+// width: 55px;
+// height: 36px;
+// text-align: center;
+// top:12px; 
+// font-size:20px;
+// }
+// /*����Ϊ�˶����˵�����ʽ*/
+
+
+
+
+
+
+
+// ul>ul .fa {
+//   position: relative;   /*Ԫ�صĶ�λ�������;�̬��̬���Ի������*/
+// display: table-cell;
+// width: 55px;
+// height: 5px;  /*㏂★㏂★㏂★㏂★★★★★*/
+// text-align: center;
+// top:1px; 
+// font-size:20px;
+// }
+// .main-menu:hover, nav.main-menu.expanded {
+// width:150px;
+// overflow:hidden;
+// opacity:1;
+// }
+// a:hover,a:focus {
+// text-decoration:none;/*�ı����� �ı��ϻ�����*/
+// border-left:0px solid #F7F7F7;
+// }
+
+// nav {
+// -webkit-user-select:none; /*�ı����Ա�ѡ��*/
+// -moz-user-select:none;
+// -ms-user-select:none;
+// -o-user-select:none;
+// user-select:none;
+// }
+
+// nav ul,nav li {
+// outline:0;  /*box�������*/
+// margin:0;
+// padding:0;
+
+// }
+// .main-menu li:hover>a,nav.main-menu li.active>a,.dropdown-menu>li>a:hover,.dropdown-menu>li>a:focus,.dropdown-menu>.active>a,.dropdown-menu>.active>a:hover,.dropdown-menu>.active>a:focus,.no-touch .dashboard-page nav.dashboard-menu ul li:hover a,.dashboard-page nav.dashboard-menu ul li.active a {
+// color:#fff;
+// background-color:#00bbbb;
+// text-color:#fff;
+// /*text-shadow: 0px 0px 0px; */
+// }
+
+// .nav-text  { 
+// position:relative;
+// display:table-cell;
+// vertical-align:middle;   /*lay  center*/
+// width:150px;
+// font-family: 'Titillium Web', sans-serif;
+// }
+// .main-menu>ul.logout {
+// position:absolute;
+// left:0;
+// bottom:0;
+  
+// }
+// .footer{
+//   display: block;
+//   position:absolute;
+//   right:600px;
+//   bottom:0px;
+// }
+// .serviceNews {
+//   color: #fff;
+// }
+// .serviceHost{
+//   color: #fff;
+// }
+// .search-right{
+//   right: 900px;
+// }
+// .header-menu-right{
+//   position: absolute;
+//   margin:  0px 20px 0px 10px;
+//   left:0px;
+//   background-color: #2A212A;
+// }
+// .dropdown-menu a{
+// width: 121px;
+// }
+// .dropdown-menu {
+//   min-width: 121px; 
+//   margin: 0px;
+// }
+// .panel-heading > .dropdown .dropdown-toggle 
+// {
+//   color: #fff;
+//   font-family: 'Titillium Web', sans-serif;
+
+// }
+// .navbar-fixed-top{
+//   border-width: 0 0 0px;
+// }
+
+// #startHost{
+//   left: 1000px;
+// }
+// #stopHost {
+//  left: 1000px;
+// }
+// #showServiceName {
+//   border:2px;
+//   color: #FFFFFF;
+// }
+// #showHostName {
+//   border:2px;
+//   color: #FFFFFF;
+// }
+// #host_second_memu{
+//   width: 177px;
+//   min-width: 177px;
+// }
+// #host_second_memu li a{
+//   width: 177px;
+//   min-width: 177px;
+// }
+// .dropdown-toggle{
+//  font-size: 18px;
+// }

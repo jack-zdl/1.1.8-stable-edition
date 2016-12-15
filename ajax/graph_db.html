@@ -1,81 +1,81 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href="css/jquery-accordion-menu.css" rel="stylesheet" type="text/css" />
-<link href="css/font-awesome.css" rel="stylesheet" type="text/css" />
+<link href="css/font-awesome.css" rel="stylesheet" type="text/css" /> -->
 <link rel="stylesheet" type="text/css" href="css/graph.css">
 <style type="text/css">
-*{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
-body{background:#FFF;} /*#2A212A*/
-.content{width:60px;margin:20px auto;}
-.filterinput{ 
-	background-color:rgba(249, 244, 244, 0);
-	border-radius:15px;
-	width:90%;
-	height:30px;
-	border:thin solid #FFF;
-	text-indent:0.5em;
-	font-weight:bold;
-	color:#FFF;
-}
-#demo-list a{
-	overflow:hidden;
-	text-overflow:ellipsis;
-	-o-text-overflow:ellipsis;
-	white-space:nowrap;
-	width:100%;
-}
-#label_network_host {
-    background-color: #fff;
-    padding: 2px;
-    margin-bottom: 8px;
-    border-radius: 3px 3px 3px 3px;
-    border: 1px solid #E6E6E6;
-    display: inline-block;
-    margin: 0 auto;
-   
-   float: left;
-     font-size: 14px;
-    line-height: 1.2em;
-}
-#label_network_host font{
-	color: red;
-	display:block;
-}
+	*{box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;}
+	body{background:#FFF;} /*#2A212A*/
+	.content{width:60px;margin:20px auto;}
+	.filterinput{ 
+		background-color:rgba(249, 244, 244, 0);
+		border-radius:15px;
+		width:90%;
+		height:30px;
+		border:thin solid #FFF;
+		text-indent:0.5em;
+		font-weight:bold;
+		color:#FFF;
+	}
+	#demo-list a{
+		overflow:hidden;
+		text-overflow:ellipsis;
+		-o-text-overflow:ellipsis;
+		white-space:nowrap;
+		width:100%;
+	}
+	#label_network_host {
+	    background-color: #fff;
+	    padding: 2px;
+	    margin-bottom: 8px;
+	    border-radius: 3px 3px 3px 3px;
+	    border: 1px solid #E6E6E6;
+	    display: inline-block;
+	    margin: 0 auto;
+	   
+	   float: left;
+	     font-size: 14px;
+	    line-height: 1.2em;
+	}
+	#label_network_host font{
+		color: red;
+		display:block;
+	}
 </style>
-<title>graph_db</title>
-<meta name="description" content="">
-<meta name="keywords" content="">
+<meta name="description" content="bootstrap cmha of version 1.1.7 by zhangdelei">
+<meta name="keywords" content="graph">
 <link href="" rel="stylesheet">
 <script src="js/lib/jquery-accordion-menu.js" type="text/javascript"></script>
 <script type="text/javascript">
-$(function(){	
-	//顶部导航切换
-	$("#demo-list li").click(function(){
-		$("#demo-list li.active").removeClass("active");
-		$(this).addClass("active");
+	$(function(){	
+		//顶部导航切换
+		$("#demo-list li").click(function(){
+			$("#demo-list li.active").removeClass("active");
+			$(this).addClass("active");
+		});	
 	});	
-});	
 </script>
-</head>
-<body  id="graph_body">
+<!-- </head>
+<body  id="graph_body"> -->
 <!-- style="background-color: #2A212A;"-->
-<div style="position:absolute; line-height: 90% ;background:#2A212A;width:1350px;">
+<div class="col-md-12 .col-sm-12 .col-lg-12 graph-db-content">
+	<div style="position:absolute; line-height: 90% ;background:#2A212A;width:1350px;">
 
-<br><!-- 圆饼图 -->
-<div id="container" class="pieHighChartsPie" style=""></div>
-<!-- 用圆饼图来代替的长条 -->
-<div id="containerA" class="pieHighChartsA" style=""></div>
-<div id="containerB" class="pieHighChartsB" style=""></div>
-<div id="containerC" class="pieHighChartsC" style=""></div>
-<div id="buffer_pool" class="pieHighCharts_buffer_pool" style="">
-	
-</div>
-<br>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-<!-- cpu_util-->
+	<br><!-- 圆饼图 -->
+	<div id="container" class="pieHighChartsPie" style=""></div>
+	<!-- 用圆饼图来代替的长条 -->
+	<div id="containerA" class="pieHighChartsA" style=""></div>
+	<div id="containerB" class="pieHighChartsB" style=""></div>
+	<div id="containerC" class="pieHighChartsC" style=""></div>
+	<div id="buffer_pool" class="pieHighCharts_buffer_pool" style="">
+		
+	</div>
+	<br>
+	<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	<!-- cpu_util-->
 	<table>
 			<tr>
 				<td>
@@ -87,7 +87,7 @@ $(function(){
 			</tr>
 	</table>
 	<br>
-<!--cpu_load -->
+	<!--cpu_load -->
 	<table>
 			<tr>
 				<td>
@@ -99,7 +99,7 @@ $(function(){
 			</tr>
 	</table>
 	<br>
-<!--swap_used -->
+	<!--swap_used -->
 	<table>
 			<tr>
 				<td>
@@ -111,8 +111,8 @@ $(function(){
 			</tr>
 	</table>
 	<br>
-<!--start network or disk -->
-<!--net_Bytes -->
+	<!--start network or disk -->
+	<!--net_Bytes -->
 	<table>
 		<tr>
 			<td>
@@ -124,7 +124,7 @@ $(function(){
 		</tr>
 	</table>
 			<br>
-<!--net_packets -->
+	<!--net_packets -->
 	<table>
 		<tr>
 			<td>
@@ -148,7 +148,7 @@ $(function(){
 		</tr>
 	</table>
 			<br>
-<!-- disk_await-->
+	<!-- disk_await-->
 	<table>
 		<tr>
 			<td>
@@ -172,7 +172,7 @@ $(function(){
 		</tr>
 	</table>
 			<br>
-<!-- disk_queue-->
+	<!-- disk_queue-->
 	<table>
 		<tr>
 			<td>
@@ -196,211 +196,274 @@ $(function(){
 		</tr>
 	</table>
 			<br>
-<!--disk_util -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="disk_util" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_disk_util" style=""></div>
-			</td>
-		</tr>
+	<!--disk_util -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="disk_util" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_disk_util" style=""></div>
+				</td>
+			</tr>
+		</table>
+	<br>
+	<!--end network or disk -->
+	<!--Graph_db_commit_counter -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_commit_counter" ></div>
+				</td>
+				<td valign=top>
+					<div class="model_cpudygraph" id="status_db_commit_counter" style=""></div>
+				</td>
+			</tr>
 	</table>
-<br>
-<!--end network or disk -->
-<!--Graph_db_commit_counter -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_commit_counter" ></div>
-			</td>
-			<td valign=top>
-				<div class="model_cpudygraph" id="status_db_commit_counter" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--db_connections -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_connections" ></div>
-			</td>
-			<td valign=top>
-				<div class="model_cpudygraph" id="status_db_connections" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--db_net_Bytes -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_net_Bytes" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_net_Bytes" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--db_connection_Aborted -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_connection_Aborted" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_connection_Aborted" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!-- db_tmp_tables-->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_tmp_tables" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_tmp_tables" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--Open_files -->
-		<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="Open_files" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_Open_files" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--Open_table_definitions -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="Open_table_definitions" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_Open_table_definitions" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--Open_tables -->
-		<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="Open_tables" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_Open_tables" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--db_buffer_pool_hit -->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_buffer_pool_hit" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_buffer_pool_hit" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--db_row_change -->
-		<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_row_change" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_row_change" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!-- db_Binlog_cache-->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_Binlog_cache" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_Binlog_cache" style=""></div>
-			</td>
-		</tr>
-</table>
+	<br>
+	<!--db_connections -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_connections" ></div>
+				</td>
+				<td valign=top>
+					<div class="model_cpudygraph" id="status_db_connections" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--db_net_Bytes -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_net_Bytes" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_net_Bytes" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--db_connection_Aborted -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_connection_Aborted" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_connection_Aborted" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- db_tmp_tables-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_tmp_tables" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_tmp_tables" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--Open_files -->
+			<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Open_files" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Open_files" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--Open_table_definitions -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Open_table_definitions" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Open_table_definitions" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--Open_tables -->
+			<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Open_tables" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Open_tables" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--db_buffer_pool_hit -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_buffer_pool_hit" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_buffer_pool_hit" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--db_row_change -->
+			<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_row_change" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_row_change" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- db_Binlog_cache-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_Binlog_cache" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_Binlog_cache" style=""></div>
+				</td>
+			</tr>
+	</table>
 
-<br>
-<!-- db_redo_log_fsyncs-->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_redo_log_fsyncs" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_redo_log_fsyncs" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!--db_data_fsyncs-->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_data_fsyncs" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_data_fsyncs" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!-- Table_locks_waited-->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="Table_locks_waited" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_Table_locks_waited" style=""></div>
-			</td>
-		</tr>
-</table>
-<br>
-<!-- db_innodb_transaction-->
-<table>
-		<tr>
-			<td>
-				<div class="cpudygraph" id="db_innodb_transaction" ></div>
-			</td>
-			<td valign=top>
-				<div  class="model_cpudygraph" id="status_db_innodb_transaction" style=""></div>
-			</td>
-		</tr>
-</table>
-
+	<br>
+	<!-- db_redo_log_fsyncs-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_redo_log_fsyncs" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_redo_log_fsyncs" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--db_data_fsyncs-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_data_fsyncs" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_data_fsyncs" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- Table_locks_waited-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Table_locks_waited" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Table_locks_waited" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- db_innodb_transaction-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_innodb_transaction" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_innodb_transaction" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- DB增加的图表 db_queries-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_queries" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_queries" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- db_select_join-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="db_select_join" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_db_select_join" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- full_table_scans_Percentage-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="full_table_scans_Percentage" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_full_table_scans_Percentage" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!--Innodb_buffer_pool_wait_free -->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Innodb_buffer_pool_wait_free" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Innodb_buffer_pool_wait_free" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- Innodb_row_lock_waits-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Innodb_row_lock_waits" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Innodb_row_lock_waits" style=""></div>
+				</td>
+			</tr>
+	</table>
+	<br>
+	<!-- Innodb_log_waits-->
+	<table>
+			<tr>
+				<td>
+					<div class="cpudygraph" id="Innodb_log_waits" ></div>
+				</td>
+				<td valign=top>
+					<div  class="model_cpudygraph" id="status_Innodb_log_waits" style=""></div>
+				</td>
+			</tr>
+	</table>
 </div>
-
-
-
-
-
 <div class="content" style="position:absolute;width:0px;float: left;
 	left: 580px;">
-
-	
-
 	<div id="jquery-accordion-menu" style="background-color:#2A212A " class="jquery-accordion-menu ">
 		<!-- <div class="jquery-accordion-menu-header" id="form"></div> -->
 		<ul id="demo-list"  style="background-color: :#2A212A ">
@@ -412,7 +475,7 @@ $(function(){
 			</li>
 			<li><a style="background-color:#2A212A "  href="#">Memory </a>
 				<ul class="submenu">
-					<li><a id="ratio" href="#containerC">ratio</a></li>
+					<li><a id="ratio" href="#containerC">space util</a></li>
 				</ul>
 			</li>
 			<li><a style="background-color:#2A212A "  href="#disk_rkB_s">Disk </a>
@@ -426,46 +489,58 @@ $(function(){
 				</ul>
 			</li>
 			<li><a style="background-color:#2A212A " href="#">Swap </a>
-				<ul style="background-color:#2A212A " class="submenu">
-					<li><a style="background-color:#2A212A " id="size" href="#containerB">size</a></li>
-					<li><a  style="background-color:#2A212A " id="used" href="#swap_used">used</a></li>
+				<ul class="submenu">
+					<li><a  id="size" href="#containerB">space util</a></li>
+					<li><a  id="used" href="#swap_util">swap io</a></li>
 				</ul>
 			</li>
 			<li><a style="background-color: #2A212A" href="#">DB</a>
-				<ul style="background-color:#2A212A " class="submenu">
-					<li><a style="background-color:#2A212A " id="commit_counter" href="#db_commit_counter">commit_counter</a>
+				<ul  class="submenu">
+					<li><a  id="commit_counter" href="#db_commit_counter">commit_counter</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="connections" href="#db_connections">connections</a>
+					<li><a   id="connections" href="#db_connections">connections</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="net_Bytes" href="#db_net_Bytes">net_Bytes</a>
+					<li><a  id="net_Bytes" href="#db_net_Bytes">net_Bytes</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="connection_Aborted" href="#db_connection_Aborted">connection_Aborted</a>
+					<li><a   id="connection_Aborted" href="#db_connection_Aborted">connection_Aborted</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="tmp_tables" href="#db_tmp_tables">tmp_tables</a>
+					<li><a  id="tmp_tables" href="#db_tmp_tables">tmp_tables</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="buffer_pool_hit" href="#db_buffer_pool_hit">buffer_pool_hit</a>
+					<li><a   id="buffer_pool_hit" href="#db_buffer_pool_hit">Innodb_buffer_pool_hit</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="row_change" href="#db_row_change">row_change</a>
+					<li><a  id="row_change" href="#db_row_change">Innodb_Row_Operations</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="Binlog_cache" href="#db_Binlog_cache">Binlog_cache</a>
+					<li><a   id="Binlog_cache" href="#db_Binlog_cache">Binlog_cache</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="redo_log_fsyncs" href="#db_redo_log_fsyncs">redo_log_fsyncs</a>
+					<li><a  id="redo_log_fsyncs" href="#db_redo_log_fsyncs">Innodb_redo_log_fsyncs</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="data_fsyncs" href="#db_data_fsyncs">data_fsyncs</a>
+					<li><a   id="data_fsyncs" href="#db_data_fsyncs">Innodb_data_fsyncs</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="buffer_pool" href="#db_buffer_pool">buffer_pool</a>
+					<li><a  id="buffer_pool" href="#db_buffer_pool">Innodb_buffer_pool</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="innodb_transaction" href="#db_innodb_transaction">innodb_transaction</a>
+					<li><a   id="innodb_transaction" href="#db_innodb_transaction">Innodb_transaction</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="Open_files" href="#Open_files">Open_files</a>
+					<li><a  id="Open_files" href="#Open_files">Open_files</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="Open_table_definitions" href="#Open_table_definitions">Open_table_definitions</a>
+					<li><a   id="Open_table_definitions" href="#Open_table_definitions">Open_table_definitions</a>
 					</li>
-					<li><a style="background-color:#2A212A " id="Open_tables" href="#Open_tables">Open_tables</a>
+					<li><a  id="Open_tables" href="#Open_tables">Open_tables</a>
 					</li>
-					<li><a  style="background-color:#2A212A " id="Table_locks_waited" href="#Table_locks_waited">Table_locks_waited</a>
+					<li><a   id="Table_locks_waited" href="#Table_locks_waited">Table_locks_waited</a>
+					</li><!-- add-->
+					<li><a    href="#db_queries">queries</a>
 					</li>
-					
+					<li><a    href="#Table_locks_waited">select_join</a>
+					</li>
+					<li><a    href="#full_table_scans_Percentage">full_table_scans_Percentage</a>
+					</li>
+					<li><a    href="#Innodb_buffer_pool_wait_free">Innodb_buffer_pool_wait_free</a>
+					</li>
+					<li><a    href="#Innodb_row_lock_waits">Innodb_row_lock_waits</a>
+					</li>
+					<li><a    href="#Innodb_log_waits">Innodb_log_waits</a>
+					</li>
+
 
 
 				</ul>
@@ -473,60 +548,48 @@ $(function(){
 		</ul>
 		
 	</div>
-
 </div>
 
 <script type="text/javascript">
-(function($) {
-$.expr[":"].Contains = function(a, i, m) {
-	return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
-};
-function filterList(header, list) {
-	//@header 头部元素
-	//@list 无需列表
-	//创建一个搜素表单
-	var form = $("<form>").attr({
-		"class":"filterform",
-		action:"#"
-	}), input = $("<input>").attr({
-		"class":"filterinput",
-		type:"text"
+	(function($) {
+	$.expr[":"].Contains = function(a, i, m) {
+		return (a.textContent || a.innerText || "").toUpperCase().indexOf(m[3].toUpperCase()) >= 0;
+	};
+	function filterList(header, list) {
+		//@header 头部元素
+		//@list 无需列表
+		//创建一个搜素表单
+		var form = $("<form>").attr({
+			"class":"filterform",
+			action:"#"
+		}), input = $("<input>").attr({
+			"class":"filterinput",
+			type:"text"
+		});
+		$(form).append(input).appendTo(header);
+		$(input).change(function() {
+			var filter = $(this).val();
+			if (filter) {
+				$matches = $(list).find("a:Contains(" + filter + ")").parent();
+				$("li", list).not($matches).slideUp();
+				$matches.slideDown();
+			} else {
+				$(list).find("li").slideDown();
+			}
+			return false;
+		}).keyup(function() {
+			$(this).change();
+		});
+	}
+	$(function() {
+		filterList($("#form"), $("#demo-list"));
 	});
-	$(form).append(input).appendTo(header);
-	$(input).change(function() {
-		var filter = $(this).val();
-		if (filter) {
-			$matches = $(list).find("a:Contains(" + filter + ")").parent();
-			$("li", list).not($matches).slideUp();
-			$matches.slideDown();
-		} else {
-			$(list).find("li").slideDown();
-		}
-		return false;
-	}).keyup(function() {
-		$(this).change();
-	});
-}
-$(function() {
-	filterList($("#form"), $("#demo-list"));
-});
-})(jQuery);	
+	})(jQuery);	
 </script>
-
 <script type="text/javascript">
-
 	jQuery("#jquery-accordion-menu").jqueryAccordionMenu();
-	
-</script>
+</script>	
+</div>
 
-<!-- Dygraphs
-<script type="text/javascript" src="js/flot_graph.js"></script>
-<script type="text/javascript" src="js/dygraphs_graph.js"></script>
-<script src="js/lib/require2.3.2.min.js" defer async="true" data-main="js/graph_db_main"></script>
--->
-
-
-
-
-</body>
-</html>
+<!-- </body>
+</html> -->

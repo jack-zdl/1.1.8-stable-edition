@@ -351,8 +351,8 @@ define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'j
 				var getWarn = new WarnMath.Commons();
 				var urlArrayWarnKey = getWarn.getData(urlWarn);
 				var urlArrayWarn = [];
-				for (var i = urlArrayWarnKey.length - 1; i >= 0; i--) {
-					urlArrayWarn.push("http://" + configObject.IP + "/v1/kv/" + urlArrayWarnKey[i] + "?raw");
+				for (var i = urlArrayWarnKey[0].length - 1; i >= 0; i--) {
+					urlArrayWarn.push("http://" + configObject.IP + "/v1/kv/" + urlArrayWarnKey[0][i] + "?raw");
 				}
 				var urlArrayWarnValue = getWarn.getText(urlArrayWarn);
 				var afterDataWarn = getWarn.changeData(urlArrayWarnValue);
@@ -413,10 +413,8 @@ define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'j
 	function setTime(){
 		runJqgridCSFunction();
 		globalObject.isSetJqgrid = 1;
-		console.log("CS的定时器 = "+new Date());
-		globalObject.csTimer = setTimeout(setTime,configObject.FreshenTime);
+		globalObject.isTimer = setTimeout(setTime,configObject.FreshenTime);
 	}
-//	setTime();
 	return {
 		setTime  : setTime
 	};
