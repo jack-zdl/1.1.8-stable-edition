@@ -64,6 +64,15 @@
             -moz-border-radius: 6px 0 6px 6px;  
             border-radius: 6px 0 6px 6px;  
         }  
+
+        .navbar-default .navbar-nav>li>a, .navbar-default .navbar-text .top-class {
+                color: #ffffff;
+        }
+       .navbar-default .navbar-nav>li>a:focus, .navbar-default .navbar-nav>li>a:hover{
+        color: #337ab7;
+        background-color:#ffffff;
+       }
+
     </style> 
 </head>
 <body  > 
@@ -79,14 +88,14 @@
                  <div class="row">
                         <ul class="nav navbar-nav">
                             <li >
-                                <a href="#" class="cs-home" >
+                                <a href="#" class="top-class cs-home" >
                                     <span >
                                         Dashboards
                                     </span>
                                 </a>
                             </li>
                             <li class="dropdown">
-                                 <a href="#" class="dropdown-toggle Host_status" data-toggle="dropdown">
+                                 <a href="#" class="top-class dropdown-toggle Host_status" data-toggle="dropdown">
                                     <span >
                                     RealTime Status
                                     </span>
@@ -95,7 +104,7 @@
                                  <ul id="realtime-menu" class="dropdown-menu"></ul>
                             </li>
                             <li class="dropdown">
-                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                 <a href="#" class="top-class dropdown-toggle" data-toggle="dropdown">
                                     <span >
                                     Graph
                                     </span>

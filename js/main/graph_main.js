@@ -24,6 +24,7 @@ require.config({
 　　}
 });
 define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],function (math,$,Dygraph,highcharts,list,set,allKeyFun) {
+	
 	var array = {
 					"netkey":{
 							"Name":["eth0"],
@@ -66,6 +67,7 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 		 * [run_network_list description]set memu network or disk
 		 * @return {[type]} [description]
 		 */
+		
 		var run_network_list = function(){
 			var url_network ="http://"+configObject.IP+"/v1/kv/cmha/service/"+globalObject.serviceName+"/net_dev/"+globalObject.hostName+"?raw";
 			var getDataNetwork =  new list.get_graph_list();
@@ -111,7 +113,7 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 		//var after_alldata;
 		var getNetData;  
 		var getDiskData; 
-		function setTime(){
+		function setDate(){
 			var getAllDygraphs = new set.SetDygraphs();
 			var getDNgraphs = new set.SetDygraphs();
 			var allKeyFunction = new allKeyFun.Commons().systemAllKey;
@@ -127,9 +129,9 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 			for (var ky in allKeyFunction) {
 					g[ky].updateOptions( { 'file': afterAlldata[ky] } );
 				}
-			globalObject.isTimer = setTimeout(setTime,configObject.graphFreshenTime);
+			globalObject.isDater = setTimeout(setDate,configObject.graphFreshenTime);
  		}
- 		setTimeout(setTime,configObject.graphFreshenTime);
+ 		setTimeout(setDate,configObject.graphFreshenTime);
 		function getAllDygraphs(){
  			var arrayOutKey = ["Graph_cpu_util","Graph_cpu_load","Graph_swap_used"];//url
  			var arrayInKey = ["cpu_util","cpu_load","swap_util"];//增量数据内层关键字----历史数据的key
@@ -216,13 +218,13 @@ define(['math','jquery','Dygraph',"highcharts","list","set",'allKeyFun'],functio
 						"disk_svctm":{"status":"status_disk_svctm",
 										 "DygraphLabels":["Date","svctm"],
 										 "id":"disk_svctm",
-										 "title":"Disk Average Service Time for ",
+										 "title":"Disk Average Service Date for ",
 										 "ylabel":"Svctm"
 										 } ,
 						"disk_util":{"status":"status_disk_util",
 										 "DygraphLabels":["Date","utilization"],
 										 "id":"disk_util",
-										 "title":"Disk Average Utilization Time for",
+										 "title":"Disk Average Utilization Date for",
 										 "ylabel":"Utilization/s"
 										 } 
 					};

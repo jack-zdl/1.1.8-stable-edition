@@ -2,7 +2,6 @@
 	采用模块化编写,将一些抽象函数写在这里,在另一个文件中调用,
 	模块 GetData函数  ChangeData函数，opntions设置属性，
  */
-
 //获得serviceName   hostName
 require.config({
 	paths:{
@@ -130,12 +129,22 @@ define(['jquery'], function($){
 			return {
 				axes: {
            			x: {
-		                valueFormatter: Dygraph.dateString_,
-		                axisLabelFormatter: Dygraph.dateAxisFormatter,
+                        //   axisLabelFormatter: function (d, gran) {
+                        //     return d.toLocaleDateString();
+                        // },
+                        valueFormatter: function (ms) {
+                            return new Date(ms).toLocaleString();//点击显示的时间toLocaleTimeString();//toLocaleDateString();
+                        },
+		               // valueFormatter: Dygraph.dateString_, //x轴时间
+		              axisLabelFormatter: Dygraph.dateAxisFormatter,
 		                ticker: Dygraph.dateTicker
 		            }
         		},
         		stackedGraph: false,
+                //UTC时间
+               
+                 // labels: ['local time', 'random'],
+
 
         		strokeBorderColor:"white",
         		avoidMinZero :true,
@@ -164,9 +173,11 @@ define(['jquery'], function($){
 		        },
 
 				// labels: [ "Date", "load1", "load5", "load15"],
-				// colors: [ "#00DD55", "rgb(255,100,100)","rgb(51,204,204)"],
+				// colors: [ "#00DD55", "rgb(255,100,100)","rgb(51,204,204)"],  /*为每条线设定颜色，但是太麻烦*/
 				legend: "always",
-                title: 'System Load Average',
+                title: {
+                   // //text:'System Load Average',
+                },
 
                 labelsDivStyles: { 'textAlign': 'left' },
                 ylabel: 'load',
@@ -174,22 +185,25 @@ define(['jquery'], function($){
                 labelsDiv: document.getElementById(obj_name),
                 labelsSeparateLines: true,
                 labelsKMB: true,
-            	axisLineColor: 'white'
+            	axisLineColor: 'black',
+                axisLineWidth :3,
+                 labelsUTC  :false
+              //   labels: ['local time', 'random']
 			};
 		};
 		this.pieFun = function() {
 			return {
 				 	chart: {
-				 		backgroundColor:'#2A212A',
-            			plotBackgroundColor: '#2A212A',
+				 		backgroundColor:'#ffffff',
+            			plotBackgroundColor: '#ffffff',
             			plotBorderWidth: null,
             			plotShadow: false,
             			type: 'pie'
         			},
         			title: {
         				style:{
- 							"color": "#ADADAD",
- 							"fontSize": "8px"
+ 							"color": "#000000",
+ 							"fontSize": "12px"
         				},
             			text: ''
         			},
@@ -210,10 +224,10 @@ define(['jquery'], function($){
                 		//	showInLegend:true,
                 			cursor: 'pointer',
                 			borderWidth:0,
-                			borderColor:'#2A212A',
+                			borderColor:'#ffffff',
                 			dataLabels: {
                 			//	padding:0,
-                				color:"#ADADAD",
+                				color:"#000000",
                 				distance:10,
                 				crop:false,
                     		//	enabled: true,
@@ -222,7 +236,7 @@ define(['jquery'], function($){
                         	//		color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     				"textShadow": "0px 0px contrast" 
                     			},
-                    			connectorColor: '#ADADAD'
+                    			connectorColor: '#000000'
                 			}
             			}
         			},

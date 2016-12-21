@@ -10,13 +10,13 @@
   display: inline-block;
   /*background-color : @model_labels;*/
   position: relative;
-  color: #ADADAD;
+  color: #000000;
   right: -20px;
   width: 980px;
   height: 250px;
 }
 .model_cpudygraph {
-  color: #ADADAD;
+  color: #000000;
   font-weight: bold;
   position: absolute;
   text-align: left;
@@ -33,11 +33,11 @@
   font-size: 50%;
 }
 .dygraph-axis-label {
-  color: #ADADAD;
+  color: #000000;
 }
 .pieHighChartsPie {
   left: 20px;
-  background-color: #2A212A;
+  background-color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 200px;
@@ -46,7 +46,7 @@
 }
 .pieHighChartsA {
   left: 220px;
-  background-color: #2A212A;
+  background-color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 200px;
@@ -55,8 +55,8 @@
 }
 .pieHighChartsB {
   left: 420px;
-  background-color: #2A212A;
-  color: #2A212A;
+  background-color: #ffffff;
+  color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 200px;
@@ -65,8 +65,8 @@
 }
 .pieHighChartsC {
   left: 620px;
-  color: #2A212A;
-  background-color: #2A212A;
+  color: #ffffff;
+  background-color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 200px;
@@ -75,7 +75,7 @@
 }
 .pieHighChartsPie-sys {
   left: 20px;
-  background-color: #2A212A;
+  background-color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 250px;
@@ -84,7 +84,7 @@
 }
 .pieHighChartsA-sys {
   left: 270px;
-  background-color: #2A212A;
+  background-color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 250px;
@@ -93,8 +93,8 @@
 }
 .pieHighChartsB-sys {
   left: 520px;
-  background-color: #2A212A;
-  color: #2A212A;
+  background-color: #ffffff;
+  color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 250px;
@@ -103,8 +103,8 @@
 }
 .pieHighChartsC-sys {
   left: 770px;
-  color: #2A212A;
-  background-color: #2A212A;
+  color: #ffffff;
+  background-color: #ffffff;
   position: absolute;
   display: inline-block;
   width: 250px;
@@ -113,8 +113,8 @@
 }
 .pieHighCharts_buffer_pool {
   left: 820px;
-  color: #2A212A;
-  background-color: #2A212A;
+  color: #ffffff;
+  background-color: #ffffff;
   position: absolute;
   display: block;
   width: 200px;
@@ -122,5 +122,5 @@
   margin: 0 auto;
 }
 #graph_body {
-  background: #2A212A;
+  background: #ffffff;
 }

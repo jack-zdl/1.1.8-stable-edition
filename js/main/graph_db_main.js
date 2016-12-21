@@ -200,7 +200,7 @@ define(['math','jquery','Dygraph',"highcharts",'list','set','allKeyFun'],functio
 									},
 						"db_connection_Aborted":{"status":"status_db_connection_Aborted",
 									"OutKey":"Graph_db_connection_Aborted",
-									"DygraphLabels":["Date","Aborted_clients","Aborted_connects","Max_used_connections"],
+									"DygraphLabels":["Date","Aborted_clients","Aborted_connects","Max_used_connections","Connection_errors_max_connections","Connection_errors_internal"],
 									"id":"db_connection_Aborted",
 									"title":"db_connection_Aborted",
 									"ylabel":"Connection_Aborted/s"
