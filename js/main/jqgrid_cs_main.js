@@ -236,7 +236,7 @@ define(['jquery','CsMath','ServiceMath','WarnMath','jquery-ui', 'gridlocale', 'j
 	                    var serfHealth_status = getService.changeStatus(getService.getAgentStatus(data.Checks));
 	                    var chap01_status = getService.getStatus(getService.getReallyStatus(data.Checks, arrayServiceName[x]), serfHealth_status);
 	                    var serfHealth = data.Checks[1].CheckID;
-	                    var chap01_Output = data.Checks[0].Output;
+	                    var chap01_Output =getService.getOutput(data.Checks);
 	                    afterData = getService.changeType(type, Node.Node, Service_ID, chap01_status, Address,serfHealth_status); //serfHealth_status
 	                    afterData["Node"] = Node.Node;
 	                    afterData["Address"] = Node.Address;

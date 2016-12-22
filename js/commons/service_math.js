@@ -296,6 +296,13 @@ define(['jquery'],function($){
 			    }
 			    return '<span style="color:green;" >' + cellvalue + "</span>";
 			};
+			this.getOutput = function (obj_array_output) {
+				for (var i = obj_array_output.length - 1; i >= 0; i--) {
+					if(obj_array_output[i].CheckID != "serfHealth"){
+						return obj_array_output[i].Output;
+					}
+				}
+			};
 
 
 
